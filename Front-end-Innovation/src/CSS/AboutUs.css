@@ -1,0 +1,109 @@
+/* Style global */
+:root {
+    --primary-color: #fff3e6;
+    --secondary-color: orange;
+    --font-family-body: Arial, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: var(--font-family-body);
+    background: var(--primary-color);
+}
+
+/* Centrage du team-container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrage vertical */
+    align-items: center; /* Centrage horizontal */
+    height: 100%;
+}
+
+/* En-tête et sections */
+header h1 {
+    text-align: center;
+    font-size: 48px;
+    font-family: var(--font-family-h1);
+}
+
+h2 {
+    text-align: center; /* Centers the text */
+    font-size: 30px; /* Your current size, adjust as necessary */
+    color: #333; /* This is a common dark color, adjust based on your exact color */
+    position: relative; /* Needed for absolute positioning of the pseudo-element */
+    display: inline-block; /* Allows the line to fit the content's width rather than full container width */
+    margin: 20px 30px; /* Add margin to give some space around the heading */
+}
+
+h2::after {
+    content: ''; /* Required for pseudo-elements */
+    display: block; /* Treat the pseudo-element like a block */
+    margin: 8px auto 0; /* Centers the block and adds a little space between the text and the line */
+    width: 300px; /* Adjust this value to match the width of the line you want */
+    height: 3px; /* Adjust for the thickness of your line */
+    background-color: #679403; /* The olive-green color from your design for the line */
+    position: absolute; /* Position absolutely within the h2 */
+    left: 25%; /* Centers the line. Adjust if the width of the line changes */
+    bottom: -10px; /* Position the line below the text */
+}
+
+section {
+    width: 100%; /* Assurez-vous que la section prend toute la largeur */
+}
+
+.team{
+	display: flex;
+    justify-content: center;
+}
+
+.team-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px; /* Espace autour des éléments à l'intérieur du conteneur */
+    box-sizing: border-box; /* Assurez-vous que padding est inclus dans la width */
+    width: 90%;
+    margin: 0; /* Aucune marge pour permettre un centrage parfait */
+}
+
+.card-member {
+    background-color: #fdfdfd; /* Changed to a light color to match the image */
+    border-radius: 100px; /* Adjusted to match the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Adjusted width to match the image */
+    height: 120px; /* Adjusted width to match the image */
+
+    display: flex;
+
+    align-items: center; /* Center everything */
+}
+
+.member-photo {
+    background: #f2f2f2; /* Changed to a light grey to match the placeholders */
+    border-radius: 50%;
+    width: 120px; /* Adjusted to match the image */
+    height: 120px; /* Adjusted width to match the image */
+}
+
+.member-info {
+    color: #333;
+    padding-left : 15px;
+}
+
+.role {
+    color: #007BFF;
+    font-weight: bold;
+    font-size: 18px; /* Increased font size for the role */
+}
+
+.specialty {
+    color: #555; /* Darker grey color for the specialty */
+    font-size: 16px; /* Adjusted font size for specialty */
+}
+
+
+
+

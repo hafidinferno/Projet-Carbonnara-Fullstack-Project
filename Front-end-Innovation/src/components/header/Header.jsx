@@ -14,7 +14,7 @@ function Header() {
     navigate("/Results");
   }
   function GoAbout() {
-    navigate("/About");
+    navigate("/AboutUs");
   }
 
   return (
