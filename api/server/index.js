@@ -18,6 +18,7 @@ app.get('/delete', cors({ origin: '*' }),db.deleteData);
 app.get('/insert', cors({ origin: '*' }),db.insertAll);
 
 app.get('/create', cors({ origin: '*' }),db.createTables);
+
 app.use((req, res, next) => {
 	res.status(404).send('Something broke!');
 })
