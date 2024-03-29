@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool
 const cors = require("cors");
-const credentials = require('./bd.js')
+const credentials = require('../bd.js')
 
 const pool = new Pool(credentials)
 
