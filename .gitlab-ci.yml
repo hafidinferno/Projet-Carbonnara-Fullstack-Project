@@ -42,7 +42,7 @@ sonarqube-vulnerability-report:
     - sonarqube-check
 
 sonarqube-scan:
-  stage: test
+  stage: sonarqube-scan
   image: sonarsource/sonar-scanner-cli:5.0
   script:
     - sonar-scanner
