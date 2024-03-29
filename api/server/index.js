@@ -11,7 +11,9 @@ app.get('/', (req, res) => {
     res.send("Hello world");
 })
 
-app.get('/test', db.getCarbonne)
+app.get('/test', db.getTest)
+
+app.get('/carbone', db.getCarbonne)
 
 app.get('/delete', cors({ origin: '*' }),db.deleteData);
 
