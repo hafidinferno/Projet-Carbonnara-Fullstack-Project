@@ -1,6 +1,7 @@
 stages:
     - sonarqube-check
     - sonarqube-vulnerability-report
+    - sonarqube-scan
 
 sonarqube-check:
   stage: sonarqube-check
@@ -39,3 +40,9 @@ sonarqube-vulnerability-report:
       sast: gl-sast-sonar-report.json
   dependencies:
     - sonarqube-check
+
+sonarqube-scan:
+  stage: test
+  image: sonarsource/sonar-scanner-cli:5.0
+  script:
+    - sonar-scanner
