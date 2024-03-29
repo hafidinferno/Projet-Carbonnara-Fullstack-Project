@@ -1,10 +1,11 @@
-import Hello from "../components/Hello";
+import BaseDonnees from "../components/Vue/Hello";
+
 function HelloPage() {
   return (
     <>
       <body>
         <header>
-          <Hello />
+          <BaseDonnees />
         </header>
       </body>
     </>
