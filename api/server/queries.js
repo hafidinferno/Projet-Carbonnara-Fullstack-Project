@@ -50,21 +50,12 @@ const deleteData = async (req, res) => {
   try {
     // Suppression de tout dans les tables
     await pool.query(`
-    DELETE FROM "numerique";
-    DELETE FROM "repas";
-    DELETE FROM "boisson";
-    DELETE FROM "transport";
-    DELETE FROM "habillement";
-    DELETE FROM "electromenager";
-    DELETE FROM "mobilier";
-    DELETE FROM "chauffage";
-    DELETE FROM "fruitsetlegumes";
-    DELETE FROM "habillement";
-    DELETE FROM "usagenumerique";
+    DELETE FROM "consommation";
+    DELETE FROM "habitude";
   `);
-    res.send("Tout a été supprimé dans les tables et un nouveau token a été obtenu.");
+    res.send("Tout a été supprimé dans les tables.");
   } catch (error) {
-    console.error('Erreur lors de la migration:', error);
+    console.error('Erreur lors de la suppressions des tables:', error);
     res.status(500).json({error: error.message});
   }
 }
@@ -73,85 +64,27 @@ const createTables = async (req, res) => {
   try {
     //Création des tables
     await pool.query(`
-    CREATE TABLE repas (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
+      CREATE TABLE public.habitude(
+        id      SERIAL NOT NULL ,
+        name    VARCHAR (255) NOT NULL ,
+        emoji   VARCHAR (10) NOT NULL ,
+        slug    VARCHAR (255) NOT NULL  ,
+        CONSTRAINT habitude_PK PRIMARY KEY (id)
+      )WITHOUT OIDS;
+      
+      CREATE TABLE public.consommation(
+        id            SERIAL NOT NULL ,
+        name          VARCHAR (255) NOT NULL ,
+        slug          VARCHAR (255) NOT NULL ,
+        ecv           FLOAT NOT NULL ,
+        footprint     FLOAT NOT NULL ,
+        thematiques   VARCHAR (255) NOT NULL ,
+        id_habitude   INT  NOT NULL  ,
+        CONSTRAINT consommation_PK PRIMARY KEY (id)
     
-    CREATE TABLE boisson (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE transport (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE habillement (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE electromenager (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE mobilier (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE chauffage (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE fruitsetlegumes (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE usagenumerique (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
-    
-    CREATE TABLE numerique (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        slug VARCHAR(255),
-        ecv FLOAT8,
-        footprint FLOAT8
-    );
+        ,CONSTRAINT consommation_habitude_FK FOREIGN KEY (id_habitude) REFERENCES public.habitude(id)
+    )WITHOUT OIDS;
+
   `);
   res.send("Tout a été fait");
   } catch (error) {
@@ -162,6 +95,7 @@ const createTables = async (req, res) => {
 
 const insertAll = async (req, res) => {
   try {
+    await habitude()
     for (let i = 0; i < 10; i++) {
       await tables(thematiques[i],i+1)
     }
@@ -173,7 +107,11 @@ const insertAll = async (req, res) => {
 }
 
 const columnsTables = [
-  'id', 'name', 'slug','ecv','footprint'
+  'name', 'slug','ecv','footprint','thematiques','id_habitude'
+];
+
+const columnsTablesHabitude = [
+  'id','name','emoji','slug'
 ];
 
 const thematiques = [
@@ -189,7 +127,37 @@ const thematiques = [
   "usagenumerique"
 ];
 
-var j=1
+async function habitude() {
+  let url = `https://impactco2.fr/api/v1/thematiques`;
+
+  let options = {
+    method: 'GET',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization' : 'e5aeebef-d309-416f-a3d2-73db5522952a.'
+  };
+
+  try {
+    let response = await fetch(url, options);
+
+    const data = await response.json()
+
+    let habitudePromises = data.data.map(num => {
+      return {
+        id:thematiques.indexOf(num.slug)+1,
+        name: num.name,
+        emoji: num.emoji,
+        slug: num.slug,
+      };
+    });
+    let habitudes = await Promise.all(habitudePromises);
+    await insererDonneesTable(habitudes,columnsTablesHabitude,'habitude');
+
+  } catch (error) {
+    console.error('Erreur lors de la requête  :', error);
+    throw new Error("erreur dans la route  " + error.message);
+  }
+}
 
 async function tables(thematiques,ii) {
   let url = `https://impactco2.fr/api/v1/thematiques/ecv/${ii}?detail=1`;
@@ -208,15 +176,16 @@ async function tables(thematiques,ii) {
 
     let NumeriquePromises = data.data.map(num => {
         return {
-            id : j++,
             name: num.name,
             slug: num.slug,
             ecv: num.ecv,
-            footprint: num.footprint
+            footprint: num.footprint,
+            thematiques: thematiques,
+            id_habitude: ii,
         };
     });
     let numeriques = await Promise.all(NumeriquePromises);
-    await insererDonneesTable(numeriques,columnsTables,thematiques);
+    await insererDonneesTable(numeriques,columnsTables,'consommation');
 
   } catch (error) {
     console.error('Erreur lors de la requête  :', error);
@@ -234,9 +203,14 @@ async function insererDonneesTable(data,columns,table) {
   if (Array.isArray(data)) {
     try {
       for (let i = 0; i < data.length; i++) {
-        await pool.query(`INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`,[data[i].id,data[i].name,data[i].slug,data[i].ecv,data[i].footprint]);
+        if (table==='consommation') {
+          await pool.query(`INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`, [data[i].name, data[i].slug, data[i].ecv, data[i].footprint, data[i].thematiques, data[i].id_habitude]);
+        }
+        else {
+          await pool.query(`INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`, [data[i].id, data[i].name, data[i].emoji, data[i].slug]);
+        }
       }
-      console.log('Données insérées avec succès. Table :'+table);
+          console.log('Données insérées avec succès. Table :'+table);
     } catch (error) {
       console.error('Erreur lors de l\'insertion des données : ' +table, error.message);
       console.error('Requête causant l\'erreur:', error.query);
