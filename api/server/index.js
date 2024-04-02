@@ -13,7 +13,9 @@ app.get('/', (req, res) => {
 
 app.get('/test', db.getTest)
 
-app.get('/carbone', db.getCarbonne)
+app.get('/emoji/:theme', db.getEmoji)
+
+app.get('/carbone/:slug/:name', db.getCarbonne)
 
 app.get('/delete', cors({ origin: '*' }),db.deleteData);
 

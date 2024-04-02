@@ -27,23 +27,41 @@ const getTest = async (req, res) => {
 }
 
 const getCarbonne = async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const result = await pool.query(`
-      SELECT ecv
-      FROM numerique
-      WHERE id = $1
-    `, [id]);
-
-    const ecv = result.rows[0].ecv;
-
-    res.status(200).json({ ecv });
-  } catch (error) {
-    console.error('Erreur lors de la récupération de l\'ECV de la table "numérique":', error);
-    res.status(500).json({ error: error.message });
+    try {
+      const slug = req.params.slug;
+      const name = req.params.name;
+  
+      const result = await pool.query(`
+        SELECT ecv
+        FROM consommation
+        WHERE slug = $1 AND name = $2
+      `, [slug, name]);
+  
+      const ecv = result.rows[0].ecv;
+  
+      res.status(200).json({ ecv });
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'ECV de la table "consommation":', error);
+      res.status(500).json({ error: error.message });
+    }
   }
-}
+  
+  const getEmoji = async (req, res) => {
+    try {
+      const theme = req.params.theme;
+  
+      const result = await pool.query(`
+        SELECT emoji
+        FROM habitude
+        WHERE theme = $1
+      `, [theme]);
+  
+      res.status(200).json({ result });
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l\'emoji du theme', theme, ":", error);
+      res.status(500).json({ error: error.message });
+    }
+  }
 
 
 const deleteData = async (req, res) => {
@@ -140,7 +158,7 @@ async function habitude() {
   try {
     let response = await fetch(url, options);
 
-    const data = await response.json()
+    const data = await response.json();
 
     let habitudePromises = data.data.map(num => {
       return {
@@ -172,7 +190,7 @@ async function tables(thematiques,ii) {
   try {
     let response = await fetch(url, options);
 
-    const data = await response.json()
+    const data = await response.json();
 
     let NumeriquePromises = data.data.map(num => {
         return {
@@ -235,6 +253,7 @@ async function insererDonneesTable(data,columns,table) {
 
 module.exports = {
   getTest,
+  getEmoji,
   getCarbonne,
   deleteData,
   insertAll,
