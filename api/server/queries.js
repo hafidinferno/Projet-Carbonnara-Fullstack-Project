@@ -177,7 +177,8 @@ async function tables(thematiques,ii) {
   let options = {
     method: 'GET',
     'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'Authorization' : 'e5aeebef-d309-416f-a3d2-73db5522952a.'
   };
 
   try {
