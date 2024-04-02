@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool
 const cors = require("cors");
-const credentials = require('./bd.js')
+const credentials = require('../bd.js')
 
 const pool = new Pool(credentials)
 
@@ -10,7 +10,7 @@ pool.connect(function(err) {
 });
 
 //TEST
-const getCarbonne = async (req, res) => {
+const getTest = async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT ecv
@@ -25,6 +25,26 @@ const getCarbonne = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+
+const getCarbonne = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query(`
+      SELECT ecv
+      FROM numerique
+      WHERE id = $1
+    `, [id]);
+
+    const ecv = result.rows[0].ecv;
+
+    res.status(200).json({ ecv });
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'ECV de la table "numérique":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
 
 const deleteData = async (req, res) => {
   try {
@@ -240,6 +260,7 @@ async function insererDonneesTable(data,columns,table) {
 }
 
 module.exports = {
+  getTest,
   getCarbonne,
   deleteData,
   insertAll,
