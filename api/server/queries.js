@@ -1,6 +1,7 @@
-const Pool = require('pg').Pool
+const Pool = require('pg').Pool;
 const cors = require("cors");
-const credentials = require('../bd.js')
+const credentials = require('../bd.js');
+const fetch = require('node-fetch');
 
 const pool = new Pool(credentials)
 
@@ -48,17 +49,19 @@ const getCarbonne = async (req, res) => {
   
   const getEmoji = async (req, res) => {
     try {
-      const theme = req.params.theme;
+      const slug = req.params.slug;
   
       const result = await pool.query(`
         SELECT emoji
         FROM habitude
-        WHERE theme = $1
-      `, [theme]);
+        WHERE slug = $1
+      `, [slug]);
   
-      res.status(200).json({ result });
+      const emoji = result.rows[0].emoji;
+
+      res.status(200).json({ emoji });
     } catch (error) {
-      console.error('Erreur lors de la récupération de l\'emoji du theme', theme, ":", error);
+      console.error('Erreur lors de la récupération de l\'emoji du theme:', error);
       res.status(500).json({ error: error.message });
     }
   }

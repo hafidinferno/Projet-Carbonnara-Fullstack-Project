@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
 app.get('/test', db.getTest)
 
-app.get('/emoji/:theme', db.getEmoji)
+app.get('/emoji/:slug', db.getEmoji)
 
 app.get('/carbone/:slug/:name', db.getCarbonne)
 
