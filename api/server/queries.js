@@ -65,7 +65,7 @@ const getFootPrint = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
-  
+
 const getEmoji = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -85,6 +85,90 @@ const getEmoji = async (req, res) => {
   }
 }
 
+const getElectromenager = async (req, res) => {
+
+  let appareils = {
+    bouilloire: 1,
+    cafetieredosette: 1,
+    cafetierefiltre: 1,
+    cafetiereexpresso: 1,
+    fourelectrique: 1,
+    lavevaisselle: 1,
+    lavelinge: 1,
+    refrigirateur: 1,
+    aspirateur: 1,
+    climatiseur: 1
+  };
+
+
+  try {
+
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'electromenager'
+      `);
+
+    const elecData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+    let sommeEcvAppareil = 0;
+
+    for (const item of elecData) {
+      if (appareils[item.slug]) {
+        sommeEcvAppareil += item.ecv * appareils[item.slug];
+        console.log(item.slug, item.ecv * appareils[item.slug]);
+      }
+    }
+    res.status(200).json(sommeEcvAppareil);
+  } catch (error) {
+    console.error('Erreur lors de la récupération de electromenager', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const getRepas = async (req, res) => {
+
+  const regimes = {
+    repasavecduboeuf: 1,
+    repasavecdupoulet: 1,
+    repasavecdupoissonblanc: 1,
+    repasavecdupoissongras: 1,
+    repasvegetarien: 1,
+    repasvegetalien: 1
+  };
+
+
+  try {
+
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'repas'
+      `);
+
+    const repasData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcvregimes = 0;
+
+    for (const item of repasData) {
+      if (regimes[item.slug]) {
+        sommeEcvregimes += item.ecv * regimes[item.slug];
+        console.log(item.slug, item.ecv * regimes[item.slug]);
+      }
+    }
+    res.status(200).json(sommeEcvregimes);
+  } catch (error) {
+    console.error('Erreur lors de la récupération de repas', error);
+    res.status(500).json({ error: error.message });
+  }
+}
 
 const deleteData = async (req, res) => {
   try {
@@ -274,6 +358,8 @@ async function insererDonneesTable(data,columns,table) {
 }
 
 module.exports = {
+  getRepas,
+  getElectromenager,
   getTest,
   getEmoji,
   getFootPrint,

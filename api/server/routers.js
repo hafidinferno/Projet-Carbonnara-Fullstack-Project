@@ -5,11 +5,16 @@ const db = require('./queries')
 //TODO : a enlever
 router.get('/test', db.getTest);
 
-//get ecv d'un name(objet) de slug(theme) 
+//get ecv d'un name(objet) de slug(theme)
 router.get('/carbone/:slug/:name', db.getCarbonne);
 
 //get footprint d'un name(objet) de slug(theme)
 router.get('/footprint/:slug/:name', db.getFootPrint);
+
+//get footprint d'un name(objet) de slug(theme)
+router.get('/ecv/electromenager', db.getElectromenager);
+
+router.get('/ecv/repas', db.getRepas);
 
 //effacer les données
 router.get('/delete', db.deleteData);
