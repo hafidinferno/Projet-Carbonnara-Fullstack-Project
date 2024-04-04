@@ -1,6 +1,7 @@
 stages:
     - sonarqube-check
     - sonarqube-vulnerability-report
+    - deploy
 
 sonarqube-check:
   stage: sonarqube-check
@@ -39,3 +40,9 @@ sonarqube-vulnerability-report:
       sast: gl-sast-sonar-report.json
   dependencies:
     - sonarqube-check
+
+deploy:
+  stage: deploy
+  script:
+    - ./deploy.sh
+  when: manual
