@@ -51,7 +51,7 @@ deploy:
     - master
     - main
   script:
-    - apt update -y && apt install scp -y
+    - apk update && apt add openssh
     - chmod +x ${CI_PROJECT_DIR}/deploy.sh
     - sh ${CI_PROJECT_DIR}/deploy.sh
   when: manual
