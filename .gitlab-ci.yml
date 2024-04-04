@@ -50,7 +50,9 @@ deploy:
   only:
     - master
     - main
-  script:
+  before_script:
     - apk update && apk add openssh
+    - chmod 400 "${CI_GITLAB_KEY}"
+  script:
     - scp -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/test_file.txt gitlabci@192.168.75.17:/opt/backend
   when: manual
