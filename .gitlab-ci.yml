@@ -53,5 +53,6 @@ deploy:
   script:
     - apk update && apk add openssh
     - chmod +x ${CI_PROJECT_DIR}/deploy.sh
+    - ls -la ${CI_PROJECT_DIR}
     - sh ${CI_PROJECT_DIR}/deploy.sh
   when: manual
