@@ -4,6 +4,7 @@ const credentials = require('../bd.js');
 const fetch = require('node-fetch');
 const { footprintBoisson, footprintBoissons } = require('./calcul.js');
 
+
 const pool = new Pool(credentials)
 
 pool.connect(function(err) {
