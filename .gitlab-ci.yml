@@ -51,5 +51,7 @@ deploy:
     - master
     - main
   script:
-    - ${CI_PROJECT_DIR}/deploy.sh
+    - chmod +x ${CI_PROJECT_DIR}/deploy.sh
+    - ls -la ${CI_PROJECT_DIR}
+    - sh ${CI_PROJECT_DIR}/deploy.sh
   when: manual
