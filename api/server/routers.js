@@ -9,8 +9,10 @@ router.get('/test', db.getTest);
 //get ecv d'un name(objet) de slug(theme) 
 router.get('/carbone/:slug/:name', db.getCarbonne);
 
-//get footprint d'un name(objet) de slug(theme)
-router.get('/footprint/:slug/:name', db.getFootPrint);
+//get footprint de slug(theme)
+router.get('/footprint/:slug', db.getFootPrint);
+
+router.get('/boissons/:slug', db.getBoissonsEcv);
 
 //effacer les données
 router.get('/delete', cors({ origin: '*' }), db.deleteData);

@@ -2,6 +2,7 @@ const Pool = require('pg').Pool;
 const cors = require("cors");
 const credentials = require('../bd.js');
 const fetch = require('node-fetch');
+const { footprintBoisson, footprintBoissons } = require('./calcul.js');
 
 const pool = new Pool(credentials)
 
@@ -49,7 +50,6 @@ const getCarbonne = async (req, res) => {
 const getFootPrint = async (req, res) => {
   try {
     const slug = req.params.slug;
-    const name = req.params.name;
 
     const result = await pool.query(`
       SELECT footprint
@@ -57,9 +57,9 @@ const getFootPrint = async (req, res) => {
       WHERE slug = $1 
     `, [slug]);
 
-    const ecv = result.rows[0].ecv;
+    const footprint = result.rows[0].footprint;
 
-    res.status(200).json({ ecv });
+    res.status(200).json({ footprint });
   } catch (error) {
     console.error('Erreur lors de la récupération du footprint de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -85,6 +85,74 @@ const getEmoji = async (req, res) => {
   }
 }
 
+const getBoissonsEcv = async (req, res) => {
+  try {
+    // const qtesoda = req.body.soda;
+    // const qtevin = req.body.vin;
+    // const qtebiere = req.body.biere;
+    // const qtelait = req.body.lait;
+    // const qtelaitsoja = req.body.laitsoja;
+    // const qtethe = req.body.the;
+    // const qtecafe = req.body.cafe;
+    let qtesoda = 2;
+    let qtevin = 1;
+    let qtebiere = 0;
+    let qtelait = 12;
+    let qtelaitsoja = 4;
+    let qtethe = 0;
+    let qtecafe = 0;
+
+    const resultSoda = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'soda' AND thematiques = 'boisson'
+    `);
+
+    const resultVin = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'vin' AND thematiques = 'boisson'
+    `);
+
+    const resultBiere = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'biere' AND thematiques = 'boisson'
+    `);
+
+    const resultLait = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'laitdevache' AND thematiques = 'boisson'
+    `);
+
+    const resultLaitsoja = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'laitdesoja' AND thematiques = 'boisson'
+    `);
+
+    const resultThe = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'thé' AND thematiques = 'boisson'
+    `);
+
+    const resultCafe = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = 'cafe' AND thematiques = 'boisson'
+    `);
+
+    const result = footprintBoissons(footprintBoisson(resultSoda.rows[0].footprint, qtesoda), footprintBoisson(resultVin.rows[0].footprint, qtevin), footprintBoisson(resultBiere.rows[0].footprint, qtebiere), footprintBoisson(resultLait.rows[0].footprint, qtelait), footprintBoisson(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprintBoisson(resultThe.rows[0].footprint, qtethe), footprintBoisson(resultCafe.rows[0].footprint, qtecafe));
+    console.log(result);
+    await res.status(200).json({ result });
+
+  } catch (error) {
+    console.error('Erruer lors de la récupération de données de thématique "boisson" de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
 
 const deleteData = async (req, res) => {
   try {
@@ -279,6 +347,7 @@ module.exports = {
   getFootPrint,
   getCarbonne,
   deleteData,
+  getBoissonsEcv,
   insertAll,
   createTables
 }
