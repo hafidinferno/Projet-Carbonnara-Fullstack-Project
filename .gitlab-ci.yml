@@ -51,8 +51,7 @@ deploy:
     - master
     - main
   script:
+    - apt update -y && apt install scp -y
     - chmod +x ${CI_PROJECT_DIR}/deploy.sh
-    - ls -la ${CI_PROJECT_DIR}
-    - scp -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}/test_file.txt" gitlabci@192.168.75.17:/opt/backend
-    #- sh ${CI_PROJECT_DIR}/deploy.sh
+    - sh ${CI_PROJECT_DIR}/deploy.sh
   when: manual
