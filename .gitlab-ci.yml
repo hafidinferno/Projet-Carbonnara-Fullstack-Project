@@ -43,6 +43,10 @@ sonarqube-vulnerability-report:
 
 deploy:
   stage: deploy
+  image: alpine
+  only:
+    - master
+    - main
   script:
     - ./deploy.sh
   when: manual
