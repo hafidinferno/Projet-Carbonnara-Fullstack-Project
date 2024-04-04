@@ -14,57 +14,76 @@ pool.connect(function(err) {
 const getTest = async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT ecv
-      FROM numerique
-      WHERE id=3
+      SELECT emoji
+      FROM habitude
     `)
-    const ecv = result.rows.map(row => row.ecv);
+    const emoji = result.rows.map(row => row.emoji);
 
-    res.status(200).json({ ecv });
+    res.status(200).json({ emoji });
   } catch (error) {
-    console.error('Erreur lors de la récupération de l\'ecv de la table "numérique":', error);
+    console.error('Erreur lors de la récupération des emoji de la table "habitude":', error);
     res.status(500).json({ error: error.message });
   }
 }
 
 const getCarbonne = async (req, res) => {
-    try {
-      const slug = req.params.slug;
-      const name = req.params.name;
-  
-      const result = await pool.query(`
-        SELECT ecv
-        FROM consommation
-        WHERE slug = $1 AND name = $2
-      `, [slug, name]);
-  
-      const ecv = result.rows[0].ecv;
-  
-      res.status(200).json({ ecv });
-    } catch (error) {
-      console.error('Erreur lors de la récupération de l\'ECV de la table "consommation":', error);
-      res.status(500).json({ error: error.message });
-    }
-  }
-  
-  const getEmoji = async (req, res) => {
-    try {
-      const slug = req.params.slug;
-  
-      const result = await pool.query(`
-        SELECT emoji
-        FROM habitude
-        WHERE slug = $1
-      `, [slug]);
-  
-      const emoji = result.rows[0].emoji;
+  try {
+    const slug = req.params.slug;
+    const name = req.params.name;
 
-      res.status(200).json({ emoji });
-    } catch (error) {
-      console.error('Erreur lors de la récupération de l\'emoji du theme:', error);
-      res.status(500).json({ error: error.message });
-    }
+    const result = await pool.query(`
+      SELECT ecv
+      FROM consommation
+      WHERE slug = $1 AND name = $2
+    `, [slug, name]);
+
+    const ecv = result.rows[0].ecv;
+
+    res.status(200).json({ ecv });
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'ECV de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
   }
+}
+
+const getFootPrint = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const name = req.params.name;
+
+    const result = await pool.query(`
+      SELECT footprint
+      FROM consommation
+      WHERE slug = $1 
+    `, [slug]);
+
+    const ecv = result.rows[0].ecv;
+
+    res.status(200).json({ ecv });
+  } catch (error) {
+    console.error('Erreur lors de la récupération du footprint de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+  
+const getEmoji = async (req, res) => {
+  try {
+    const slug = req.params.slug;
+
+    const result = await pool.query(`
+      SELECT emoji
+      FROM habitude
+      WHERE slug = $1
+    `, [slug]);
+
+    const emoji = result.rows[0].emoji;
+
+    res.status(200).json({ emoji });
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'emoji du theme:', error);
+    res.status(500).json({ error: error.message });
+  }
+}
 
 
 const deleteData = async (req, res) => {
@@ -257,6 +276,7 @@ async function insererDonneesTable(data,columns,table) {
 module.exports = {
   getTest,
   getEmoji,
+  getFootPrint,
   getCarbonne,
   deleteData,
   insertAll,

@@ -11,14 +11,6 @@ module.exports = (app) => {
         //TODO : envoyer l'utilisateur sur la page html principale
         res.send("Hello world");
     })
-    
-    app.get('/test', db.getTest)
-    
-    app.get('/carbone', db.getCarbonne)
-    
-    app.get('/delete', cors({ origin: '*' }),db.deleteData);
-    
-    app.get('/insert', cors({ origin: '*' }),db.insertAll);
-    
-    app.get('/create', cors({ origin: '*' }),db.createTables);
+
+    app.use('/', router);
 }
