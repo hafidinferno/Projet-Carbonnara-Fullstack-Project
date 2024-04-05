@@ -14,10 +14,13 @@ router.get('/footprint/:slug', db.getFootPrint);
 
 router.get('/boissons', db.getBoissonsEcv);
 
-//get footprint d'un name(objet) de slug(theme)
 router.get('/ecv/electromenager', db.getElectromenager);
 
 router.get('/ecv/repas', db.getRepas);
+
+router.get('/ecv/transport', db.getTransport);
+
+router.get('/ecv/chauffage', db.getChauffage);
 
 //effacer les données
 router.get('/delete', cors({ origin: '*' }), db.deleteData);

@@ -116,14 +116,22 @@ const getElectromenager = async (req, res) => {
       ecv: row.ecv
     }));
     let sommeEcvAppareil = 0;
-
+    let isValid = true;
     for (const item of elecData) {
-      if (appareils[item.slug]) {
+      if (appareils.hasOwnProperty(item.slug)) {
         sommeEcvAppareil += item.ecv * appareils[item.slug];
-        console.log(item.slug, item.ecv * appareils[item.slug]);
+      }
+      else {
+        isValid = false;
+        break;
       }
     }
-    res.status(200).json(sommeEcvAppareil);
+
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de repas sont invalides.');
+    }
+
+    res.status(200).json({ electromenager :sommeEcvAppareil});
   } catch (error) {
     console.error('Erreur lors de la récupération de electromenager', error);
     res.status(500).json({ error: error.message });
@@ -157,19 +165,133 @@ const getRepas = async (req, res) => {
     }));
 
     let sommeEcvregimes = 0;
-
+    let isValid = true;
     for (const item of repasData) {
-      if (regimes[item.slug]) {
+      if (regimes.hasOwnProperty(item.slug)) {
         sommeEcvregimes += item.ecv * regimes[item.slug];
-        console.log(item.slug, item.ecv * regimes[item.slug]);
+      }
+      else {
+        isValid = false;
+        break;
       }
     }
-    res.status(200).json(sommeEcvregimes);
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de repas sont invalides.');
+    }
+    res.status(200).json({ repas: (sommeEcvregimes/repasData.length)*52});
   } catch (error) {
     console.error('Erreur lors de la récupération de repas', error);
     res.status(500).json({ error: error.message });
   }
 }
+
+const getTransport = async (req, res) => {
+
+  const transports = {
+      "avioncourtcourrier": 1,
+      "avionmoyencourrier": 1,
+      "avionlongcourrier": 1,
+      "tgv": 1,
+      "intercites": 1,
+      "voiturethermique": 1,
+      "voitureelectrique": 1,
+      "autocar": 1,
+      "velo": 1,
+      "veloelectrique": 1,
+      "busthermique": 1,
+      "tramway": 1,
+      "metro": 1,
+      "scooter": 1,
+      "moto": 1,
+      "rer": 1,
+      "ter": 1,
+      "buselectrique": 1,
+      "busgnv": 1,
+      "avion-pny": 1
+    };
+
+  try {
+
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'transport'
+      `);
+
+    const transportData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcvTransport = 0;
+    let isValid = true;
+    for (const item of transportData) {
+      if (transports.hasOwnProperty(item.slug)) {
+        sommeEcvTransport += item.ecv * transports[item.slug];
+      }
+      else {
+        isValid = false;
+        break;
+      }
+    }
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de transport sont invalides.');
+    }
+    res.status(200).json({ transport : (sommeEcvTransport/transportData.length)*52});
+  } catch (error) {
+    console.error('Erreur lors de la récupération de transport', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const getChauffage = async (req, res) => {
+
+  const typesChauffage = {
+    "chauffagegaz": 0,
+    "chauffagefioul": 0,
+    "chauffageelectrique": 0,
+    "pompeachaleur": 0,
+    "poeleagranule": 0,
+    "poeleabois": 0,
+    "reseaudechaleur": 1
+  };
+
+  try {
+
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'chauffage'
+      `);
+
+    const chauffageData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcvChauffage = 0;
+    let isValid = true;
+    for (const item of chauffageData) {
+      if (typesChauffage.hasOwnProperty(item.slug)) {
+        sommeEcvChauffage += item.ecv * typesChauffage[item.slug];
+      }
+      else {
+        isValid = false;
+        break;
+      }
+    }
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de chauffage sont invalides.');
+    }
+    res.status(200).json({ chauffage : sommeEcvChauffage});
+  } catch (error) {
+    console.error('Erreur lors de la récupération de chauffage', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
 const getBoissonsEcv = async (req, res) => {
   try {
     // const qtesoda = req.body.soda;
@@ -430,6 +552,8 @@ async function insererDonneesTable(data,columns,table) {
 }
 
 module.exports = {
+  getChauffage,
+  getTransport,
   getRepas,
   getElectromenager,
   getTest,
