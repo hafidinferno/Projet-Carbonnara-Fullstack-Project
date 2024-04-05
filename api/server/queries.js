@@ -2,7 +2,7 @@ const Pool = require('pg').Pool;
 const cors = require("cors");
 const credentials = require('../bd.js');
 const fetch = require('node-fetch');
-const { footprintBoisson, footprintBoissons } = require('./calcul.js');
+const { footprintBoisson, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.js');
 
 
 const pool = new Pool(credentials)
@@ -229,12 +229,267 @@ const getBoissonsEcv = async (req, res) => {
       WHERE slug = 'cafe' AND thematiques = 'boisson'
     `);
 
-    const result = footprintBoissons(footprintBoisson(resultSoda.rows[0].footprint, qtesoda), footprintBoisson(resultVin.rows[0].footprint, qtevin), footprintBoisson(resultBiere.rows[0].footprint, qtebiere), footprintBoisson(resultLait.rows[0].footprint, qtelait), footprintBoisson(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprintBoisson(resultThe.rows[0].footprint, qtethe), footprintBoisson(resultCafe.rows[0].footprint, qtecafe));
+    const somme = footprintBoissons(footprintBoisson(resultSoda.rows[0].footprint, qtesoda), footprintBoisson(resultVin.rows[0].footprint, qtevin), footprintBoisson(resultBiere.rows[0].footprint, qtebiere), footprintBoisson(resultLait.rows[0].footprint, qtelait), footprintBoisson(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprintBoisson(resultThe.rows[0].footprint, qtethe), footprintBoisson(resultCafe.rows[0].footprint, qtecafe));
+    const moyWeek = moyenne(somme, (qtesoda + qtevin + qtebiere + qtelait + qtelaitsoja + qtethe + qtecafe));
+    const result = moyenneAnnee(moyWeek, 52);
     console.log(result);
-    await res.status(200).json({ result });
+    await res.status(200).json({ "boissons":  result });
 
   } catch (error) {
     console.error('Erruer lors de la récupération de données de thématique "boisson" de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const getFruitsetLegumesEcv = async (req, res) => {
+  const fruitsLegumes = {
+    // fraise: req.body.fraise,
+    // pomme: req.body.pomme,
+    // orange: req.body.orange,
+    // citron: req.body.citron,
+    // ail: req.body.ail,
+    // artichaut: req.body.artichaut,
+    // asperge: req.body.asperge,
+    // betterave: req.body.betterave,
+    // blette: req.body.blette,
+    // carotte: req.body.carotte,
+    // céleri: req.body.celeri,
+    // champignonmorille: req.body.champignonmorille,
+    // chou: req.body.chou,
+    // choudebruxelles: req.body.choudebruxelles,
+    // choufleur: req.body.choufleur,
+    // concombre: req.body.concombre,
+    // courge: req.body.courge,
+    // courgette: req.body.courgette,
+    // cresson: req.body.cresson,
+    // echalote: req.body.echalote,
+    // endive: req.body.endive,
+    // epinard: req.body.epinard,
+    // mangue: req.body.mangue,
+    // fenouil: req.body.fenouil,
+    // haricotvert: req.body.haricotvert,
+    // laitue: req.body.laitue,
+    // mache: req.body.mache,
+    // navet: req.body.navet,
+    // mais: req.body.mais,
+    // oignon: req.body.oignon,
+    // panais: req.body.panais,
+    // petitpois: req.body.petitpois,
+    // poireau: req.body.poireau,
+    // poivron: req.body.poivron
+    // Potiron
+    // Radis
+    // Salsifis
+    // Topinambour
+    // Cassis
+    // Châtaigne
+    // Clémentine
+    // Pamplemousse
+    // Coing
+    // Figue
+    // Groseille
+    // Kiwi
+    // Mandarine
+    // Melon
+    // Mûre
+    // Nectarine
+    // Myrtille
+    // Noisette
+    // Noix
+    // Prune
+    // Reine Claude
+    // Rhubarbe
+    // Pêche
+    // Cerise
+    // Abricot
+    // Framboise
+    // Poire
+    // Raisin
+    // Aubergine
+    // Brocoli
+    // Tomate
+    // Ananas
+    // Banane
+    // Avocat
+    // Carambole
+    // Datte
+    // Fruit de la passion
+    // Grenade
+    // Kaki
+    // Noix de coco
+    // Pastèque
+    fraise: 1,
+    pomme: 1,
+    orange: 0,
+    citron: 0,
+    ail: 0,
+    artichaut: 0,
+    asperge: 0,
+    betterave: 1,
+    blette: 0,
+    carotte: 1,
+    céleri: 1,
+    champignonmorille: 0,
+    chou: 1,
+    choudebruxelles: 0,
+    choufleur: 1,
+    concombre: 1,
+    courge: 1,
+    courgette: 1,
+    cresson: 0,
+    echalote: 1,
+    endive: 0,
+    epinard: 1,
+    mangue: 1,
+    fenouil: 1,
+    haricotvert: 1,
+    laitue: 1,
+    mache: 1,
+    navet: 0,
+    mais: 1,
+    oignon: 1,
+    panais: 0,
+    petitpois: 1,
+    poireau: 0,
+    poivron: 1,
+    potiron: 0,
+    radis: 1,
+    salsifis: 0,
+    topinambour: 0,
+    cassis: 1,
+    chataigne: 0,
+    clementine: 1,
+    pamplemousse: 1,
+    coing: 1,
+    figue: 0,
+    groseille: 0,
+    kiwi: 1,
+    mandarine: 1,
+    melon: 1,
+    mure: 0,
+    nectarine: 1,
+    myrtille: 1,
+    noisette: 0,
+    noix: 1,
+    prune: 1,
+    reineclaude: 0,
+    rhubarbe: 0,
+    peche: 1,
+    cerise: 1,
+    abricot: 1,
+    framboise: 1,
+    poire: 1,
+    raisin: 1,
+    aubergine: 1,
+    brocoli: 1,
+    tomate: 1,
+    ananas: 0,
+    banane: 1,
+    avocat: 1,
+    carambole: 0,
+    datte: 0,
+    fruitdelapassion: 0,
+    grenade: 0,
+    kaki: 1,
+    noixdecoco: 0,
+    pasteque: 1,
+  };
+
+  try {
+    const result = await pool.query(`
+      SELECT * 
+      FROM habitude
+      JOIN consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'fruitsetlegumes'
+    `);
+
+    const fruitsetlegumesData = result.rows.map(data => ({
+      slug: data.slug,
+      ecv: data.ecv,
+    }));
+
+    var somme = 0;
+    var size = 0;
+    for(const fl of fruitsetlegumesData) {
+      if(fruitsLegumes[fl.slug]) {
+        somme += fl.ecv;
+        size += 1;
+      }
+    }
+    console.log(somme);
+    moy = moyenne(somme, size);
+    console.log(moy);
+    resultat = moyenneAnnee(moy, 12);
+    res.status(200).json({"fruits et légumes": resultat});
+  } catch(error) {
+    console.error('Erreur lors de la récupération de données de thématique "fruits et légumes" de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const getNumeriqueEcv = async (req, res) => {
+  const numeriques = {
+    // smartphone: req.body.smartphone,
+    // tablette: req.body.tablette,
+    // liseuse: req.body.liseuse,
+    // montreconnectee: req.body.montreconnectee,
+    // appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
+    // ordinateurfixe: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
+    // ordinateurportable: req.body.ordinateurprotable,
+    // consoledesalon: req.body.consoledesalon,
+    // consoleportable: req.body.consoleportable,
+    // ecran: req.body.ecran215pouce + req.body.ecran24pouce, //moy des 2 ecrans das la BD
+    // chainehifi: req.body.chainehifi,
+    // enceintebluetooth: req.body.enceintebluetooth,
+    // barredeson: req.body.barredeson,
+    // television: req.body.television,
+    // homecinema: req.body.homecinema,
+    // modemfibre: req.body.modemfibre,
+    // imprimente: req.body.imprimente,
+    smartphone: 1,
+    tablette: 1, //moy des 3 tablettes dans la BD
+    liseuse: 0,
+    montreconnectee: 0,
+    appareilphoto: 1, //moy des 2 appareils photo dans la BD
+    ordinateurfixe: 0, //moy des 2 tours dans la BD
+    ordinateurportable: 1,
+    consoledesalon: 0,
+    consoleportable: 1,
+    ecran: 0, //moy des 2 ecrans das la BD
+    chainehifi: 0,
+    enceintebluetooth: 1,
+    barredeson: 0,
+    television: 1,
+    homecinema: 0,
+    modemfibre: 1,
+    imprimente: 1,
+  };
+
+  try {
+    const result = await pool.query(`
+      SELECT * 
+      FROM habitude
+      JOIN consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'numerique'
+    `);
+
+    const numeriqueData = result.rows.map(data => ({
+      slug: data.slug,
+      ecv: data.ecv,
+    }));
+
+    var somme = 0;
+    var size = 0;
+    for(const num of numeriqueData) {
+      if(numeriques[num.slug]) {
+        somme += num.ecv;
+        size += 1;
+      }
+    }
+    resultat = moyenne(somme, size);
+    res.status(200).json({"numeriques": resultat});
+  } catch(error) {
+    console.error('Erreur lors de la récupération de données de thématique "numérique" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
   }
 }
@@ -439,5 +694,7 @@ module.exports = {
   deleteData,
   getBoissonsEcv,
   insertAll,
-  createTables
+  createTables,
+  getFruitsetLegumesEcv,
+  getNumeriqueEcv,
 }
