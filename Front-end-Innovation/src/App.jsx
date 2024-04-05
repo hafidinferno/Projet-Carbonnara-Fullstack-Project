@@ -5,7 +5,7 @@ import HelloPage from "./pages/Hello";
 import Test from "./pages/Test";
 import AboutUs from "./pages/AboutUs";
 
-import "./CSS/Default.css";
+import "./CSS/App.css";
 
 function App() {
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./header.module.css";
 import { useNavigate } from "react-router-dom";
 
 import "../../CSS/Header.css";
@@ -21,7 +20,7 @@ function Header() {
   }
 
   return (
-    <header className="App-header">
+    <header className="App App-header">
       <h1>CARBONARA</h1>
       <div className="circle-container">
         <button onClick={GoAccueil} className="circle">
