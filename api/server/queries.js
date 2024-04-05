@@ -397,10 +397,13 @@ async function insererDonneesTable(data,columns,table) {
     try {
       for (let i = 0; i < data.length; i++) {
         if (table==='consommation') {
-          await pool.query(`INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`, [data[i].name, data[i].slug, data[i].ecv, data[i].footprint, data[i].thematiques, data[i].id_habitude]);
-        }
+          query = `INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`;
+          values = [data[i].name, data[i].slug, data[i].ecv, data[i].footprint, data[i].thematiques, data[i].id_habitude];
+          await pool.query(query, values)}
         else {
-          await pool.query(`INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`, [data[i].id, data[i].name, data[i].emoji, data[i].slug]);
+          query = `INSERT INTO ${table}(${columns.join(', ')}) VALUES(${columns.map((_, i) => `$${i + 1}`).join(', ')})`;
+          values = [data[i].id, data[i].name, data[i].emoji, data[i].slug];
+          await pool.query(query, values);
         }
       }
           console.log('Données insérées avec succès. Table :'+table);
@@ -417,7 +420,7 @@ async function insererDonneesTable(data,columns,table) {
         values: data,
       };
       await pool.query(query);
-      console.log('Données insérées avec succès. Table :' +table);
+      console.log('Données insérées avec succès. Table :' + table);
     } catch (error) {
       console.error('Erreur lors de l\'insertion des données. Table :' +table, error.message);
       console.error('Requête causant l\'erreur:', error.query); // Si votre gestionnaire d'erreur inclut la requête
