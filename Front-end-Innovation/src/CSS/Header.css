@@ -1,94 +1,117 @@
 header {
-    background-color: rgb(237, 225, 204);
-    padding: 20px 0;
-    margin-bottom: 40px;
-    text-align: center;
-    box-shadow: 6px 6px 25px rgba(0, 0, 0, 0.5);  
+    background-color: var(--bg-color);
+    
+    height: 150px;
+    width: 100vw;
 }
-
-
-
 
 
 .App-header {
     padding: 20px;
-    position: relative; /* Needed for absolute positioning of the circle */
+    position: relative; 
     display: flex;
-    justify-content: flex-start; /* Aligns the h1 to the left */
+    justify-content: flex-start; 
     align-items: center;
-    font-weight: 10; /* Lighter font-weight */
-    font-family: "Arial", sans-serif; /* A common, less bold font-family */
 }
-  
+
 header h1 {
-    margin: 0;
-    margin-right: auto; /* Ensures the h1 stays on the left */
-    font-weight: 3rem; /* Light font-weight for a softer look */
-    font-size: 3rem;;
-    font-family: "Merriweather", serif; /* Merriweather for a touch of elegance */
-    color: #276749; /* Deeper green for contrast */
+    font-family: "Julius Sans One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 
-}
+    font-size: 4em;
 
-  
-.accent-text {
-    color: #d2b48c;
-}
-  
-.circle {
-    margin-right: 600px;
-    width: 150px;
-    height: 100px;
-    padding: 30px 50px;
-    background-color: #f8fbc9;
-    border-radius: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-    font-size: 1.5em;
-    color: rgba(87, 74, 74, 0.749);
-    font-weight: 500;
+    margin-left: 100px;
+    
+    color: var(--title-color);
+
     position: relative;
-    z-index: 2;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 50; /* Light font-weight for a softer look */
-    font-family: "Merriweather", serif; /* Merriweather for a touch of elegance */
 }
-  
-.sub-circle {
-    margin-top: -5px;
-    margin-left: 645px;
+
+header h1::after {
+    content: "";
     position: absolute;
-    padding: 30px 50px;
-    width: 150px; /* Example size, adjust as needed */
-    height: 100px;
-    border-radius: 10%;
-    background-color: #f8fbc9;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+
+    width: 75%;
+    height: 2px;
+    border-radius: 2px;
+    left: 25%;
+    bottom: 0px;
+
+    background-color: var(--title-color);
+}
+
+.circle-container
+{
+    position: absolute;
+    left: calc(50vw - 100px);
+    bottom: -75px;
+}
+
+.circle {
+    aspect-ratio: 1;
+    width: 200px;
+    border-radius: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: var(--bg-color);
+    
     font-size: 1.5em;
-    color: rgba(87, 74, 74, 0.749);
+    color: var(--title-color);
     font-weight: 500;
-    top: 25px; /* Centered on main circle, adjust if needed */
-    left: 25px;
-    transition: transform 0.5s ease; /* Smooth transition for moving */
-    font-weight: 50; /* Light font-weight for a softer look */
-    font-family: "Merriweather", serif; /* Merriweather for a touch of elegance */
+    font-family: "Merriweather", serif;
+    
+    z-index: 10;
+    cursor: pointer;
+
+    border: none;
+}
+
+.circle:hover 
+{
+    background-color: var(--bg-color-light);
+}
+
+.circle-container:hover #circle1 {
+    transform: translateX(0px) translateY(160px); /* Move top-left */
+}
+  
+.circle-container:hover #circle2 {
+    transform: translateX(-113px) translateY(113px); /* Move top-right */
+}
+  
+.circle-container:hover #circle3 {
+    transform: translateX(113px) translateY(113px); /* Move directly down */
+} 
+
+.sub-circle {
+    position: absolute;
+    bottom: calc(50% - 50px); 
+    left: calc(50% - 50px);
+    
+    aspect-ratio: 1;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+
+    background-color: var(--bg-color);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1em;
+    color: var(--title-color);
+    font-weight: 500;
+    transition: transform 0.5s ease-in-out; 
+
+    font-family: "Merriweather", serif; 
     cursor: pointer;
 }
 
-.circle-container:hover .sub-circle#circle1 {
-    transform: translateX(200px) translateY(0px); /* Move top-left */
-}
-  
-.circle-container:hover .sub-circle#circle2 {
-    transform: translateX(400px) translateY(0px); /* Move top-right */
-}
-  
-.circle-container:hover .sub-circle#circle3 {
-    transform: translateX(600px) translateY(0px); /* Move directly down */
+.sub-circle:hover {
+    background-color: var(--bg-color-light);
 }

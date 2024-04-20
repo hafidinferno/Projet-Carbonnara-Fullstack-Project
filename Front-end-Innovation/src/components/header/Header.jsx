@@ -20,20 +20,20 @@ function Header() {
   }
 
   return (
-    <header className="App App-header">
+    <header className="App App-header shadowed">
       <h1>CARBONARA</h1>
       <div className="circle-container">
-        <button onClick={GoAccueil} className="circle">
-          Accueil
-        </button>
-        <button onClick={startTest} className="sub-circle" id="circle1">
+        <button onClick={startTest} className="sub-circle shadowed" id="circle1">
           TEST
         </button>
-        <button onClick={GoResults} className="sub-circle" id="circle2">
+        <button onClick={GoResults} className="sub-circle shadowed" id="circle2">
           RESULTS
         </button>
-        <button onClick={GoAbout} className="sub-circle" id="circle3">
+        <button onClick={GoAbout} className="sub-circle shadowed" id="circle3">
           About US
+        </button>
+        <button onClick={GoAccueil} className="circle shadowed">
+          Accueil
         </button>
       </div>
     </header>

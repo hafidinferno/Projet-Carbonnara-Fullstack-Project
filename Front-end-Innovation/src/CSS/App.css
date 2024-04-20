@@ -1,15 +1,22 @@
 /* Style global par defaut */
 /* se met automatiquement dans toutes les pages */
+@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
 
 :root {
-  --primary-color:  rgb(248, 242, 231);
-  --secondary-color: rgb(211, 202, 185);
+  --bg-color-light: #faebd8;
+  --bg-color: #f0e3ce;
+  --bg-color-dark: #e5d5b6;
+  
+  --hl-color: #46ce58;
+  --title-color: #145e1e;
+
+  --shadow-color: #663314;
 
   --font-family-body:  "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --line-height-body : 1.6;
+
+  box-sizing: border-box;
 }
-
-
 
 @font-face {
   font-family: 'Bradley Hand ITC TT';
@@ -24,15 +31,20 @@
   font-display: swap;
 }
 
+.shadowed {
+  box-shadow: 0 0 15px -10px var(--shadow-color);
+}
+
 body, html {
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 5px;
 
   color: #333;
   /* text-align: center; */
   font-family: var(--font-family-body);
-  background: var(--primary-color);
+  background: var(--bg-color);
 }
 
 section {
