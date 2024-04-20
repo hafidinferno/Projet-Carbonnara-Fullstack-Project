@@ -1,0 +1,47 @@
+/* CategoryPanel.css */
+
+.category-panel {
+  background-color: #fff; /* White background */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  padding: 20px;
+  margin: 20px; /* Spacing around the panel */
+}
+
+.category-panel h2 {
+  color: #333; /* Dark text for the category title */
+  margin-bottom: 16px; /* Spacing below the title */
+  font-size: 24px; /* Larger font for the title */
+}
+
+.question {
+  border-bottom: 1px solid #eaeaea; /* Separator between questions */
+  padding-bottom: 10px; /* Spacing below each question */
+  margin-bottom: 10px; /* Spacing after each question */
+}
+
+.question h3 {
+  color: #333; /* Dark text for the question */
+  font-size: 18px; /* Font size for the question */
+  margin-bottom: 8px; /* Spacing below the question */
+}
+
+.answer {
+  display: block; /* Make answer span the width of the container */
+  padding: 8px 12px;
+  margin: 4px 0; /* Spacing between answers */
+  background-color: #f7f7f7; /* Light gray background for answers */
+  border-radius: 4px; /* Rounded corners for answers */
+  cursor: pointer; /* Mouse pointer indicates clickable items */
+  transition: background-color 0.3s; /* Smooth background color change on hover */
+}
+
+.answer:hover {
+  background-color: #e7e7e7; /* Slightly darker background on hover */
+}
+
+/* Optional: Add a class to the active answer to highlight it */
+.answer.active {
+  background-color: #dedede; /* Active answer background */
+  font-weight: bold; /* Make active answer text bold */
+}

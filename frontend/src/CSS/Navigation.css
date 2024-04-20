@@ -1,0 +1,29 @@
+.navigation-panel {
+  width: 250px; /* Adjust width as needed */
+  background-color: #f0ead6; /* Color from your screenshot */
+  padding: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Just an example */
+}
+
+.navigation-panel .category {
+  margin-bottom: 20px;
+}
+
+.navigation-panel .category h3 {
+  color: #4a4a4a; /* Example color */
+}
+
+.navigation-panel ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.navigation-panel ul li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: #4a4a4a; /* Example color */
+}
+
+.navigation-panel ul li:hover {
+  color: #8a8a8a; /* Example hover color */
+}

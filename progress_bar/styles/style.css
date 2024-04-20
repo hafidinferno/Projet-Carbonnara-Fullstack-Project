@@ -1,0 +1,14 @@
+.valid
+{
+    background-color: var(--valid-color);
+}
+
+.neutral
+{
+    background-color: var(--neutral-color);
+}
+
+.error
+{
+    background-color: var(--error-color);
+}

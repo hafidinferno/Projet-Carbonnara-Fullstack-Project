@@ -1,0 +1,123 @@
+header {
+    background-color: var(--bg-color);
+    
+    height: 150px;
+    width: 100vw;
+}
+
+.App-header {
+    padding: 20px;
+    position: relative; 
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+}
+
+header h1 {
+    font-family: "Julius Sans One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    font-size: 4em;
+
+    margin-left: 100px;
+    
+    color: var(--title-color);
+
+    position: relative;
+}
+
+header h1::first-letter {
+    color: var(--hl-color);
+    font-size: 130%;
+    vertical-align: sub;
+}
+
+header h1::after {
+    content: "";
+    position: absolute;
+
+    width: 80%;
+    height: 3px;
+    border-radius: 2px;
+    left: 17%;
+    bottom: 20px;
+
+    background-color: var(--hl-color);
+}
+
+.circle-container
+{
+    position: absolute;
+    left: calc(50vw - 100px);
+    bottom: -75px;
+}
+
+.circle {
+    position: relative;
+    aspect-ratio: 1;
+    width: 200px;
+    border-radius: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--bg-color);
+    
+    font-size: 1.5em;
+    color: var(--title-color);
+    font-weight: 500;
+    font-family: "Merriweather", serif;
+    
+    z-index: 10;
+    cursor: pointer;
+
+    border: none;
+}
+
+.circle:hover 
+{
+    background-color: var(--bg-color-light);
+}
+
+.circle-container:hover #circle1 {
+    transform: translateX(0px) translateY(160px); /* Move top-left */
+}
+  
+.circle-container:hover #circle2 {
+    transform: translateX(-113px) translateY(113px); /* Move top-right */
+}
+  
+.circle-container:hover #circle3 {
+    transform: translateX(113px) translateY(113px); /* Move directly down */
+} 
+
+.sub-circle {
+    position: absolute;
+    bottom: calc(50% - 50px); 
+    left: calc(50% - 50px);
+    
+    aspect-ratio: 1;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+
+    background-color: var(--bg-color);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1em;
+    color: var(--title-color);
+    font-weight: 500;
+    transition: transform 0.5s ease-in-out; 
+
+    font-family: "Merriweather", serif; 
+    cursor: pointer;
+}
+
+.sub-circle:hover {
+    background-color: var(--bg-color-light);
+}
