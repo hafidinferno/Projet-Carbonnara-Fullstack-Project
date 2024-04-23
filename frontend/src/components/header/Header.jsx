@@ -6,7 +6,7 @@ import "../../CSS/Header.css";
 function Header() {
   let navigate = useNavigate();
   function startTest() {
-    navigate("/TestI");
+    navigate("/Test1");
   }
   function GoAccueil() {
     navigate("/Accueil");

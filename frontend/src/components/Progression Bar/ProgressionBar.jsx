@@ -40,7 +40,7 @@ function ProgressionBar({ level, setCurrentLevel }) {
     setCurrentLevel(level);
     localStorage.setItem("currentLevel", level.toString());
     localStorage.setItem("currentCategoryIndex", catIndex.toString());
-    navigate(`/QuizPage${catIndex + 1}?level=${level}`);
+    navigate(`/Test${catIndex + 1}?level=${level}`);
   };
 
   const toggleCategoryQuestions = (index) => {
@@ -68,7 +68,7 @@ function ProgressionBar({ level, setCurrentLevel }) {
       .reduce((acc, cur) => acc + cur.levels.length, 0);
     setCurrentLevel(level);
     localStorage.setItem("currentCategoryIndex", catIdx.toString()); // Sauvegarder l'index de la catégorie actuelle
-    navigate(`/QuizPage${catIdx + 1}?level=${level}`);
+    navigate(`/Test${catIdx + 1}?level=${level}`);
   };
 
   return (
