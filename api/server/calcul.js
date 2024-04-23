@@ -1,4 +1,4 @@
-function footprintBoisson(footprint, quantite) {
+function footprint(footprint, quantite) {
     return footprint * quantite;
 }
 
@@ -15,7 +15,7 @@ function moyenneAnnee(result, n) {
 }
 
 module.exports = {
-    footprintBoisson,
+    footprint,
     footprintBoissons,
     moyenne,
     moyenneAnnee,
