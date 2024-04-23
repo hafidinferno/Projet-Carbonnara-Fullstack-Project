@@ -5,13 +5,17 @@ const fs = require('fs')
 const cors = require('cors')
 
 const app = express();
+const router = require('./routers.js');
 const config = require('../config.js');
+
 const privateKey = fs.readFileSync(config.key_path);
 const certificate = fs.readFileSync(config.cert_path);
 const credentials = {
     key: privateKey,
     cert : certificate
 };
+
+app.use(cors());
 
 // Filtre
 app.use((req, res, next) => {
@@ -26,10 +30,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(cors());
 
 // App
-require('./index.js')(app);
+app.use(router);
 
 // Ouverture des serveurs
 const httpsServer = https.createServer(credentials, app).listen(config.https_port, () => {
