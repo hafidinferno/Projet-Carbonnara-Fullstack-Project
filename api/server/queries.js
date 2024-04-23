@@ -2,17 +2,22 @@ const Pool = require('pg').Pool;
 const cors = require("cors");
 const credentials = require('../bd.js');
 const fetch = require('node-fetch');
-const { footprintBoisson, footprintBoissons } = require('./calcul.js');
+const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.js');
 
-
+/**
+ * Connection à la base de données.
+ */
 const pool = new Pool(credentials)
-
 pool.connect(function(err) {
   if(err) throw err;
   console.log("Database connected!");
 });
 
-//TEST
+/**
+ * TEST : obtenir les emoji de la table habitude.
+ * @param {*} req
+ * @param {*} res
+ */
 const getTest = async (req, res) => {
   try {
     const result = await pool.query(`
@@ -30,6 +35,11 @@ const getTest = async (req, res) => {
   }
 }
 
+/**
+ * ECV d'un objet spécifique (slug) d'une thématique spécifique.
+ * @param {*} req
+ * @param {*} res
+ */
 const getCarbonne = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -38,7 +48,7 @@ const getCarbonne = async (req, res) => {
     const result = await pool.query(`
       SELECT ecv
       FROM consommation
-      WHERE slug = $1 AND name = $2
+      WHERE consommation.thematiques = $1 AND consommation.slug = $2
     `, [slug, name]);
 
     const ecv = result.rows[0].ecv;
@@ -52,6 +62,11 @@ const getCarbonne = async (req, res) => {
   }
 }
 
+/**
+ * FOOTPRINT d'un objet spécifique (slug).
+ * @param {*} req
+ * @param {*} res
+ */
 const getFootPrint = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -73,6 +88,11 @@ const getFootPrint = async (req, res) => {
   }
 }
 
+/**
+ * Get les emoji de chaque thématique (slug) depuis la table habitude.
+ * @param {*} req
+ * @param {*} res
+ */
 const getEmoji = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -94,6 +114,11 @@ const getEmoji = async (req, res) => {
   }
 }
 
+/**
+ * Calcul le taux de carbonne en consommation électromménager (acheté dans l'année)
+ * @param {*} req
+ * @param {*} res
+ */
 const getElectromenager = async (req, res) => {
 
   let appareils = {
@@ -109,9 +134,7 @@ const getElectromenager = async (req, res) => {
     climatiseur: 1
   };
 
-
   try {
-
     const result = await pool.query(`
       SELECT *
       FROM habitude
@@ -124,15 +147,23 @@ const getElectromenager = async (req, res) => {
       ecv: row.ecv
     }));
     let sommeEcvAppareil = 0;
-
+    let isValid = true;
     for (const item of elecData) {
-      if (appareils[item.slug]) {
+      if (appareils.hasOwnProperty(item.slug)) {
         sommeEcvAppareil += item.ecv * appareils[item.slug];
-        console.log(item.slug, item.ecv * appareils[item.slug]);
+      }
+      else {
+        isValid = false;
+        break;
       }
     }
-    res.status(200).json(sommeEcvAppareil);
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de repas sont invalides.');
+    }
+
+    res.status(200).json({ electromenager :sommeEcvAppareil});
     return;
+
   } catch (error) {
     console.error('Erreur lors de la récupération de electromenager', error);
     res.status(500).json({ error: error.message });
@@ -140,6 +171,11 @@ const getElectromenager = async (req, res) => {
   }
 }
 
+/**
+ * Calcul le taux de carbonne en consommation alimentaire (repas) hebdomadaire reporté à l'année
+ * @param {*} req
+ * @param {*} res
+ */
 const getRepas = async (req, res) => {
 
   const regimes = {
@@ -150,7 +186,6 @@ const getRepas = async (req, res) => {
     repasvegetarien: 1,
     repasvegetalien: 1
   };
-
 
   try {
 
@@ -167,21 +202,149 @@ const getRepas = async (req, res) => {
     }));
 
     let sommeEcvregimes = 0;
-
+    let isValid = true;
     for (const item of repasData) {
-      if (regimes[item.slug]) {
+      if (regimes.hasOwnProperty(item.slug)) {
         sommeEcvregimes += item.ecv * regimes[item.slug];
-        console.log(item.slug, item.ecv * regimes[item.slug]);
+      }
+      else {
+        isValid = false;
+        break;
       }
     }
-    res.status(200).json(sommeEcvregimes);
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de repas sont invalides.');
+    }
+    res.status(200).json({ repas: (sommeEcvregimes/repasData.length)*52});
     return;
+
   } catch (error) {
     console.error('Erreur lors de la récupération de repas', error);
     res.status(500).json({ error: error.message });
     return;
   }
 }
+
+/**
+ * Calcul le taux de carbonne d'utilisation de transport par semaine reporté à l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getTransport = async (req, res) => {
+
+  const transports = {
+      "avioncourtcourrier": 1,
+      "avionmoyencourrier": 1,
+      "avionlongcourrier": 1,
+      "tgv": 1,
+      "intercites": 1,
+      "voiturethermique": 1,
+      "voitureelectrique": 1,
+      "autocar": 1,
+      "velo": 1,
+      "veloelectrique": 1,
+      "busthermique": 1,
+      "tramway": 1,
+      "metro": 1,
+      "scooter": 1,
+      "moto": 1,
+      "rer": 1,
+      "ter": 1,
+      "buselectrique": 1,
+      "busgnv": 1,
+      "avion-pny": 1
+    };
+
+  try {
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'transport'
+      `);
+
+    const transportData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcvTransport = 0;
+    let isValid = true;
+    for (const item of transportData) {
+      if (transports.hasOwnProperty(item.slug)) {
+        sommeEcvTransport += item.ecv * transports[item.slug];
+      }
+      else {
+        isValid = false;
+        break;
+      }
+    }
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de transport sont invalides.');
+    }
+    res.status(200).json({ transport : (sommeEcvTransport/transportData.length)*52});
+  } catch (error) {
+    console.error('Erreur lors de la récupération de transport', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+/**
+ * Calcul le taux de carbonne en utilisation de chauffage par m^2 (valeur déjà reporté à l'année)
+ * @param {*} req
+ * @param {*} res
+ */
+const getChauffage = async (req, res) => {
+
+  const typesChauffage = {
+    "chauffagegaz": 0,
+    "chauffagefioul": 0,
+    "chauffageelectrique": 0,
+    "pompeachaleur": 0,
+    "poeleagranule": 0,
+    "poeleabois": 0,
+    "reseaudechaleur": 1
+  };
+
+  try {
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'chauffage'
+      `);
+
+    const chauffageData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcvChauffage = 0;
+    let isValid = true;
+    for (const item of chauffageData) {
+      if (typesChauffage.hasOwnProperty(item.slug)) {
+        sommeEcvChauffage += item.ecv * typesChauffage[item.slug];
+      }
+      else {
+        isValid = false;
+        break;
+      }
+    }
+    if (!isValid) {
+      throw new Error('Un ou plusieurs slugs de chauffage sont invalides.');
+    }
+    res.status(200).json({ chauffage : sommeEcvChauffage});
+  } catch (error) {
+    console.error('Erreur lors de la récupération de chauffage', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+/**
+ * Calcul le taux de carbonne de boissons consommées par semaine reporté à l'année
+ * @param {*} req
+ * @param {*} res
+ */
 const getBoissonsEcv = async (req, res) => {
   try {
     // const qtesoda = req.body.soda;
@@ -191,13 +354,13 @@ const getBoissonsEcv = async (req, res) => {
     // const qtelaitsoja = req.body.laitsoja;
     // const qtethe = req.body.the;
     // const qtecafe = req.body.cafe;
-    let qtesoda = 2;
-    let qtevin = 1;
-    let qtebiere = 0;
-    let qtelait = 12;
-    let qtelaitsoja = 4;
-    let qtethe = 0;
-    let qtecafe = 0;
+    const qtesoda = 2;
+    const qtevin = 1;
+    const qtebiere = 0;
+    const qtelait = 12;
+    const qtelaitsoja = 4;
+    const qtethe = 0;
+    const qtecafe = 0;
 
     const resultSoda = await pool.query(`
       SELECT footprint
@@ -241,9 +404,11 @@ const getBoissonsEcv = async (req, res) => {
       WHERE slug = 'cafe' AND thematiques = 'boisson'
     `);
 
-    const result = footprintBoissons(footprintBoisson(resultSoda.rows[0].footprint, qtesoda), footprintBoisson(resultVin.rows[0].footprint, qtevin), footprintBoisson(resultBiere.rows[0].footprint, qtebiere), footprintBoisson(resultLait.rows[0].footprint, qtelait), footprintBoisson(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprintBoisson(resultThe.rows[0].footprint, qtethe), footprintBoisson(resultCafe.rows[0].footprint, qtecafe));
+    const somme = footprintBoissons(footprint(resultSoda.rows[0].footprint, qtesoda), footprint(resultVin.rows[0].footprint, qtevin), footprint(resultBiere.rows[0].footprint, qtebiere), footprint(resultLait.rows[0].footprint, qtelait), footprint(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprint(resultThe.rows[0].footprint, qtethe), footprint(resultCafe.rows[0].footprint, qtecafe));
+    const moyWeek = moyenne(somme, (qtesoda + qtevin + qtebiere + qtelait + qtelaitsoja + qtethe + qtecafe));
+    const result = moyenneAnnee(moyWeek, 52);
     console.log(result);
-    await res.status(200).json({ result });
+    await res.status(200).json({ "boissons":  result });
     return;
 
   } catch (error) {
@@ -253,6 +418,462 @@ const getBoissonsEcv = async (req, res) => {
   }
 }
 
+/**
+ * Calcul le taux de carbonne en consommation de fruits et légumes par mois reporté à l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getFruitsetLegumesEcv = async (req, res) => {
+  const fruitsLegumes = {
+    // fraise: req.body.fraise,
+    // pomme: req.body.pomme,
+    // orange: req.body.orange,
+    // citron: req.body.citron,
+    // ail: req.body.ail,
+    // artichaut: req.body.artichaut,
+    // asperge: req.body.asperge,
+    // betterave: req.body.betterave,
+    // blette: req.body.blette,
+    // carotte: req.body.carotte,
+    // céleri: req.body.celeri,
+    // champignonmorille: req.body.champignonmorille,
+    // chou: req.body.chou,
+    // choudebruxelles: req.body.choudebruxelles,
+    // choufleur: req.body.choufleur,
+    // concombre: req.body.concombre,
+    // courge: req.body.courge,
+    // courgette: req.body.courgette,
+    // cresson: req.body.cresson,
+    // echalote: req.body.echalote,
+    // endive: req.body.endive,
+    // epinard: req.body.epinard,
+    // mangue: req.body.mangue,
+    // fenouil: req.body.fenouil,
+    // haricotvert: req.body.haricotvert,
+    // laitue: req.body.laitue,
+    // mache: req.body.mache,
+    // navet: req.body.navet,
+    // mais: req.body.mais,
+    // oignon: req.body.oignon,
+    // panais: req.body.panais,
+    // petitpois: req.body.petitpois,
+    // poireau: req.body.poireau,
+    // poivron: req.body.poivron
+    // Potiron
+    // Radis
+    // Salsifis
+    // Topinambour
+    // Cassis
+    // Châtaigne
+    // Clementine
+    // Pamplemousse
+    // Coing
+    // Figue
+    // Groseille
+    // Kiwi
+    // Mandarine
+    // Melon
+    // Mure
+    // Nectarine
+    // Myrtille
+    // Noisette
+    // Noix
+    // Prune
+    // Reine Claude
+    // Rhubarbe
+    // Pêche
+    // Cerise
+    // Abricot
+    // Framboise
+    // Poire
+    // Raisin
+    // Aubergine
+    // Brocoli
+    // Tomate
+    // Ananas
+    // Banane
+    // Avocat
+    // Carambole
+    // Datte
+    // Fruit de la passion
+    // Grenade
+    // Kaki
+    // Noix de coco
+    // Pastèque
+    fraise: 1,
+    pomme: 1,
+    orange: 0,
+    citron: 0,
+    ail: 0,
+    artichaut: 0,
+    asperge: 0,
+    betterave: 1,
+    blette: 0,
+    carotte: 1,
+    céleri: 1,
+    champignonmorille: 0,
+    chou: 1,
+    choudebruxelles: 0,
+    choufleur: 1,
+    concombre: 1,
+    courge: 1,
+    courgette: 1,
+    cresson: 0,
+    echalote: 1,
+    endive: 0,
+    epinard: 1,
+    mangue: 1,
+    fenouil: 1,
+    haricotvert: 1,
+    laitue: 1,
+    mache: 1,
+    navet: 0,
+    mais: 1,
+    oignon: 1,
+    panais: 0,
+    petitpois: 1,
+    poireau: 0,
+    poivron: 1,
+    potiron: 0,
+    radis: 1,
+    salsifis: 0,
+    topinambour: 0,
+    cassis: 1,
+    chataigne: 0,
+    clementine: 1,
+    pamplemousse: 1,
+    coing: 1,
+    figue: 0,
+    groseille: 0,
+    kiwi: 1,
+    mandarine: 1,
+    melon: 1,
+    mure: 0,
+    nectarine: 1,
+    myrtille: 1,
+    noisette: 0,
+    noix: 1,
+    prune: 1,
+    reineclaude: 0,
+    rhubarbe: 0,
+    peche: 1,
+    cerise: 1,
+    abricot: 1,
+    framboise: 1,
+    poire: 1,
+    raisin: 1,
+    aubergine: 1,
+    brocoli: 1,
+    tomate: 1,
+    ananas: 0,
+    banane: 1,
+    avocat: 1,
+    carambole: 0,
+    datte: 0,
+    fruitdelapassion: 0,
+    grenade: 0,
+    kaki: 1,
+    noixdecoco: 0,
+    pasteque: 1,
+  };
+
+  try {
+    const result = await pool.query(`
+      SELECT * 
+      FROM habitude
+      JOIN consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'fruitsetlegumes'
+    `);
+
+    const fruitsetlegumesData = result.rows.map(data => ({
+      slug: data.slug,
+      ecv: data.ecv,
+    }));
+
+    var somme = 0;
+    var size = 0;
+    for(const fl of fruitsetlegumesData) {
+      if(fruitsLegumes[fl.slug]) {
+        somme += fl.ecv;
+        size += 1;
+      }
+    }
+    console.log(somme);
+    const moy = moyenne(somme, size);
+    console.log(moy);
+    const resultat = moyenneAnnee(moy, 12);
+    res.status(200).json({"fruits et legumes": resultat});
+  } catch(error) {
+    console.error('Erreur lors de la récupération de données de thématique "fruits et légumes" de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+/**
+ * Calcul de taux de carbonne en appareil numérique acheté dans l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getNumeriqueEcv = async (req, res) => {
+  const numeriques = {
+    // smartphone: req.body.smartphone,
+    // tablette: req.body.tablette,
+    // liseuse: req.body.liseuse,
+    // montreconnectee: req.body.montreconnectee,
+    // appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
+    // ordinateurfixe: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
+    // ordinateurportable: req.body.ordinateurprotable,
+    // consoledesalon: req.body.consoledesalon,
+    // consoleportable: req.body.consoleportable,
+    // ecran: req.body.ecran215pouce + req.body.ecran24pouce, //moy des 2 ecrans das la BD
+    // chainehifi: req.body.chainehifi,
+    // enceintebluetooth: req.body.enceintebluetooth,
+    // barredeson: req.body.barredeson,
+    // television: req.body.television,
+    // homecinema: req.body.homecinema,
+    // modemfibre: req.body.modemfibre,
+    // imprimente: req.body.imprimente,
+    smartphone: 1,
+    tablette: 1, //moy des 3 tablettes dans la BD
+    liseuse: 0,
+    montreconnectee: 0,
+    appareilphoto: 1, //moy des 2 appareils photo dans la BD
+    ordinateurfixe: 0, //moy des 2 tours dans la BD
+    ordinateurportable: 1,
+    consoledesalon: 0,
+    consoleportable: 1,
+    ecran: 0, //moy des 2 ecrans das la BD
+    chainehifi: 0,
+    enceintebluetooth: 1,
+    barredeson: 0,
+    television: 1,
+    homecinema: 0,
+    modemfibre: 1,
+    imprimente: 1,
+  };
+
+  try {
+    const result = await pool.query(`
+      SELECT * 
+      FROM habitude
+      JOIN consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'numerique'
+    `);
+
+    const numeriqueData = result.rows.map(data => ({
+      slug: data.slug,
+      ecv: data.ecv,
+    }));
+
+    var somme = 0;
+    var size = 0;
+    for(const num of numeriqueData) {
+      if(numeriques[num.slug]) {
+        somme += num.ecv;
+        size += 1;
+      }
+    }
+    const resultat = moyenne(somme, size);
+    res.status(200).json({"numeriques": resultat});
+  } catch(error) {
+    console.error('Erreur lors de la récupération de données de thématique "numérique" de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+/**
+ * Calcul le taux de carbonne en objet vetements acheté dans l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getVetements = async (req, res) => {
+
+    const vetements = {
+        polo: 1,
+        tshirtencoton: 1,
+        tshirtenpolyester: 1,
+        sweatencoton: 1,
+        chemiseencoton: 1,
+        chemiseenviscose: 1,
+        chaussuresencuir: 1,
+        chaussuresentissu: 1,
+        chaussuresdesport: 1,
+        robeencoton: 1,
+        robeenpolyester: 1,
+        robeenviscose: 1,
+        pullenlaine: 1,
+        pullenacrylique: 1,
+        pullencotonrecycle: 1,
+        manteau: 1,
+        vesteimpermeable: 1,
+        vestesimilicuir: 1,
+        jeans: 1,
+    };
+
+    try {
+
+        const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'habillement'
+      `);
+
+        const vetementsData = result.rows.map(row => ({
+            slug: row.slug,
+            ecv: row.ecv
+        }));
+
+        let sommeEcvvetements = 0;
+
+        for (const item of vetementsData) {
+            if (vetements[item.slug]) {
+                sommeEcvvetements += item.ecv * vetements[item.slug];
+                console.log(item.slug, item.ecv * vetements[item.slug]);
+            }
+        }
+        res.status(200).json({"vetements":sommeEcvvetements});
+    } catch (error) {
+        console.error('Erreur lors de la récupération des vêtements', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+/**
+ * Calculez le taux de carbone en eau consommée par une personne au cours de l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getEaux = async (req, res) => {
+
+    const eaux = {
+        eauenbouteille: 0.75,
+        eaudurobinet: 0.25
+    };
+
+    try {
+
+        const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'boisson'
+      `);
+
+        const eauxData = result.rows.map(row => ({
+            slug: row.slug,
+            ecv: row.ecv
+        }));
+
+        let sommeEcveaux = 0;
+        //  2.5 litres d'eau par jour
+        for (const item of eauxData) {
+            if (eaux[item.slug]) {
+                sommeEcveaux += item.ecv  * (2.5 * eaux[item.slug]);
+                console.log(item.slug, item.ecv  * (2.5 * eaux[item.slug]));
+            }
+        }
+        res.status(200).json({eaux:sommeEcveaux * 365});
+    } catch (error) {
+        console.error('Erreur lors de la récupération des vêtements', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
+/**
+ * Calcul le taux de carbonne en objet mobilier acheté dans l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getMobilierEcv = async (req, res) => {
+    // const canapeconvertible = req.body.canapeconvertible;
+    // const chaiseenbois = req.body.chaiseenvois;
+    // const tableenbois = req.body.tableenbois;
+    // const canapetextile = req.body.canapetextile;
+    // const armoire = req.body.armoire;
+    // const lit = req.body.lit;
+    const canapeconvertible = 0;
+    const chaiseenbois = 2;
+    const tableenbois = 2;
+    const canapetextile = 3;
+    const armoire = 4;
+    const lit = 4;
+
+  try {
+    const result = await pool.query(`
+      SELECT * 
+      FROM habitude
+      JOIN consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'mobilier'
+    `);
+
+    const mobilierData = result.rows.map(data => ({
+      slug: data.slug,
+      ecv: data.ecv,
+    }));
+
+    const somme = footprint(mobilierData[0].ecv, canapeconvertible) + footprint(mobilierData[1].ecv, chaiseenbois) + footprint(mobilierData[2].ecv, tableenbois) + footprint(mobilierData[3].ecv, canapetextile) + footprint(mobilierData[4].ecv, armoire) + footprint(mobilierData[5].ecv, lit)
+    res.status(200).json({"numeriques": somme});
+  } catch(error) {
+    console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+/**
+ * Calcul le taux de carbonne en usage numérique par semaine reporté à l'année
+ * @param {*} req
+ * @param {*} res
+ */
+const getUsageNumeriqueEcv = async (req, res) => {
+  // const emailrecu = req.body.emailrecu;
+  // const emailenvoye = req.body.emailenvoye;
+  // const spamrecu = req.body.spamrecu;
+  // const spamenvoye = req.body.spamenvoye;
+  // const stockagedonnee = req.body.stockagedonnee;
+  // const rechercheweb = req.body.rechercheweb;
+  // const streamingvideofait = req.body.streamingvideofait;
+  // const streamingvideoregarde = req.body.streamingvideoregarde;
+  // const visioconference = req.body.visioconference;
+  // const telechargement = req.body.telechargement;
+  const emailrecu = 14;
+  const emailenvoye = 4;
+  const spamrecu = 2;
+  const spamenvoye = 0;
+  const stockagedonnee = 250;
+  const rechercheweb = 50;
+  const streamingvideofait = 0;
+  const streamingvideoregarde = 1;
+  const visioconference = 2;
+  const telechargement = 1;
+
+try {
+  const result = await pool.query(`
+    SELECT * 
+    FROM habitude
+    JOIN consommation ON habitude.id = consommation.id_habitude
+    WHERE habitude.slug = 'usagenumerique'
+  `);
+
+  const mobilierData = result.rows.map(data => ({
+    slug: data.slug,
+    ecv: data.ecv,
+  }));
+
+  const somme = footprint(mobilierData[0].ecv, emailrecu) + footprint(mobilierData[0].ecv, emailenvoye) + footprint(mobilierData[1].ecv, spamrecu) + footprint(mobilierData[1].ecv, spamenvoye) + footprint(mobilierData[2].ecv, stockagedonnee) + footprint(mobilierData[3].ecv, rechercheweb) + footprint(mobilierData[4].ecv, streamingvideofait) + footprint(mobilierData[4].ecv, streamingvideoregarde) + footprint(mobilierData[5].ecv, visioconference) + footprint(mobilierData[6].ecv, telechargement)
+  const resultatAnnee = moyenneAnnee(somme, 52)
+  res.status(200).json({"numeriques": resultatAnnee});
+} catch(error) {
+  console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
+  res.status(500).json({ error: error.message });
+}
+}
+
+/**
+ * Supprime les données, les tables dans la base de données
+ * @param {*} req
+ * @param {*} res
+ */
 const deleteData = async (req, res) => {
   try {
     // Suppression de tout dans les tables
@@ -269,6 +890,11 @@ const deleteData = async (req, res) => {
   }
 }
 
+/**
+ * Créer les tables habitudes et consommation dans la base de données
+ * @param {*} req
+ * @param {*} res
+ */
 const createTables = async (req, res) => {
   try {
     //Création des tables
@@ -337,7 +963,8 @@ const thematiques = [
   "mobilier",
   "chauffage",
   "fruitsetlegumes",
-  "usagenumerique"
+  "usagenumerique",
+  "caspratiques"
 ];
 
 async function habitude() {
@@ -450,6 +1077,9 @@ async function insererDonneesTable(data,columns,table) {
 }
 
 module.exports = {
+  getVetements,
+  getChauffage,
+  getTransport,
   getRepas,
   getElectromenager,
   getTest,
@@ -459,5 +1089,11 @@ module.exports = {
   deleteData,
   getBoissonsEcv,
   insertAll,
-  createTables
+  createTables,
+  getFruitsetLegumesEcv,
+  getNumeriqueEcv,
+  getEaux,
+  getMobilierEcv,
+  getUsageNumeriqueEcv,
 }
+
