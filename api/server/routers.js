@@ -26,6 +26,10 @@ router.get('/ecv/fruitsetlegumes', db.getFruitsetLegumesEcv);
 
 router.get('/ecv/numerique', db.getNumeriqueEcv);
 
+router.get('/ecv/vetements', db.getVetements);
+
+router.get('/ecv/eaux', db.getEaux);
+
 //effacer les données
 router.get('/delete', cors({ origin: '*' }), db.deleteData);
 

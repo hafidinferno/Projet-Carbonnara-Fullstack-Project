@@ -549,6 +549,97 @@ const getFruitsetLegumesEcv = async (req, res) => {
   }
 }
 
+const getVetements = async (req, res) => {
+
+  const vetements = {
+    polo: 1,
+    tshirtencoton: 1,
+    tshirtenpolyester: 1,
+    sweatencoton: 1,
+    chemiseencoton: 1,
+    chemiseenviscose: 1,
+    chaussuresencuir: 1,
+    chaussuresentissu: 1,
+    chaussuresdesport: 1,
+    robeencoton: 1,
+    robeenpolyester: 1,
+    robeenviscose: 1,
+    pullenlaine: 1,
+    pullenacrylique: 1,
+    pullencotonrecycle: 1,
+    manteau: 1,
+    vesteimpermeable: 1,
+    vestesimilicuir: 1,
+    jeans: 1,
+  };
+
+
+
+  try {
+
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'habillement'
+      `);
+
+    const vetementsData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcvvetements = 0;
+
+    for (const item of vetementsData) {
+      if (vetements[item.slug]) {
+        sommeEcvvetements += item.ecv * vetements[item.slug];
+        console.log(item.slug, item.ecv * vetements[item.slug]);
+      }
+    }
+    res.status(200).json({"vetements":sommeEcvvetements});
+  } catch (error) {
+    console.error('Erreur lors de la récupération des vêtements', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const getEaux = async (req, res) => {
+
+  const eaux = {
+    eauenbouteille: 0.75,
+    eaudurobinet: 0.25
+  };
+
+  try {
+
+    const result = await pool.query(`
+      SELECT *
+      FROM habitude
+      join consommation ON habitude.id = consommation.id_habitude
+      WHERE habitude.slug = 'boisson'
+      `);
+
+    const eauxData = result.rows.map(row => ({
+      slug: row.slug,
+      ecv: row.ecv
+    }));
+
+    let sommeEcveaux = 0;
+    //  2.5 litres d'eau par jour
+    for (const item of eauxData) {
+      if (eaux[item.slug]) {
+        sommeEcveaux += item.ecv  * (2.5 * eaux[item.slug]);
+        console.log(item.slug, item.ecv  * (2.5 * eaux[item.slug]));
+      }
+    }
+    res.status(200).json({eaux:sommeEcveaux });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des vêtements', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
 const getNumeriqueEcv = async (req, res) => {
   const numeriques = {
     // smartphone: req.body.smartphone,
@@ -694,7 +785,8 @@ const thematiques = [
   "mobilier",
   "chauffage",
   "fruitsetlegumes",
-  "usagenumerique"
+  "usagenumerique",
+  "caspratiques"
 ];
 
 async function habitude() {
@@ -807,6 +899,7 @@ async function insererDonneesTable(data,columns,table) {
 }
 
 module.exports = {
+  getVetements,
   getChauffage,
   getTransport,
   getRepas,
@@ -821,5 +914,6 @@ module.exports = {
   createTables,
   getFruitsetLegumesEcv,
   getNumeriqueEcv,
+  getEaux,
 }
 
