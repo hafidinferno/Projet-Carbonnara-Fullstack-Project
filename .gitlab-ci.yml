@@ -1,7 +1,21 @@
 stages:
+    - test
     - sonarqube-check
     - sonarqube-vulnerability-report
     - deploy
+
+
+test:
+  stage: test
+  image: node:14
+  script:
+    - npm install
+    - npm test
+  only:
+    - merge_requests
+    - master
+    - main
+    - develop
 
 sonarqube-check:
   stage: sonarqube-check
