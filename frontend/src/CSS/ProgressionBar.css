@@ -1,50 +1,114 @@
-/* Progressbar.css */
-.progressbar {
-  position: relative;
+:root {
+  --progress-bg: #e0e0e0;
+  --segment-hover-bg: #4caf50;
+  --segment-active-bg: #ff9800;
+  --text-color: #ffffff;
+  --neutral-bg: #f0f0f0;
+  --hover-scale: 1.05;
+  --font-size: 14px; /* Taille de police légèrement augmentée pour une meilleure lisibilité */
+}
+
+.pb-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 180px;
+  font-family: Arial, sans-serif;
+}
+
+.progress-visual-bar-container {
+  display: flex;
   width: 100%;
-  height: 30px;
-  background-color: #eee;
-  border-radius: 5px;
+  max-width: 960px; /* Limite la largeur maximale pour les grands écrans */
+  background-color: var(--progress-bg);
+  border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 10px;
+  position: relative;
 }
 
-.progressbar > div {
-  height: 100%;
-  line-height: 30px; /* Aligns the text vertically */
-  color: white;
-  text-align: right;
-  padding-right: 10px; /* Ensures text is not flush against the right edge */
-  border-radius: 5px; /* Keep the rounded corners */
-}
-
-.progressPercent {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 100%;
-  text-align: right;
-  padding-right: 10px;
-  line-height: 30px; /* Aligns the text vertically */
-  color: black; /* Makes the text readable on various backgrounds */
-}
-
-.btn {
-  padding: 10px 15px;
-  font-size: 16px;
+.progress-visual-bar-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px; /* Hauteur accrue pour une meilleure interaction */
+  background-color: var(--neutral-bg);
   cursor: pointer;
-  outline: none;
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.segment-text {
+  color: var(--text-color);
+  font-size: var(--font-size);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+
+.progress-visual-bar-segment:hover {
+  background-color: var(--segment-active-bg);
+  transform: scale(var(--hover-scale));
+  z-index: 1; /* Assure que le segment survolé s'affiche au-dessus des autres */
+}
+
+.progress-visual-bar-segment.active {
+  background-color: var(--segment-hover-bg);
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: flex-end; /* Ajustement pour une disposition plus intuitive */
+  width: 100%;
+  max-width: 960px; /* Alignement avec la largeur de la barre de progression */
+  margin-top: 10px;
+  padding-right: 20px; /* Espace à droite pour aligner avec la barre de progression */
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 20px;
+  border: none;
+  background-color: rgb(250, 133, 71);
+  color: white;
   border-radius: 5px;
-  margin-right: 5px; /* Adds a little space between buttons */
-  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease; /* Applique la transition à toutes les propriétés pour une cohérence */
 }
 
-.btn:hover {
-  background-color: #e7e7e7;
+button:hover {
+  background-color: #f0e96b;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus distincte pour une sensation de profondeur */
 }
 
-.btn:active {
-  transform: translateY(2px);
+@keyframes loadAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Assurer que l'animation de chargement s'applique seulement au démarrage */
+.progress-visual-bar-container:not(.loaded) {
+  animation: loadAnimation 2s ease-out forwards;
+}
+
+/* Ajout de médias queries pour une meilleure réactivité */
+@media (max-width: 768px) {
+  .navigation-buttons {
+    justify-content: center; /* Centrer les boutons sur les petits écrans */
+    padding-right: 0; /* Supprime l'espacement droit sur les petits écrans */
+  }
+
+  .segment-text {
+    font-size: calc(
+      var(--font-size) - 2px
+    ); /* Diminue la taille du texte sur les petits écrans pour éviter le surpeuplement */
+  }
 }
