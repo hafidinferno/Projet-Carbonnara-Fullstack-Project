@@ -12,7 +12,7 @@ router.get('/carbone/:slug/:name', db.getCarbonne);
 //get footprint de slug(theme)
 router.get('/footprint/:slug', db.getFootPrint);
 
-router.get('/boissons', db.getBoissonsEcv);
+router.get('/ecv/boissons', db.getBoissonsEcv);
 
 router.get('/ecv/electromenager', db.getElectromenager);
 
@@ -25,6 +25,10 @@ router.get('/ecv/chauffage', db.getChauffage);
 router.get('/ecv/fruitsetlegumes', db.getFruitsetLegumesEcv);
 
 router.get('/ecv/numerique', db.getNumeriqueEcv);
+
+router.get('/ecv/mobilier', db.getMobilierEcv);
+
+router.get('/ecv/usagenumerique', db.getUsageNumeriqueEcv);
 
 router.get('/ecv/vetements', db.getVetements);
 
