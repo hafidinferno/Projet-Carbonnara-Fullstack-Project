@@ -3,6 +3,8 @@ var router = express.Router();
 const db = require('./queries');
 const cors = require("cors");
 
+const origin = '*'
+
 //TODO : a enlever
 router.get('/test', db.getTest);
 
@@ -35,12 +37,12 @@ router.get('/ecv/vetements', db.getVetements);
 router.get('/ecv/eaux', db.getEaux);
 
 //effacer les données
-router.get('/delete', cors({ origin: '*' }), db.deleteData);
+router.get('/delete', cors({ origin: origin }), db.deleteData);
 
 //insérer les données de l'api dans la base de données
-router.get('/insert', cors({ origin: '*' }), db.insertAll)
+router.get('/insert', cors({ origin: origin}), db.insertAll)
 
 //créer les tables de données
-router.get('/create', cors({ origin: '*' }), db.createTables)
+router.get('/create', cors({ origin: origin }), db.createTables)
 
 module.exports = router;
