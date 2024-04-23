@@ -27,9 +27,11 @@ const getTest = async (req, res) => {
     const emoji = result.rows.map(row => row.emoji);
 
     res.status(200).json({ emoji });
+    return;
   } catch (error) {
     console.error('Erreur lors de la récupération des emoji de la table "habitude":', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -52,9 +54,11 @@ const getCarbonne = async (req, res) => {
     const ecv = result.rows[0].ecv;
 
     res.status(200).json({ ecv });
+    return;
   } catch (error) {
     console.error('Erreur lors de la récupération de l\'ECV de la table "consommation":', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -76,9 +80,11 @@ const getFootPrint = async (req, res) => {
     const footprint = result.rows[0].footprint;
 
     res.status(200).json({ footprint });
+    return;
   } catch (error) {
     console.error('Erreur lors de la récupération du footprint de la table "consommation":', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -100,9 +106,11 @@ const getEmoji = async (req, res) => {
     const emoji = result.rows[0].emoji;
 
     res.status(200).json({ emoji });
+    return;
   } catch (error) {
     console.error('Erreur lors de la récupération de l\'emoji du theme:', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -149,15 +157,17 @@ const getElectromenager = async (req, res) => {
         break;
       }
     }
-
     if (!isValid) {
       throw new Error('Un ou plusieurs slugs de repas sont invalides.');
     }
 
     res.status(200).json({ electromenager :sommeEcvAppareil});
+    return;
+
   } catch (error) {
     console.error('Erreur lors de la récupération de electromenager', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -206,9 +216,12 @@ const getRepas = async (req, res) => {
       throw new Error('Un ou plusieurs slugs de repas sont invalides.');
     }
     res.status(200).json({ repas: (sommeEcvregimes/repasData.length)*52});
+    return;
+
   } catch (error) {
     console.error('Erreur lors de la récupération de repas', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -396,10 +409,12 @@ const getBoissonsEcv = async (req, res) => {
     const result = moyenneAnnee(moyWeek, 52);
     console.log(result);
     await res.status(200).json({ "boissons":  result });
+    return;
 
   } catch (error) {
     console.error('Erruer lors de la récupération de données de thématique "boisson" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
+    return;
   }
 }
 
@@ -867,9 +882,11 @@ const deleteData = async (req, res) => {
     DELETE FROM "habitude";
   `);
     res.send("Tout a été supprimé dans les tables.");
+    return;
   } catch (error) {
     console.error('Erreur lors de la suppressions des tables:', error);
     res.status(500).json({error: error.message});
+    return;
   }
 }
 
@@ -905,9 +922,11 @@ const createTables = async (req, res) => {
 
   `);
   res.send("Tout a été fait");
+    return;
   } catch (error) {
     console.error('Erreur création des tables', error);
     res.status(500).json({error: error.message});
+    return;
   }
 }
 
@@ -918,9 +937,11 @@ const insertAll = async (req, res) => {
       await tables(thematiques[i],i+1)
     }
     res.status(200).send('good all')
+    return;
   } catch (err) {
     console.error(err);
     res.status(500).send('Erreur du serveur');
+    return;
   }
 }
 
@@ -1005,7 +1026,7 @@ async function tables(thematiques,ii) {
     });
     let numeriques = await Promise.all(NumeriquePromises);
     await insererDonneesTable(numeriques,columnsTables,'consommation');
-
+    
   } catch (error) {
     console.error('Erreur lors de la requête  :', error);
     throw new Error("erreur dans la route  " + error.message);

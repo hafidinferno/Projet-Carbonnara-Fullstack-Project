@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Bradley Hand ITC TT';
+    src: url('BradleyHandITCTT.eot');
+    src: local('Bradley Hand ITC TT'), local('BradleyHandITCTT'),
+        url('BradleyHandITCTT.eot?#iefix') format('embedded-opentype'),
+        url('BradleyHandITCTT.woff2') format('woff2'),
+        url('BradleyHandITCTT.woff') format('woff'),
+        url('BradleyHandITCTT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Bradley Hand ITC TT';
+    src: url('BradleyHandITCTTBold.eot');
+    src: local('Bradley Hand ITC TT Bold'), local('BradleyHandITCTTBold'),
+        url('BradleyHandITCTTBold.eot?#iefix') format('embedded-opentype'),
+        url('BradleyHandITCTTBold.woff2') format('woff2'),
+        url('BradleyHandITCTTBold.woff') format('woff'),
+        url('BradleyHandITCTTBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+

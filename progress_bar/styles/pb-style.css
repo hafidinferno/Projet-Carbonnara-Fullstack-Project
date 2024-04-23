@@ -1,0 +1,118 @@
+:root {
+    --valid-color: #8dc852;
+    --neutral-color: #9c9c9c;
+    --error-color: #fd465a;
+
+    --dark-bg-color: #cab690;
+    --bg-color: #f0d9c7;
+    --light-bg-color: #f1e4da;
+}
+
+body 
+{
+    background-color: var(--bg-color);
+}
+
+#pb-container-1
+{
+    height: 80px;
+    width: 400px;
+}
+
+#pb-container-2
+{
+    height: 80px;
+    width: 400px;
+}
+
+.pb-wrapper
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content:space-between;
+}
+
+.pb-bar
+{
+    position: absolute;
+    width: 100%;
+    min-height: 20px;
+    flex: 1;
+    padding: 4px;
+    border-radius: 14px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+
+
+    background-color: transparent;
+}
+
+.pb-section 
+{
+    background-color: transparent;
+
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 0px;
+    align-items: center;
+
+    transition-duration: 250ms;
+}
+
+.pb-section:hover
+{
+    flex:3;
+    transition-duration: 250ms;
+    gap: 1px;
+}
+
+/* TODO : Faire que les level ne soient pas juste un cercle, mais un tronçon à part entière, comme pour les sections mais à plus petite échelle*/
+
+.pb-level
+{
+    height: 100%;
+    flex: 1;
+
+    transition-duration: 250ms;
+}
+
+.pb-text-wrapper
+{
+    display: flex;
+    flex: 1;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.pb-section-name
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pb-level-name
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.round-left
+{
+    border-radius: 10px 0 0 10px;
+}
+
+.round-right
+{
+    border-radius: 0 10px 10px 0;
+}

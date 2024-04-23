@@ -1,0 +1,16 @@
+/* Light theme adjustments */
+@media (prefers-color-scheme: light) {
+  a {
+    color: #116466; /* Deep teal for links */
+    text-decoration: none; /* Optional: Removing underline from links */
+  }
+  a:hover {
+    color: #d9b08c; /* Earthy brown for hover state */
+  }
+  button {
+    color: white;
+    border: none;
+    padding: 10px 20;
+  }
+}
+ 

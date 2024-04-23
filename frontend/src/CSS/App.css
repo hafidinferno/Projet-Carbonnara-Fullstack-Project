@@ -1,0 +1,65 @@
+/* Style global par defaut */
+/* se met automatiquement dans toutes les pages */
+@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
+
+:root {
+  --bg-color-light: #faebd8;
+  --bg-color: #f0e3ce;
+  --bg-color-dark: #e5d5b6;
+  
+  --hl-color: #46ce58;
+  --title-color: #145e1e;
+
+  --shadow-color: #663314;
+
+  --font-family-body:  "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --line-height-body : 1.6;
+
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Bradley Hand ITC TT';
+  src: url('BradleyHandITCTTBold.eot');
+  src: local('Bradley Hand ITC TT Bold'), local('BradleyHandITCTTBold'),
+      url('BradleyHandITCTTBold.eot?#iefix') format('embedded-opentype'),
+      url('BradleyHandITCTTBold.woff2') format('woff2'),
+      url('BradleyHandITCTTBold.woff') format('woff'),
+      url('BradleyHandITCTTBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+.shadowed {
+  box-shadow: 0 0 15px -10px var(--shadow-color);
+}
+
+body, html {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 5px;
+
+  color: #333;
+  /* text-align: center; */
+  font-family: var(--font-family-body);
+  background: var(--bg-color);
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+
+}
+
