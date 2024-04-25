@@ -37,7 +37,7 @@ sonarqube-check:
   script: 
     - ls #TODO remove : verification de la generation des fichier de couverues
     - ls coverage #TODO remove : verification de la generation des fichier de couverues
-    - sonar-scanner
+    - sonar-scanner -X 
   allow_failure: true
   only:
     - /^.*$/      # Trigger on all branches and tags
