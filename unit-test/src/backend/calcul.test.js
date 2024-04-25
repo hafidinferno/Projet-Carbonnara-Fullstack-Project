@@ -1,5 +1,5 @@
 // footprint.test.js
-const { footprint, footprintBoissons } = require('../../../src/backend/calcul');
+const { footprint, footprintBoissons, moyenne, moyenneAnnee } = require('../../../src/backend/calcul.cjs');
 
 // Test for footprint function with drink's ecv data
 test('calculates footprint for a single beverage correctly', () => {
