@@ -80,10 +80,11 @@ deploy:
     - chmod 400 "${CI_GITLAB_KEY}"
   script:
   # Backend
-    - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/api/server/* gitlabci@192.168.75.17:/opt/backend
+    - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/src/backend gitlabci@192.168.75.17:/opt/server/.
   # Frontend
-    - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/frontend/src/* gitlabci@192.168.75.17:/opt/frontend/src
-    - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/frontend/public/* gitlabci@192.168.75.17:/opt/frontend/public
+    - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/src/frontend gitlabci@192.168.75.17:/opt/server/.
+  # Server
+    - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/src/server-* "${CI_PROJECT_DIR}"/src/vite.config.js "${CI_PROJECT_DIR}"/src/index.html gitlabci@192.168.75.17:/opt/server/.
   when: manual
 
 variables:
