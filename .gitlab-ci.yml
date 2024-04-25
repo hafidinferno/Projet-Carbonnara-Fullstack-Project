@@ -18,6 +18,9 @@ test:
     - master
     - main
     - develop
+  artifacts:
+    paths:
+      - coverage # Save coverage directory as an artifact
 
 sonarqube-check:
   stage: sonarqube-check
