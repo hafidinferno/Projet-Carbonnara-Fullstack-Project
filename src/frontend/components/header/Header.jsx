@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import "../../CSS/Header.css";
 
+
 function Header() {
   let navigate = useNavigate();
   function startTest() {
-    navigate("/Test1");
+    navigate("/Test");
   }
   function GoAccueil() {
     navigate("/Accueil");
@@ -22,18 +23,10 @@ function Header() {
     <header className="App App-header shadowed">
       <h1>CARBONARA</h1>
       <div className="circle-container">
-        <button
-          onClick={startTest}
-          className="sub-circle shadowed"
-          id="circle1"
-        >
+        <button onClick={startTest} className="sub-circle shadowed" id="circle1">
           TEST
         </button>
-        <button
-          onClick={GoResults}
-          className="sub-circle shadowed"
-          id="circle2"
-        >
+        <button onClick={GoResults} className="sub-circle shadowed" id="circle2">
           RESULTS
         </button>
         <button onClick={GoAbout} className="sub-circle shadowed" id="circle3">

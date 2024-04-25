@@ -5,6 +5,9 @@
   "scripts": {
     "test": "jest"
   },
+  "jest": {
+    "collectCoverage": true
+  },
   "name": "mif10",
   "version": "1.0.0",
   "description": "",
