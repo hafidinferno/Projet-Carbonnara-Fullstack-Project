@@ -11,6 +11,7 @@ test:
   script:
     - npm install
     - npm test -- --coverage
+    - ls coverage #TODO remove : verification de la generation des fichier de couverues
   only:
     - /^.*$/      # Trigger on all branches and tags
     # - merge_requests
