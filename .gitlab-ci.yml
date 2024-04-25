@@ -77,3 +77,11 @@ deploy:
     - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/frontend/src/* gitlabci@192.168.75.17:/opt/frontend/src
     - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/frontend/public/* gitlabci@192.168.75.17:/opt/frontend/public
   when: manual
+
+variables:
+  SONAR_PROJECT_KEY: "mif10-grp101_mif10_AY6Kkky0u4zgX3p-IR-F"
+  SONAR_PROJECT_NAME: "mif10"
+  SONAR_PROJECT_VERSION: "1.0.0"
+  SONAR_SOURCES: "src"
+  SONAR_TESTS: "test"
+  SONAR_JAVASCRIPT_LCOV_REPORTPATHS: "coverage/lcov.info"
