@@ -32,6 +32,8 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
+    - ls #TODO remove : verification de la generation des fichier de couverues
+    - ls coverage #TODO remove : verification de la generation des fichier de couverues
     - sonar-scanner
   allow_failure: true
   only:
@@ -47,6 +49,8 @@ sonarqube-vulnerability-report:
     name: sonarsource/sonar-scanner-cli:5.0
     entrypoint: [""]
   script:
+    - ls #TODO remove : verification de la generation des fichier de couverues
+    - ls coverage #TODO remove : verification de la generation des fichier de couverues
     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=mif10-grp101_mif10_AY6Kkky0u4zgX3p-IR-F&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
   allow_failure: true
   only:
