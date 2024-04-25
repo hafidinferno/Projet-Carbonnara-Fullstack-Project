@@ -43,6 +43,6 @@ test('calculates average footprint in a year for a total footprint and the quant
   // Average of footprint for a week
   const average = moyenne(footprintBoissons(ecvSoda, ecvVin, ecvBiere, ecvLait, ecvLaitSoja, ecvThe, ecvCafe), 7)
   //Expected total average: (40/7)*12
-  expect(moyenneAnnee(average, 12)).toBe(68.5714);
+  expect(moyenneAnnee(average, 12)).toBe(68.57142857142857);
 })
 
