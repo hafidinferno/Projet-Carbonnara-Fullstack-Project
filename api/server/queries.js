@@ -122,16 +122,26 @@ const getEmoji = async (req, res) => {
 const getElectromenager = async (req, res) => {
 
   let appareils = {
-    bouilloire: 1,
-    cafetieredosette: 1,
-    cafetierefiltre: 1,
-    cafetiereexpresso: 1,
-    fourelectrique: 1,
-    lavevaisselle: 1,
-    lavelinge: 1,
-    refrigirateur: 1,
-    aspirateur: 1,
-    climatiseur: 1
+    // bouilloire: 1,
+    // cafetieredosette: 1,
+    // cafetierefiltre: 1,
+    // cafetiereexpresso: 1,
+    // fourelectrique: 1,
+    // lavevaisselle: 1,
+    // lavelinge: 1,
+    // refrigirateur: 1,
+    // aspirateur: 1,
+    // climatiseur: 1
+    bouilloire: req.body.bouilloire,
+    cafetieredosette: req.body.cafetierefiltre,
+    cafetierefiltre: req.body.cafetierefiltre,
+    cafetiereexpresso: req.body.cafetiereexpresso,
+    fourelectrique: req.body.fourelectrique,
+    lavevaisselle: req.body.lavevaisselle,
+    lavelinge: req.body.lavelinge,
+    refrigirateur: req.body.refrigirateur,
+    aspirateur: req.body.aspirateur,
+    climatiseur: req.body.climatiseur,
   };
 
   try {
@@ -179,12 +189,18 @@ const getElectromenager = async (req, res) => {
 const getRepas = async (req, res) => {
 
   const regimes = {
-    repasavecduboeuf: 1,
-    repasavecdupoulet: 1,
-    repasavecdupoissonblanc: 1,
-    repasavecdupoissongras: 1,
-    repasvegetarien: 1,
-    repasvegetalien: 1
+    // repasavecduboeuf: 1,
+    // repasavecdupoulet: 1,
+    // repasavecdupoissonblanc: 1,
+    // repasavecdupoissongras: 1,
+    // repasvegetarien: 1,
+    // repasvegetalien: 1
+    repasavecduboeuf: req.body.repasavecduboeuf,
+    repasavecdupoulet: req.body.repasavecdupoulet,
+    repasavecdupoissonblanc: req.body.repasavecdupoissonblanc,
+    repasavecdupoissongras: req.body.repasavecdupoissongras,
+    repasvegetarien: req.body.repasvegetarien,
+    repasvegetalien: req.body.repasvegetalien
   };
 
   try {
@@ -233,26 +249,46 @@ const getRepas = async (req, res) => {
 const getTransport = async (req, res) => {
 
   const transports = {
-      "avioncourtcourrier": 1,
-      "avionmoyencourrier": 1,
-      "avionlongcourrier": 1,
-      "tgv": 1,
-      "intercites": 1,
-      "voiturethermique": 1,
-      "voitureelectrique": 1,
-      "autocar": 1,
-      "velo": 1,
-      "veloelectrique": 1,
-      "busthermique": 1,
-      "tramway": 1,
-      "metro": 1,
-      "scooter": 1,
-      "moto": 1,
-      "rer": 1,
-      "ter": 1,
-      "buselectrique": 1,
-      "busgnv": 1,
-      "avion-pny": 1
+      // "avioncourtcourrier": 1,
+      // "avionmoyencourrier": 1,
+      // "avionlongcourrier": 1,
+      // "tgv": 1,
+      // "intercites": 1,
+      // "voiturethermique": 1,
+      // "voitureelectrique": 1,
+      // "autocar": 1,
+      // "velo": 1,
+      // "veloelectrique": 1,
+      // "busthermique": 1,
+      // "tramway": 1,
+      // "metro": 1,
+      // "scooter": 1,
+      // "moto": 1,
+      // "rer": 1,
+      // "ter": 1,
+      // "buselectrique": 1,
+      // "busgnv": 1,
+      // "avion-pny": 1
+      avioncourtcourrier: req.body.avioncourtcourrier,
+      avionmoyencourrier: req.body.avionmoyencourrier,
+      avionlongcourrier: req.body.avionlongcourrier,
+      tgv: req.body.tgv,
+      intercites: req.body.intercites,
+      voiturethermique: req.body.voiturethermique,
+      voitureelectrique: req.body.voitureelectrique,
+      autocar: req.body.autocar,
+      velo: req.body.velo,
+      veloelectrique: req.body.veloelectrique,
+      busthermique: req.body.busthermique,
+      tramway: req.body.tramway,
+      metro: req.body.metro,
+      scooter: req.body.scooter,
+      moto: req.body.moto,
+      rer: req.body.rer,
+      ter: req.body.ter,
+      buselectrique: req.body.buselectrique,
+      busgnv: req.body.busgnv,
+      'avion-pny': req.body.avion_pny,
     };
 
   try {
@@ -297,13 +333,20 @@ const getTransport = async (req, res) => {
 const getChauffage = async (req, res) => {
 
   const typesChauffage = {
-    "chauffagegaz": 0,
-    "chauffagefioul": 0,
-    "chauffageelectrique": 0,
-    "pompeachaleur": 0,
-    "poeleagranule": 0,
-    "poeleabois": 0,
-    "reseaudechaleur": 1
+    // "chauffagegaz": 0,
+    // "chauffagefioul": 0,
+    // "chauffageelectrique": 0,
+    // "pompeachaleur": 0,
+    // "poeleagranule": 0,
+    // "poeleabois": 0,
+    // "reseaudechaleur": 1
+    chauffagegaz: req.body.chauffagegaz,
+    chauffagefioul: req.body.chauffagefioul,
+    chauffageelectrique: req.body.chauffageelectrique,
+    pompeachaleur: req.body.pompeachaleur,
+    poeleagranule: req.body.poeleagranule,
+    poeleabois: req.body.poeleabois,
+    reseaudechaleur: req.body.reseaudechaleur,
   };
 
   try {
@@ -347,20 +390,20 @@ const getChauffage = async (req, res) => {
  */
 const getBoissonsEcv = async (req, res) => {
   try {
-    // const qtesoda = req.body.soda;
-    // const qtevin = req.body.vin;
-    // const qtebiere = req.body.biere;
-    // const qtelait = req.body.lait;
-    // const qtelaitsoja = req.body.laitsoja;
-    // const qtethe = req.body.the;
-    // const qtecafe = req.body.cafe;
-    const qtesoda = 2;
-    const qtevin = 1;
-    const qtebiere = 0;
-    const qtelait = 12;
-    const qtelaitsoja = 4;
-    const qtethe = 0;
-    const qtecafe = 0;
+    const qtesoda = req.body.soda;
+    const qtevin = req.body.vin;
+    const qtebiere = req.body.biere;
+    const qtelait = req.body.lait;
+    const qtelaitsoja = req.body.laitsoja;
+    const qtethe = req.body.the;
+    const qtecafe = req.body.cafe;
+    // const qtesoda = 2;
+    // const qtevin = 1;
+    // const qtebiere = 0;
+    // const qtelait = 12;
+    // const qtelaitsoja = 4;
+    // const qtethe = 0;
+    // const qtecafe = 0;
 
     const resultSoda = await pool.query(`
       SELECT footprint
@@ -425,156 +468,157 @@ const getBoissonsEcv = async (req, res) => {
  */
 const getFruitsetLegumesEcv = async (req, res) => {
   const fruitsLegumes = {
-    // fraise: req.body.fraise,
-    // pomme: req.body.pomme,
-    // orange: req.body.orange,
-    // citron: req.body.citron,
-    // ail: req.body.ail,
-    // artichaut: req.body.artichaut,
-    // asperge: req.body.asperge,
-    // betterave: req.body.betterave,
-    // blette: req.body.blette,
-    // carotte: req.body.carotte,
-    // céleri: req.body.celeri,
-    // champignonmorille: req.body.champignonmorille,
-    // chou: req.body.chou,
-    // choudebruxelles: req.body.choudebruxelles,
-    // choufleur: req.body.choufleur,
-    // concombre: req.body.concombre,
-    // courge: req.body.courge,
-    // courgette: req.body.courgette,
-    // cresson: req.body.cresson,
-    // echalote: req.body.echalote,
-    // endive: req.body.endive,
-    // epinard: req.body.epinard,
-    // mangue: req.body.mangue,
-    // fenouil: req.body.fenouil,
-    // haricotvert: req.body.haricotvert,
-    // laitue: req.body.laitue,
-    // mache: req.body.mache,
-    // navet: req.body.navet,
-    // mais: req.body.mais,
-    // oignon: req.body.oignon,
-    // panais: req.body.panais,
-    // petitpois: req.body.petitpois,
-    // poireau: req.body.poireau,
-    // poivron: req.body.poivron
-    // Potiron
-    // Radis
-    // Salsifis
-    // Topinambour
-    // Cassis
-    // Châtaigne
-    // Clementine
-    // Pamplemousse
-    // Coing
-    // Figue
-    // Groseille
-    // Kiwi
-    // Mandarine
-    // Melon
-    // Mure
-    // Nectarine
-    // Myrtille
-    // Noisette
-    // Noix
-    // Prune
-    // Reine Claude
-    // Rhubarbe
-    // Pêche
-    // Cerise
-    // Abricot
-    // Framboise
-    // Poire
-    // Raisin
-    // Aubergine
-    // Brocoli
-    // Tomate
-    // Ananas
-    // Banane
-    // Avocat
-    // Carambole
-    // Datte
-    // Fruit de la passion
-    // Grenade
-    // Kaki
-    // Noix de coco
-    // Pastèque
-    fraise: 1,
-    pomme: 1,
-    orange: 0,
-    citron: 0,
-    ail: 0,
-    artichaut: 0,
-    asperge: 0,
-    betterave: 1,
-    blette: 0,
-    carotte: 1,
-    céleri: 1,
-    champignonmorille: 0,
-    chou: 1,
-    choudebruxelles: 0,
-    choufleur: 1,
-    concombre: 1,
-    courge: 1,
-    courgette: 1,
-    cresson: 0,
-    echalote: 1,
-    endive: 0,
-    epinard: 1,
-    mangue: 1,
-    fenouil: 1,
-    haricotvert: 1,
-    laitue: 1,
-    mache: 1,
-    navet: 0,
-    mais: 1,
-    oignon: 1,
-    panais: 0,
-    petitpois: 1,
-    poireau: 0,
-    poivron: 1,
-    potiron: 0,
-    radis: 1,
-    salsifis: 0,
-    topinambour: 0,
-    cassis: 1,
-    chataigne: 0,
-    clementine: 1,
-    pamplemousse: 1,
-    coing: 1,
-    figue: 0,
-    groseille: 0,
-    kiwi: 1,
-    mandarine: 1,
-    melon: 1,
-    mure: 0,
-    nectarine: 1,
-    myrtille: 1,
-    noisette: 0,
-    noix: 1,
-    prune: 1,
-    reineclaude: 0,
-    rhubarbe: 0,
-    peche: 1,
-    cerise: 1,
-    abricot: 1,
-    framboise: 1,
-    poire: 1,
-    raisin: 1,
-    aubergine: 1,
-    brocoli: 1,
-    tomate: 1,
-    ananas: 0,
-    banane: 1,
-    avocat: 1,
-    carambole: 0,
-    datte: 0,
-    fruitdelapassion: 0,
-    grenade: 0,
-    kaki: 1,
-    noixdecoco: 0,
-    pasteque: 1,
+    fraise: req.body.fraise,
+    pomme: req.body.pomme,
+    orange: req.body.orange,
+    citron: req.body.citron,
+    ail: req.body.ail,
+    artichaut: req.body.artichaut,
+    asperge: req.body.asperge,
+    betterave: req.body.betterave,
+    blette: req.body.blette,
+    carotte: req.body.carotte,
+    céleri: req.body.celeri,
+    champignonmorille: req.body.champignonmorille,
+    chou: req.body.chou,
+    choudebruxelles: req.body.choudebruxelles,
+    choufleur: req.body.choufleur,
+    concombre: req.body.concombre,
+    courge: req.body.courge,
+    courgette: req.body.courgette,
+    cresson: req.body.cresson,
+    echalote: req.body.echalote,
+    endive: req.body.endive,
+    epinard: req.body.epinard,
+    mangue: req.body.mangue,
+    fenouil: req.body.fenouil,
+    haricotvert: req.body.haricotvert,
+    laitue: req.body.laitue,
+    mache: req.body.mache,
+    navet: req.body.navet,
+    mais: req.body.mais,
+    oignon: req.body.oignon,
+    panais: req.body.panais,
+    petitpois: req.body.petitpois,
+    poireau: req.body.poireau,
+    poivron: req.body.poivron,
+    potiron: req.body.potiron,
+    radis: req.body.radis,
+    salsifis: req.body.salsifis,
+    topinambour: req.body.topinambour,
+    cassis: req.body.cassis,
+    chataigne: req.body.chataigne,
+    clementine: req.body.clementine,
+    pamplemousse: req.body.pamplemousse,
+    coing: req.body.coing,
+    figue: req.body.figue,
+    groseille: req.body.groseille,
+    kiwi: req.body.kiwi,
+    mandarine: req.body.mandarine,
+    melon: req.body.melon,
+    mure: req.body.mure,
+    nectarine: req.body.nectarine,
+    myrtille: req.body.myrtille,
+    noisette: req.body.noisette,
+    noix: req.body.noix,
+    prune: req.body.prune,
+    reineclaude: req.body.reineclaude,
+    rhubarbe: req.body.rhubarbe,
+    peche: req.body.peche,
+    cerise: req.body.cerise,
+    abricot: req.body.abricot,
+    framboise: req.body.framboise,
+    poire: req.body.poire,
+    raisin: req.body.raisin,
+    aubergine: req.body.aubergine,
+    brocoli: req.body.brocoli,
+    tomate: req.body.tomate,
+    ananas: req.body.ananas,
+    banane: req.body.banane,
+    avocat: req.body.avocat,
+    carambole: req.body.carambole,
+    datte: req.body.datte,
+    fruitdelapassion: req.body.fruitdelapassion,
+    grenade: req.body.grenade,
+    kaki: req.body.kaki,
+    noixdecoco: req.body.noixdecoco,
+    pasteque: req.body.pasteque,
+    
+    // fraise: 1,
+    // pomme: 1,
+    // orange: 0,
+    // citron: 0,
+    // ail: 0,
+    // artichaut: 0,
+    // asperge: 0,
+    // betterave: 1,
+    // blette: 0,
+    // carotte: 1,
+    // céleri: 1,
+    // champignonmorille: 0,
+    // chou: 1,
+    // choudebruxelles: 0,
+    // choufleur: 1,
+    // concombre: 1,
+    // courge: 1,
+    // courgette: 1,
+    // cresson: 0,
+    // echalote: 1,
+    // endive: 0,
+    // epinard: 1,
+    // mangue: 1,
+    // fenouil: 1,
+    // haricotvert: 1,
+    // laitue: 1,
+    // mache: 1,
+    // navet: 0,
+    // mais: 1,
+    // oignon: 1,
+    // panais: 0,
+    // petitpois: 1,
+    // poireau: 0,
+    // poivron: 1,
+    // potiron: 0,
+    // radis: 1,
+    // salsifis: 0,
+    // topinambour: 0,
+    // cassis: 1,
+    // chataigne: 0,
+    // clementine: 1,
+    // pamplemousse: 1,
+    // coing: 1,
+    // figue: 0,
+    // groseille: 0,
+    // kiwi: 1,
+    // mandarine: 1,
+    // melon: 1,
+    // mure: 0,
+    // nectarine: 1,
+    // myrtille: 1,
+    // noisette: 0,
+    // noix: 1,
+    // prune: 1,
+    // reineclaude: 0,
+    // rhubarbe: 0,
+    // peche: 1,
+    // cerise: 1,
+    // abricot: 1,
+    // framboise: 1,
+    // poire: 1,
+    // raisin: 1,
+    // aubergine: 1,
+    // brocoli: 1,
+    // tomate: 1,
+    // ananas: 0,
+    // banane: 1,
+    // avocat: 1,
+    // carambole: 0,
+    // datte: 0,
+    // fruitdelapassion: 0,
+    // grenade: 0,
+    // kaki: 1,
+    // noixdecoco: 0,
+    // pasteque: 1,
   };
 
   try {
@@ -616,40 +660,40 @@ const getFruitsetLegumesEcv = async (req, res) => {
  */
 const getNumeriqueEcv = async (req, res) => {
   const numeriques = {
-    // smartphone: req.body.smartphone,
-    // tablette: req.body.tablette,
-    // liseuse: req.body.liseuse,
-    // montreconnectee: req.body.montreconnectee,
-    // appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
-    // ordinateurfixe: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
-    // ordinateurportable: req.body.ordinateurprotable,
-    // consoledesalon: req.body.consoledesalon,
-    // consoleportable: req.body.consoleportable,
-    // ecran: req.body.ecran215pouce + req.body.ecran24pouce, //moy des 2 ecrans das la BD
-    // chainehifi: req.body.chainehifi,
-    // enceintebluetooth: req.body.enceintebluetooth,
-    // barredeson: req.body.barredeson,
-    // television: req.body.television,
-    // homecinema: req.body.homecinema,
-    // modemfibre: req.body.modemfibre,
-    // imprimente: req.body.imprimente,
-    smartphone: 1,
-    tablette: 1, //moy des 3 tablettes dans la BD
-    liseuse: 0,
-    montreconnectee: 0,
-    appareilphoto: 1, //moy des 2 appareils photo dans la BD
-    ordinateurfixe: 0, //moy des 2 tours dans la BD
-    ordinateurportable: 1,
-    consoledesalon: 0,
-    consoleportable: 1,
-    ecran: 0, //moy des 2 ecrans das la BD
-    chainehifi: 0,
-    enceintebluetooth: 1,
-    barredeson: 0,
-    television: 1,
-    homecinema: 0,
-    modemfibre: 1,
-    imprimente: 1,
+    smartphone: req.body.smartphone,
+    tablette: req.body.tablette,
+    liseuse: req.body.liseuse,
+    montreconnectee: req.body.montreconnectee,
+    appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
+    ordinateurfixe: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
+    ordinateurportable: req.body.ordinateurprotable,
+    consoledesalon: req.body.consoledesalon,
+    consoleportable: req.body.consoleportable,
+    ecran: req.body.ecran215pouce + req.body.ecran24pouce, //moy des 2 ecrans das la BD
+    chainehifi: req.body.chainehifi,
+    enceintebluetooth: req.body.enceintebluetooth,
+    barredeson: req.body.barredeson,
+    television: req.body.television,
+    homecinema: req.body.homecinema,
+    modemfibre: req.body.modemfibre,
+    imprimente: req.body.imprimente,
+    // smartphone: 1,
+    // tablette: 1, //moy des 3 tablettes dans la BD
+    // liseuse: 0,
+    // montreconnectee: 0,
+    // appareilphoto: 1, //moy des 2 appareils photo dans la BD
+    // ordinateurfixe: 0, //moy des 2 tours dans la BD
+    // ordinateurportable: 1,
+    // consoledesalon: 0,
+    // consoleportable: 1,
+    // ecran: 0, //moy des 2 ecrans das la BD
+    // chainehifi: 0,
+    // enceintebluetooth: 1,
+    // barredeson: 0,
+    // television: 1,
+    // homecinema: 0,
+    // modemfibre: 1,
+    // imprimente: 1,
   };
 
   try {
@@ -689,25 +733,44 @@ const getNumeriqueEcv = async (req, res) => {
 const getVetements = async (req, res) => {
 
     const vetements = {
-        polo: 1,
-        tshirtencoton: 1,
-        tshirtenpolyester: 1,
-        sweatencoton: 1,
-        chemiseencoton: 1,
-        chemiseenviscose: 1,
-        chaussuresencuir: 1,
-        chaussuresentissu: 1,
-        chaussuresdesport: 1,
-        robeencoton: 1,
-        robeenpolyester: 1,
-        robeenviscose: 1,
-        pullenlaine: 1,
-        pullenacrylique: 1,
-        pullencotonrecycle: 1,
-        manteau: 1,
-        vesteimpermeable: 1,
-        vestesimilicuir: 1,
-        jeans: 1,
+        // polo: 1,
+        // tshirtencoton: 1,
+        // tshirtenpolyester: 1,
+        // sweatencoton: 1,
+        // chemiseencoton: 1,
+        // chemiseenviscose: 1,
+        // chaussuresencuir: 1,
+        // chaussuresentissu: 1,
+        // chaussuresdesport: 1,
+        // robeencoton: 1,
+        // robeenpolyester: 1,
+        // robeenviscose: 1,
+        // pullenlaine: 1,
+        // pullenacrylique: 1,
+        // pullencotonrecycle: 1,
+        // manteau: 1,
+        // vesteimpermeable: 1,
+        // vestesimilicuir: 1,
+        // jeans: 1,
+        polo: req.body.polo,
+        tshirtencoton: req.body.tshirtencoton,
+        tshirtenpolyester: req.body.tshirtenpolyester,
+        sweatencoton: req.body.sweatencoton,
+        chemiseencoton: req.body.chemiseencoton,
+        chemiseenviscose: req.body.chemiseenviscose,
+        chaussuresencuir: req.body.chaussuresencuir,
+        chaussuresentissu: req.body.chaussuresentissu,
+        chaussuresdesport: req.body.chaussuresdesport,
+        robeencoton: req.body.robeencoton,
+        robeenpolyester: req.body.robeenpolyester,
+        robeenviscose: req.body.robeenviscose,
+        pullenlaine: req.body.pullenlaine,
+        pullenacrylique: req.body.pullenacrylique,
+        pullencotonrecycle: req.body.pullencotonrecycle,
+        manteau: req.body.manteau,
+        vesteimpermeable: req.body.vesteimpermeable,
+        vestesimilicuir: req.body.vestesimilicuir,
+        jeans: req.body.jeans,
     };
 
     try {
@@ -747,8 +810,10 @@ const getVetements = async (req, res) => {
 const getEaux = async (req, res) => {
 
     const eaux = {
-        eauenbouteille: 0.75,
-        eaudurobinet: 0.25
+        // eauenbouteille: 0.75,
+        // eaudurobinet: 0.25
+        eauenbouteille: req.body.eauenbouteillepourcentage,
+        eaudurobinet: req.body.eaudurobinetpourcentage,
     };
 
     try {
@@ -786,18 +851,18 @@ const getEaux = async (req, res) => {
  * @param {*} res
  */
 const getMobilierEcv = async (req, res) => {
-    // const canapeconvertible = req.body.canapeconvertible;
-    // const chaiseenbois = req.body.chaiseenvois;
-    // const tableenbois = req.body.tableenbois;
-    // const canapetextile = req.body.canapetextile;
-    // const armoire = req.body.armoire;
-    // const lit = req.body.lit;
-    const canapeconvertible = 0;
-    const chaiseenbois = 2;
-    const tableenbois = 2;
-    const canapetextile = 3;
-    const armoire = 4;
-    const lit = 4;
+    const canapeconvertible = req.body.canapeconvertible;
+    const chaiseenbois = req.body.chaiseenvois;
+    const tableenbois = req.body.tableenbois;
+    const canapetextile = req.body.canapetextile;
+    const armoire = req.body.armoire;
+    const lit = req.body.lit;
+    // const canapeconvertible = 0;
+    // const chaiseenbois = 2;
+    // const tableenbois = 2;
+    // const canapetextile = 3;
+    // const armoire = 4;
+    // const lit = 4;
 
   try {
     const result = await pool.query(`
@@ -826,26 +891,26 @@ const getMobilierEcv = async (req, res) => {
  * @param {*} res
  */
 const getUsageNumeriqueEcv = async (req, res) => {
-  // const emailrecu = req.body.emailrecu;
-  // const emailenvoye = req.body.emailenvoye;
-  // const spamrecu = req.body.spamrecu;
-  // const spamenvoye = req.body.spamenvoye;
-  // const stockagedonnee = req.body.stockagedonnee;
-  // const rechercheweb = req.body.rechercheweb;
-  // const streamingvideofait = req.body.streamingvideofait;
-  // const streamingvideoregarde = req.body.streamingvideoregarde;
-  // const visioconference = req.body.visioconference;
-  // const telechargement = req.body.telechargement;
-  const emailrecu = 14;
-  const emailenvoye = 4;
-  const spamrecu = 2;
-  const spamenvoye = 0;
-  const stockagedonnee = 250;
-  const rechercheweb = 50;
-  const streamingvideofait = 0;
-  const streamingvideoregarde = 1;
-  const visioconference = 2;
-  const telechargement = 1;
+  const emailrecu = req.body.emailrecu;
+  const emailenvoye = req.body.emailenvoye;
+  const spamrecu = req.body.spamrecu;
+  const spamenvoye = req.body.spamenvoye;
+  const stockagedonnee = req.body.stockagedonnee;
+  const rechercheweb = req.body.rechercheweb;
+  const streamingvideofait = req.body.streamingvideofait;
+  const streamingvideoregarde = req.body.streamingvideoregarde;
+  const visioconference = req.body.visioconference;
+  const telechargement = req.body.telechargement;
+  // const emailrecu = 14;
+  // const emailenvoye = 4;
+  // const spamrecu = 2;
+  // const spamenvoye = 0;
+  // const stockagedonnee = 250;
+  // const rechercheweb = 50;
+  // const streamingvideofait = 0;
+  // const streamingvideoregarde = 1;
+  // const visioconference = 2;
+  // const telechargement = 1;
 
 try {
   const result = await pool.query(`
