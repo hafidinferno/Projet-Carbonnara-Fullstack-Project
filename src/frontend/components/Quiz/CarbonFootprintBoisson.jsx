@@ -11,20 +11,31 @@ const CarbonFootprintBoisson = () => {
       questionText: "Buvez-vous de l'eau plate ou en bouteille ?",
       type: "radio",
       answerOptions: [
-        { text: "100 % eau plate", carbonMultiplier: 0.1 },
+        {
+          text: "100 % eau plate",
+          Pourcentage_eau_plate: 1.0,
+          Pourcentage_eau_bouteille: 0.0,
+        },
         {
           text: "75 % eau plate et 25 % eau en bouteille",
-          carbonMultiplier: 0.25,
+          Pourcentage_eau_plate: 0.75,
+          Pourcentage_eau_bouteille: 0.25,
         },
         {
           text: "50 % eau plate et 50 % eau en bouteille",
-          carbonMultiplier: 0.5,
+          Pourcentage_eau_plate: 0.5,
+          Pourcentage_eau_bouteille: 0.5,
         },
         {
           text: "25 % eau plate et 75 % eau en bouteille",
-          carbonMultiplier: 0.75,
+          Pourcentage_eau_plate: 0.25,
+          Pourcentage_eau_bouteille: 0.75,
         },
-        { text: "100 % eau en bouteille", carbonMultiplier: 1.0 },
+        {
+          text: "100 % eau en bouteille",
+          Pourcentage_eau_plate: 0.0,
+          Pourcentage_eau_bouteille: 1.0,
+        },
       ],
     },
     {

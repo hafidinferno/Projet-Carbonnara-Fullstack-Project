@@ -42,7 +42,7 @@ Dans le fichier `package.json` créé dans `src` il faut ajouter les lignes suiv
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr frontend/server-entry.jsx --outDir dist/server",
     "build": "npm run build:client && npm run build:server",
-    "serve": "node ./src/server-dev.cjs"
+    "serve": "node ./server-dev.cjs"
   }
 ```
 
@@ -83,6 +83,6 @@ Pour lancer le serveur backend :
 node server-dev.js
 ```
 ou
-```
+```bash
 npm run serve
 ```
