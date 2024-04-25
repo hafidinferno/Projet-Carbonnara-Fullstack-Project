@@ -42,7 +42,7 @@ Dans le fichier `package.json` créé dans `src` il faut ajouter les lignes suiv
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr frontend/server-entry.jsx --outDir dist/server",
     "build": "npm run build:client && npm run build:server",
-    "serve": "node backend/server.cjs"
+    "serve": "node ./src/server-dev.cjs"
   }
 ```
 
@@ -56,7 +56,7 @@ module.exports = {
     "database": "mif10",
     "user": "utilisateur-db",
     "password": "mot de passe de votre utilisateur",
-    "host": "ip (localhost ou adresse VM)",
+    //"host": "ip (localhost ou adresse VM)", si pas de user
     "port": "port de la machine (5432 à priori)"
 }
 ```
@@ -81,4 +81,8 @@ npm run dev
 Pour lancer le serveur backend :
 ```bash
 node server-dev.js
+```
+ou
+```
+npm run serve
 ```
