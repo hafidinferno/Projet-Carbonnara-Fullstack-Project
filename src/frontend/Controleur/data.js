@@ -1,21 +1,27 @@
 const data = [
   {
-    cat_name: "Catégorie 1",
-    levels: ["Question 1", "Question 2", "Question 3"],
+    cat_name: "Electroménager",
+    levels: ["Question 1"],
   },
   {
-    cat_name: "Catégorie 2",
-    levels: [
-      "Question 4",
-      "Question 5",
-      "Question 6",
-      "Question 7",
-      "Question 8",
-    ],
+    cat_name: "Boisson",
+    levels: ["Question 1", "Question 2"],
   },
   {
-    cat_name: "Catégorie 3",
-    levels: ["Question 9", "Question 10"],
+    cat_name: "Habitudes Alimentaires",
+    levels: ["Question 1", "Question 2"],
+  },
+  {
+    cat_name: "Légumes",
+    levels: ["Question 1"],
+  },
+  {
+    cat_name: "Transport",
+    levels: ["Question 1"],
+  },
+  {
+    cat_name: "Electronique et numérique",
+    levels: ["Question 1", "Question 2"],
   },
 ];
 

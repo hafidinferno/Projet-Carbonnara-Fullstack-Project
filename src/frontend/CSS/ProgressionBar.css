@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px; /* Hauteur accrue pour une meilleure interaction */
+  height: 30px;
   background-color: var(--neutral-bg);
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -58,6 +58,35 @@
 .progress-visual-bar-segment.active {
   background-color: var(--segment-hover-bg);
 }
+.questions-container {
+  display: flex;
+  flex-direction: row; /* Les boutons s'alignent verticalement */
+  align-items: center; /* Centrer les boutons horizontalement */
+  gap: 10px; /* Espacement entre les boutons */
+  margin: 20px; /* Marge autour du conteneur des boutons */
+}
+
+.question-button {
+  background-color: #4caf50; /* Vert similaire aux boutons de navigation */
+  color: white; /* Texte en blanc pour contraster avec le fond vert */
+  border: none; /* Pas de bordure pour garder le style épuré */
+  padding: 10px 15px; /* Padding légèrement différent pour ajustement visuel */
+  border-radius: 5px; /* Bords arrondis pour rester cohérent */
+  font-size: 14px; /* Taille de texte un peu plus petite */
+  cursor: pointer; /* Indiquer que le bouton est cliquable */
+  transition: background-color 0.3s, transform 0.3s; /* Transitions pour l'interaction */
+}
+
+.question-button:hover {
+  background-color: #367b37; /* Vert plus foncé pour le survol */
+  transform: translateY(
+    -2px
+  ); /* Effet de soulèvement pour une meilleure sensation tactile */
+}
+
+.question-button:disabled {
+  background-color: #9e9e9e; /* Gris pour les boutons désactivés */
+}
 
 .navigation-buttons {
   display: flex;
@@ -68,21 +97,33 @@
   padding-right: 20px; /* Espace à droite pour aligner avec la barre de progression */
 }
 
-button {
-  padding: 10px 20px;
-  margin-left: 20px;
-  border: none;
-  background-color: rgb(250, 133, 71);
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s ease; /* Applique la transition à toutes les propriétés pour une cohérence */
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espacement entre les boutons */
+  margin: 50px; /* Marge autour du conteneur des boutons */
 }
 
-button:hover {
-  background-color: #f0e96b;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus distincte pour une sensation de profondeur */
+.navigation-buttons button {
+  background-color: #4caf50; /* Vert de type 'Material Design' */
+  color: white; /* Texte blanc pour une bonne visibilité */
+  border: none; /* Pas de bordure */
+  padding: 10px 20px; /* Padding pour rendre le bouton plus grand */
+  border-radius: 5px; /* Bords arrondis */
+  font-size: 16px; /* Taille de texte appropriée */
+  cursor: pointer; /* Curseur pointeur pour indiquer la clicabilité */
+  transition: background-color 0.3s, transform 0.3s; /* Transition pour l'effet au survol */
+}
+
+.navigation-buttons button:hover {
+  background-color: #367b37; /* Un vert plus foncé au survol */
+  transform: translateY(-2px); /* Petit effet de soulèvement */
+}
+
+.navigation-buttons button:disabled {
+  background-color: #9e9e9e; /* Gris pour indiquer la désactivation */
+  cursor: default; /* Curseur par défaut pour montrer qu'il n'est pas cliquable */
+  transform: none; /* Pas de transformation au survol */
 }
 
 @keyframes loadAnimation {
