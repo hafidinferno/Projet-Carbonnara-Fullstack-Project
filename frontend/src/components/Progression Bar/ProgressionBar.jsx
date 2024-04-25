@@ -10,6 +10,7 @@ function ProgressionBar({ level, setCurrentLevel }) {
     const savedCategoryIndex = localStorage.getItem("currentCategoryIndex");
     return savedCategoryIndex ? parseInt(savedCategoryIndex, 10) : null;
   });
+  const [hoverTimeout, setHoverTimeout] = useState(null);
 
   const currentCategoryIndex = React.useMemo(() => {
     const savedCategoryIndex = localStorage.getItem("currentCategoryIndex");
@@ -43,11 +44,6 @@ function ProgressionBar({ level, setCurrentLevel }) {
     navigate(`/Test${catIndex + 1}?level=${level}`);
   };
 
-  const toggleCategoryQuestions = (index) => {
-    setSelectedCategoryIndex(index === selectedCategoryIndex ? null : index);
-    localStorage.setItem("currentCategoryIndex", index.toString());
-  };
-
   // Calcule la largeur de chaque segment en fonction de la progression de l'utilisateur
   const calculateSegmentWidth = (catIndex) => {
     const totalLevelsBeforeCategory = data
@@ -71,6 +67,21 @@ function ProgressionBar({ level, setCurrentLevel }) {
     navigate(`/Test${catIdx + 1}?level=${level}`);
   };
 
+  const handleMouseEnter = (index) => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+    setSelectedCategoryIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setSelectedCategoryIndex(null);
+    }, 1000); // 500ms delay before hiding questions
+    setHoverTimeout(timeout);
+  };
+
   return (
     <div className="pb-wrapper">
       <div className="progress-visual-bar-container">
@@ -80,8 +91,8 @@ function ProgressionBar({ level, setCurrentLevel }) {
             className={`progress-visual-bar-segment ${
               index <= selectedCategoryIndex ? "active" : ""
             }`}
-            style={{ width: calculateSegmentWidth(index) }} // Ajuste la largeur basÃ©e sur la progression
-            onClick={() => toggleCategoryQuestions(index)}
+            style={{ width: calculateSegmentWidth(index) }}
+            onMouseEnter={() => handleMouseEnter(index)}
           >
             <div className="segment-text">{category.cat_name}</div>
           </div>
