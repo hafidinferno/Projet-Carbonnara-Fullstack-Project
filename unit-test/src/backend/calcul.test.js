@@ -1,5 +1,5 @@
 // footprint.test.js
-const { footprint, footprintBoissons } = require('../../../api/server/calcul');
+const { footprint, footprintBoissons } = require('../../../src/backend/calcul');
 
 // Test for footprintBoisson function
 test('calculates footprint for a single beverage correctly', () => {
