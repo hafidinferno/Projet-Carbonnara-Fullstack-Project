@@ -20,25 +20,25 @@ afterAll(() => {
 
 const reqTransport = {
   body: {
-    avioncourtcourrier: req.body.avioncourtcourrier,
-    avionmoyencourrier: req.body.avionmoyencourrier,
-    avionlongcourrier: req.body.avionlongcourrier,
-    tgv: req.body.tgv,
-    intercites: req.body.intercites,
-    voiturethermique: req.body.voiturethermique,
-    voitureelectrique: req.body.voitureelectrique,
-    autocar: req.body.autocar,
-    velo: req.body.velo,
-    veloelectrique: req.body.veloelectrique,
-    busthermique: req.body.busthermique,
-    tramway: req.body.tramway,
-    metro: req.body.metro,
-    scooter: req.body.scooter,
-    moto: req.body.moto,
-    rer: req.body.rer,
-    ter: req.body.ter,
-    buselectrique: req.body.buselectrique,
-    busgnv: req.body.busgnv,
+    avioncourtcourrier: 0,
+    avionmoyencourrier: 0,
+    avionlongcourrier: 0,
+    tgv: 1,
+    intercites: 0,
+    voiturethermique: 1,
+    voitureelectrique: 0,
+    autocar: 0,
+    velo: 1,
+    veloelectrique: 1,
+    busthermique: 1,
+    tramway: 1,
+    metro: 1,
+    scooter: 0,
+    moto: 0,
+    rer: 1,
+    ter: 1,
+    buselectrique: 1,
+    busgnv: 0,
   }
 }
 
@@ -57,5 +57,5 @@ test('getTransport should return correct carbon footprint for given means of tra
   const result = await getTransport(reqTransport, resTransport);
   
   expect(resTransport.statusCode).toEqual(200);
-  expect(resTransport.data).toEqual({ transport: 81.03333333333333 });
+  expect(resTransport.data).toEqual({ transport: 1.129138947368421 });
 });
