@@ -1,9 +1,66 @@
 import React, { useState, useEffect } from "react";
 import "../../CSS/Carboon.css";
+import { useNavigate } from "react-router-dom";
 
 const DigitalHabitsQuiz = () => {
   const localStorageKey = "digitalHabitsQuizAnswers";
+  const navigate = useNavigate();
+  // Fonction pour calculer et sauvegarder les résultats
+  const calculateAndSaveResults = () => {
 
+
+
+      const req = ['electromenager', 'boissons', 'repas'];
+
+      function executeSequentialRequests(endpoints, currentIndex, callback) {
+        if (currentIndex >= endpoints.length) {
+
+          if (callback) callback();
+          return;
+        }
+
+        const endpoint = endpoints[currentIndex];
+        const url = `https://localhost:3001/ecv/${endpoint}`;
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ answers: localStorage.getItem("CarbonQuizElectro") }),
+        })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('La requête a échoué');
+              }
+              return response.json();
+            })
+            .then(data => {
+
+              console.log('Réponse pour', endpoint, ':', data);
+
+
+              localStorage.setItem(data, JSON.stringify(data.endpoint));
+
+
+              executeSequentialRequests(endpoints, currentIndex + 1, callback);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+
+            });
+
+
+
+      executeSequentialRequests(req, 0, () => {
+        console.log('Toutes les requêtes ont été exécutées avec succès !');
+      });
+    }
+
+
+
+    navigate("/Results"); // Redirige vers la page de résultats
+  };
   // List of electronic devices
   const electronics = [
     "Smartphones",
@@ -77,40 +134,41 @@ const DigitalHabitsQuiz = () => {
   };
 
   return (
-    <div className="quiz-container">
-      <h2>Catégorie: Numérique - Habitudes et Consommation</h2>
-      <div className="section">
-        <h3>Achats appareils électroniques</h3>
-        {electronics.map((item, index) => (
-          <label key={index} className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={selectedElectronics.includes(item)}
-              onChange={() => handleElectronicsChange(item)}
-            />
-            {item}
-          </label>
-        ))}
+      <div className="quiz-container">
+        <h2>Catégorie: Numérique - Habitudes et Consommation</h2>
+        <div className="section">
+          <h3>Achats appareils électroniques</h3>
+          {electronics.map((item, index) => (
+              <label key={index} className="checkbox-label">
+                <input
+                    type="checkbox"
+                    checked={selectedElectronics.includes(item)}
+                    onChange={() => handleElectronicsChange(item)}
+                />
+                {item}
+              </label>
+          ))}
+        </div>
+        <div className="section">
+          <h3>Usage numérique hebdomadaire</h3>
+          {digitalActivities.map((activity, index) => (
+              <div key={index}>
+                <label>
+                  {activity.name}
+                  <input
+                      type="number"
+                      value={usageData[activity.name]}
+                      onChange={(e) =>
+                          handleUsageChange(activity.name, parseInt(e.target.value))
+                      }
+                      min="0"
+                  />
+                </label>
+              </div>
+          ))}
+        </div>
+        <button onClick={calculateAndSaveResults}>Soumettre le Quiz</button>
       </div>
-      <div className="section">
-        <h3>Usage numérique hebdomadaire</h3>
-        {digitalActivities.map((activity, index) => (
-          <div key={index}>
-            <label>
-              {activity.name}
-              <input
-                type="number"
-                value={usageData[activity.name]}
-                onChange={(e) =>
-                  handleUsageChange(activity.name, parseInt(e.target.value))
-                }
-                min="0"
-              />
-            </label>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 };
 
