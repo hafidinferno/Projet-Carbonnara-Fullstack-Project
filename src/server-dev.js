@@ -10,7 +10,7 @@ import router from './backend/routers.cjs'
 import config from './config.cjs'
 
 app.use(cors());
-
+app.use(express.json());
 // Redirection HTTPS
 app.use((req, res, next) => {
     if(!req.socket.encrypted)

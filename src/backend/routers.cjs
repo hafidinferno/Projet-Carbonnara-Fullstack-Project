@@ -16,7 +16,7 @@ router.get('/api/footprint/:slug', db.getFootPrint);
 
 router.get('/api/ecv/boissons', db.getBoissonsEcv);
 
-router.get('/api/ecv/electromenager', db.getElectromenager);
+router.post('/api/ecv/electromenager', db.getElectromenager);
 
 router.get('/api/ecv/repas', db.getRepas);
 

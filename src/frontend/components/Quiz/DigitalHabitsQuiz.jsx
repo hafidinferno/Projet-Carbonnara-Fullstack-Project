@@ -1,135 +1,175 @@
 import React, { useState, useEffect } from "react";
 import "../../CSS/Carboon.css";
-import { useNavigate } from "react-router-dom";
 
 const DigitalHabitsQuiz = () => {
   const localStorageKey = "digitalHabitsQuizAnswers";
-  const navigate = useNavigate();
-  // Fonction pour calculer et sauvegarder les résultats
-  const calculateAndSaveResults = () => {
 
+  function handleSubmit() {
 
+    const req = ['electromenager'];
 
-      const req = ['electromenager', 'boissons', 'repas'];
+    function executeSequentialRequests(endpoints, currentIndex, callback) {
+      if (currentIndex >= endpoints.length) {
 
-      function executeSequentialRequests(endpoints, currentIndex, callback) {
-        if (currentIndex >= endpoints.length) {
+        if (callback) callback();
+        return;
+      }
 
-          if (callback) callback();
-          return;
-        }
+      const endpoint = endpoints[currentIndex];
+      const url = `https://localhost:3001/api/ecv/${endpoint}`;
+      const data = localStorage.getItem("CarbonQuizElectro");
+      console.log(data);
 
-        const endpoint = endpoints[currentIndex];
-        const url = `https://localhost:3001/ecv/${endpoint}`;
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: data ,
+      })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('La requête a échoué');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // Traitez les données renvoyées par le serveur si nécessaire
+            console.log('Réponse pour', endpoint, ':', data.endpoint);
 
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ answers: localStorage.getItem("CarbonQuizElectro") }),
-        })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('La requête a échoué');
-              }
-              return response.json();
-            })
-            .then(data => {
+            // Enregistrez les réponses dans le localStorage si nécessaire
+            localStorage.setItem(data, JSON.stringify(data.endpoint));
 
-              console.log('Réponse pour', endpoint, ':', data);
-
-
-              localStorage.setItem(data, JSON.stringify(data.endpoint));
-
-
-              executeSequentialRequests(endpoints, currentIndex + 1, callback);
-            })
-            .catch(error => {
-              console.error('Error:', error);
-
-            });
-
-
-
-      executeSequentialRequests(req, 0, () => {
-        console.log('Toutes les requêtes ont été exécutées avec succès !');
-      });
+            // Exécute la prochaine requête de manière séquentielle
+            executeSequentialRequests(endpoints, currentIndex + 1, callback);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Vous pouvez gérer les erreurs ici si nécessaire
+          });
     }
 
+    // Démarrez l'exécution séquentielle des requêtes avec les endpoints
+    executeSequentialRequests(req, 0, () => {
+      console.log('Toutes les requêtes ont été exécutées avec succès !');
+    });
+  }
 
-
-    navigate("/Results"); // Redirige vers la page de résultats
-  };
-  // List of electronic devices
   const electronics = [
-    "Smartphones",
-    "Tablettes",
-    "Liseuses",
-    "Montres connectées",
-    "Appareil photo",
-    "Ordinateurs fixes sans écran",
-    "Ordinateurs portables",
-    "Consoles de salon",
-    "Consoles portables",
-    "Écrans",
-    "Chaînes hi-fi",
-    "Enceintes bluetooth",
-    "Barres de son",
-    "Télévisions",
-    "Home cinéma",
-    "Modems",
-    "Imprimantes",
+    "smartphone",
+    "tablette",
+    "liseuse",
+    "montreconnectee",
+    "appareilphotoreflex",
+    "appareilphotocompact",
+    "ordinateurfixebureautique",
+    "ordinateurfixeperformant",
+    "ordinateurportable",
+    "consoledesalon",
+    "consoleportable",
+    "ecran215pouce",
+    "ecran24pouce",
+    "chainehifi",
+    "enceintebluetooth",
+    "barredeson",
+    "television",
+    "homecinema",
+    "modemfibre",
+    "imprimante",
   ];
 
-  // Digital activities details
   const digitalActivities = [
-    { name: "Emails envoyés", defaultValue: 0 },
-    { name: "Emails reçus", defaultValue: 0 },
-    { name: "Spams reçus", defaultValue: 0 },
-    { name: "Spams envoyés", defaultValue: 0 },
-    { name: "Stockage de données utilisé (Go)", defaultValue: 0 },
-    { name: "Recherches web effectuées", defaultValue: 0 },
-    { name: "Streaming vidéo regardé (heures)", defaultValue: 0 },
-    { name: "Streaming vidéo fait (heures)", defaultValue: 0 },
-    { name: "Visioconférence assistée (heures)", defaultValue: 0 },
-    { name: "Téléchargement effectué (Go)", defaultValue: 0 },
+    { key: "emailenvoye", name: "Emails envoyés", defaultValue: 0 },
+    { key: "emailrecu", name: "Emails reçus", defaultValue: 0 },
+    { key: "spamrecu", name: "Spams reçus", defaultValue: 0 },
+    { key: "spamenvoye", name: "Spams envoyés", defaultValue: 0 },
+    {
+      key: "stockagedonnee",
+      name: "Stockage de données utilisé (Go)",
+      defaultValue: 0,
+    },
+    {
+      key: "rechercheweb",
+      name: "Recherches web effectuées",
+      defaultValue: 0,
+    },
+    {
+      key: "streamingvideofait",
+      name: "Streaming vidéo regardé (heures)",
+      defaultValue: 0,
+    },
+    {
+      key: "streamingvideoregarde",
+      name: "Streaming vidéo fait (heures)",
+      defaultValue: 0,
+    },
+    {
+      key: "visioconference",
+      name: "Visioconférence assistée (heures)",
+      defaultValue: 0,
+    },
+    {
+      key: "telechargement",
+      name: "Téléchargement effectué (Go)",
+      defaultValue: 0,
+    },
   ];
 
   const [selectedElectronics, setSelectedElectronics] = useState(() => {
-    const saved = JSON.parse(localStorage.getItem(localStorageKey));
-    return saved?.electronics || [];
+    const saved = localStorage.getItem(localStorageKey);
+    try {
+      const parsed = JSON.parse(saved);
+      return parsed ? parsed.electronics : defaultElectronicsState();
+    } catch (e) {
+      console.error("Error parsing electronics from localStorage:", e);
+      return defaultElectronicsState();
+    }
   });
 
   const [usageData, setUsageData] = useState(() => {
-    const saved = JSON.parse(localStorage.getItem(localStorageKey));
-    return (
-      saved?.usageData ||
-      digitalActivities.reduce((acc, activity) => {
-        acc[activity.name] = activity.defaultValue;
-        return acc;
-      }, {})
-    );
+    const saved = localStorage.getItem(localStorageKey);
+    try {
+      const parsed = JSON.parse(saved);
+      return parsed ? parsed.usageData : defaultUsageState();
+    } catch (e) {
+      console.error("Error parsing usage data from localStorage:", e);
+      return defaultUsageState();
+    }
   });
+
+  // Helper functions to set default states
+  function defaultElectronicsState() {
+    return electronics.reduce((acc, device) => {
+      acc[device] = 0;
+      return acc;
+    }, {});
+  }
+
+  function defaultUsageState() {
+    return digitalActivities.reduce((acc, activity) => {
+      acc[activity.key] = activity.defaultValue;
+      return acc;
+    }, {});
+  }
 
   useEffect(() => {
     localStorage.setItem(
-      localStorageKey,
-      JSON.stringify({ electronics: selectedElectronics, usageData })
+        localStorageKey,
+        JSON.stringify({ electronics: selectedElectronics, usageData })
     );
   }, [selectedElectronics, usageData]);
 
-  const handleElectronicsChange = (item) => {
-    const updatedElectronics = selectedElectronics.includes(item)
-      ? selectedElectronics.filter((e) => e !== item)
-      : [...selectedElectronics, item];
-    setSelectedElectronics(updatedElectronics);
+  const handleElectronicsChange = (device) => {
+    setSelectedElectronics((prevState) => ({
+      ...prevState,
+      [device]: prevState[device] === 0 ? 1 : 0,
+    }));
   };
 
-  const handleUsageChange = (name, value) => {
+  const handleUsageChange = (key, value) => {
     setUsageData((prev) => ({
       ...prev,
-      [name]: value,
+      [key]: value,
     }));
   };
 
@@ -138,11 +178,11 @@ const DigitalHabitsQuiz = () => {
         <h2>Catégorie: Numérique - Habitudes et Consommation</h2>
         <div className="section">
           <h3>Achats appareils électroniques</h3>
-          {electronics.map((item, index) => (
-              <label key={index} className="checkbox-label">
+          {electronics.map((item) => (
+              <label key={item} className="checkbox-label">
                 <input
                     type="checkbox"
-                    checked={selectedElectronics.includes(item)}
+                    checked={selectedElectronics[item] === 1}
                     onChange={() => handleElectronicsChange(item)}
                 />
                 {item}
@@ -151,15 +191,18 @@ const DigitalHabitsQuiz = () => {
         </div>
         <div className="section">
           <h3>Usage numérique hebdomadaire</h3>
-          {digitalActivities.map((activity, index) => (
-              <div key={index}>
+          {digitalActivities.map((activity) => (
+              <div key={activity.key}>
                 <label>
                   {activity.name}
                   <input
                       type="number"
-                      value={usageData[activity.name]}
+                      value={usageData[activity.key]}
                       onChange={(e) =>
-                          handleUsageChange(activity.name, parseInt(e.target.value))
+                          handleUsageChange(
+                              activity.key,
+                              parseInt(e.target.value, 10) || 0
+                          )
                       }
                       min="0"
                   />
@@ -167,7 +210,7 @@ const DigitalHabitsQuiz = () => {
               </div>
           ))}
         </div>
-        <button onClick={calculateAndSaveResults}>Soumettre le Quiz</button>
+        <button onClick={handleSubmit}>Soumettre le Quiz</button>
       </div>
   );
 };
