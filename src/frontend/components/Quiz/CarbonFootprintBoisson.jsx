@@ -13,28 +13,28 @@ const CarbonFootprintBoisson = () => {
       answerOptions: [
         {
           text: "100 % eau plate",
-          Pourcentage_eau_plate: 1.0,
-          Pourcentage_eau_bouteille: 0.0,
+          eaudurobinetpourcentage: 1.0,
+          eauenbouteillepourcentage: 0.0,
         },
         {
           text: "75 % eau plate et 25 % eau en bouteille",
-          Pourcentage_eau_plate: 0.75,
-          Pourcentage_eau_bouteille: 0.25,
+          eaudurobinetpourcentage: 0.75,
+          eauenbouteillepourcentage: 0.25,
         },
         {
           text: "50 % eau plate et 50 % eau en bouteille",
-          Pourcentage_eau_plate: 0.5,
-          Pourcentage_eau_bouteille: 0.5,
+          eaudurobinetpourcentage: 0.5,
+          eauenbouteillepourcentage: 0.5,
         },
         {
           text: "25 % eau plate et 75 % eau en bouteille",
-          Pourcentage_eau_plate: 0.25,
-          Pourcentage_eau_bouteille: 0.75,
+          eaudurobinetpourcentage: 0.25,
+          eauenbouteillepourcentage: 0.75,
         },
         {
           text: "100 % eau en bouteille",
-          Pourcentage_eau_plate: 0.0,
-          Pourcentage_eau_bouteille: 1.0,
+          eaudurobinetpourcentage: 0.0,
+          eauenbouteillepourcentage: 1.0,
         },
       ],
     },
@@ -44,13 +44,13 @@ const CarbonFootprintBoisson = () => {
         "Combien de boissons suivantes consommez-vous en moyenne par semaine ?",
       type: "valueInput",
       beverages: [
-        { name: "Soda", carbonMultiplier: 0.3 },
-        { name: "Vin", carbonMultiplier: 0.2 },
-        { name: "Bière", carbonMultiplier: 0.25 },
-        { name: "Lait (animal)", carbonMultiplier: 0.15 },
-        { name: "Lait de soja", carbonMultiplier: 0.1 },
-        { name: "Thé", carbonMultiplier: 0.05 },
-        { name: "Café", carbonMultiplier: 0.1 },
+        { name: "Soda", key: 'soda' },
+        { name: "Vin", key: 'vin'},
+        { name: "Bière", key: 'biere' },
+        { name: "Lait (animal)", key: 'lait' },
+        { name: "Lait de soja", key: 'laitsoja' },
+        { name: "Thé", key: 'the' },
+        { name: "Café", key: 'cafe' },
       ],
     },
   ];
@@ -58,9 +58,26 @@ const CarbonFootprintBoisson = () => {
   // Initialiser l'état des réponses avec celles stockées dans localStorage ou un tableau vide
   const [selectedAnswers, setSelectedAnswers] = useState(() => {
     const savedAnswers = localStorage.getItem(localStorageKey);
-    return savedAnswers
-      ? JSON.parse(savedAnswers)
-      : Array(questions.length).fill(null);
+    if (savedAnswers) {
+      return JSON.parse(savedAnswers);
+    } else {
+      return questions.map(question => {
+        if (question.type === "valueInput") {
+          // Créez un objet avec toutes les clés des boisson initialisées à 0
+          const initialBeverages = question.beverages.reduce((acc, beverages) => {
+            acc[beverages.key] = 0;
+            return acc;
+          }, {});
+          return initialBeverages;
+        } else {
+          return { value: question.defaultValue };
+        }
+      });
+    }
+    // return savedAnswers
+    //   ? JSON.parse(savedAnswers)
+    //   // : Array(questions.length).fill(null);
+    //   : questions.map(question => question.type === "valueInput" ? {} : { value: question.defaultValue });
   });
 
   // Effet pour sauvegarder les réponses dans le localStorage lorsqu'elles changent
@@ -77,12 +94,11 @@ const CarbonFootprintBoisson = () => {
 
   const handleBeverageInput = (questionIndex, beverageIndex, value) => {
     const newAnswers = [...selectedAnswers];
-    if (!newAnswers[questionIndex]) {
-      newAnswers[questionIndex] = {};
-    }
-    newAnswers[questionIndex][
-      questions[questionIndex].beverages[beverageIndex].name
-    ] = value;
+    const numericValue = value ? parseInt(value, 10) : 0;
+    const drinkKey = questions[questionIndex].beverages[beverageIndex].key;
+
+    newAnswers[questionIndex][drinkKey] = numericValue
+    
     setSelectedAnswers(newAnswers);
   };
 
@@ -121,12 +137,12 @@ const CarbonFootprintBoisson = () => {
                     {beverage.name}:
                     <input
                       type="number"
-                      value={selectedAnswers[index]?.[beverage.name] || ""}
+                      value={selectedAnswers[index][beverage.key] || 0}
                       onChange={(e) =>
                         handleBeverageInput(
                           index,
                           beverageIndex,
-                          e.target.value
+                          e.target.value,
                         )
                       }
                     />
