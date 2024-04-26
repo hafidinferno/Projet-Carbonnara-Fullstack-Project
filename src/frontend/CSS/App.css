@@ -45,21 +45,85 @@ body, html {
   
   font-family: var(--font-family-body);
   background: var(--bg-color-light);
-}
-
-section {
-  
+  position: absolute;
+  z-index: -10;
 }
 
 h1 {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 
+  font-size: 4em;
+  
+  color: var(--title-color);
+
+  position: relative;
+}
+
+h1::first-letter {
+  color: var(--hl-color);
+  font-size: 130%;
+  vertical-align: sub;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+
+  width: 57%;
+  height: 3px;
+  border-radius: 2px;
+  left: 17%;
+  bottom: 20px;
+
+  background-color: var(--hl-color);
 }
 
 h2 {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 
+  width: fit-content;
+
+  font-size: 3em;
+  
+  color: var(--title-color);
+
+  position: relative;
+}
+
+h2::first-letter {
+  color: var(--hl-color);
+  font-size: 130%;
+  vertical-align: sub;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+
+  width: 60%;
+  height: 3px;
+  border-radius: 2px;
+  left: 75px;
+  bottom: 15px;
+
+  background-color: var(--hl-color);
+  z-index: -1;
 }
 
 h3 {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 
+  width: fit-content;
+
+  font-size: 1.5em;
+  
+  color: var(--title-color);
+
+  position: relative;
 }
-

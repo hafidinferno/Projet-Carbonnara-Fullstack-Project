@@ -12,39 +12,6 @@ header {
     align-items: center;
 }
 
-header h1 {
-    font-family: "Julius Sans One", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-
-    font-size: 400%;
-
-    margin-left: 100px;
-    
-    color: var(--title-color);
-
-    position: relative;
-}
-
-header h1::first-letter {
-    color: var(--hl-color);
-    font-size: 130%;
-    vertical-align: sub;
-}
-
-header h1::after {
-    content: "";
-    position: absolute;
-
-    width: 57%;
-    height: 3px;
-    border-radius: 2px;
-    left: 17%;
-    bottom: 20px;
-
-    background-color: var(--hl-color);
-}
-
 .circle-container
 {
     position: absolute;
