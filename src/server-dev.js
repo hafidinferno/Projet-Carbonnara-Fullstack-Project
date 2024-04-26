@@ -35,6 +35,9 @@ const vite_server = await createServer({
 
 app.use(vite_server.middlewares);
 
+// App
+app.use(router);
+
 app.use('*', async (req, res) => {
     const url = req.originalUrl;
 
@@ -51,9 +54,6 @@ app.use('*', async (req, res) => {
         return;
     }
 });
-
-// App
-app.use(router);
 
 // Ouverture des serveurs
 const privateKey = fs.readFileSync(config.key_path);

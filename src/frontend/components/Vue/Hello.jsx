@@ -1,6 +1,7 @@
 import DataDisplay from "./BD";
 
 function BaseDonnees() {
+  const site = "http://192.168.75.17:8080/test";
   return (
     <>
       <style>
@@ -23,7 +24,7 @@ function BaseDonnees() {
           className="App-header"
           style={{ backgroundColor: "#282c34", color: "white" }}
         >
-          <DataDisplay url="http://192.168.75.17:8080/test" />
+          <DataDisplay url={site} />
         </header>
       </div>
     </>

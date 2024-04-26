@@ -3,10 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ProgressionBar from "../components/Progression Bar/ProgressionBar";
 import Header from "../components/header/Header";
 import data from "../Controleur/data";
-import CarbonFootprintQuiz2 from "../components/Quiz/CarbonFootprintQuiz2";
-import CarbonFootprintBoisson from "../components/Quiz/CarbonFootprintBoisson";
+import DailyTransportQuiz from "../components/Quiz/DailyTransportQuiz";
 
-function TestII() {
+function Test5() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const levelFromUrl = parseInt(searchParams.get("level"), 10);
@@ -24,9 +23,9 @@ function TestII() {
         setCurrentLevel={setCurrentLevel}
       />
 
-      <CarbonFootprintBoisson />
+      <DailyTransportQuiz />
     </div>
   );
 }
 
-export default TestII;
+export default Test5;

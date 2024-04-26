@@ -17,14 +17,17 @@ Pour cela:
 ```bash
 git clone git@forge.univ-lyon1.fr:mif10-grp101/mif10.git
 cd mif10
+mv src tmp
 npx create-react-app src
-mv tmp/node_modules src
-rm -rf tmp
+rm -rf src/public src/src src/README.md
+mv tmp/* tmp/.gitignore src
+rmdir tmp
 ```
 
 Puis il faut installer toutes les dépendances nécessaires aux serveurs.
 
 ```bash
+cd src
 npm install react react-dom react-router-dom vite @vitejs/plugin-react express cors prop-types node-fetch@2 axios pg react-chartjs-2
 ```
 
@@ -33,16 +36,40 @@ npm install react react-dom react-router-dom vite @vitejs/plugin-react express c
 Dans le fichier `package.json` créé dans `src` il faut ajouter les lignes suivantes:
 
 ```json
+"type": "module",
 "scripts": {
     "dev": "vite",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr frontend/server-entry.jsx --outDir dist/server",
     "build": "npm run build:client && npm run build:server",
-    "serve": "node backend/server.cjs"
+    "serve": "node ./server-dev.cjs"
   }
 ```
 
 Pour le développement, seul la ligne `"dev"` est vraiment intéressante. Le reste sert à build le serveur pour le déployer sur la VM.
+
+Il faudra également créer dans `src` les deux fichiers de configuration d'environnement suivant:
+
+```js
+//bd.cjs
+module.exports = {
+    "database": "mif10",
+    "user": "utilisateur-db",
+    "password": "mot de passe de votre utilisateur",
+    //"host": "ip (localhost ou adresse VM)", si pas de user
+    "port": "port de la machine (5432 à priori)"
+}
+```
+
+```js
+// config.cjs
+module.exports = {
+    cert_path: 'chemin_vers_le_fichier_de_cert_ssl',
+    key_path: 'chemin_vers_le_fichier_de_clef_ssl',
+    http_port: /*  port 1 */,
+    https_port: /* port 2 */
+}
+```
 
 ### Exécution
 
@@ -54,4 +81,8 @@ npm run dev
 Pour lancer le serveur backend :
 ```bash
 node server-dev.js
+```
+ou
+```bash
+npm run serve
 ```

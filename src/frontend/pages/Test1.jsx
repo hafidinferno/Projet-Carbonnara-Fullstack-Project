@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProgressionBar from "../components/Progression Bar/ProgressionBar";
 import CarbonFootprintQuiz from "../components/Quiz/CarbonFootprintQuiz";
+import CarbonQuizElectro from "../components/Quiz/CarbonQuizElectro";
 import Header from "../components/header/Header";
 import data from "../Controleur/data";
+import NavigationButtons from "../components/Progression Bar/NavigationsButtons";
 
 function TestI() {
   const location = useLocation();
@@ -23,7 +25,7 @@ function TestI() {
         setCurrentLevel={setCurrentLevel}
       />
 
-      <CarbonFootprintQuiz />
+      <CarbonQuizElectro />
     </div>
   );
 }
