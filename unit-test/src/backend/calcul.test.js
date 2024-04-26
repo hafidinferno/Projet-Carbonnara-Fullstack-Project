@@ -1,14 +1,12 @@
 // footprint.test.js
 const { footprint, footprintBoissons, moyenne, moyenneAnnee } = require('../../../src/backend/calcul.cjs');
 
-// Test for footprint function with drink's ecv data
 test('calculates footprint for a single beverage correctly', () => {
-  expect(footprint(10, 2)).toBe(20); // Assuming footprint of 10 and quantity of 2
+  expect(footprint(10, 2)).toBe(20);
 });
 
 // Test for footprintBoissons function
 test('calculates total footprint for multiple beverages correctly', () => {
-  // Assuming the following environmental footprint values for different beverages
   const ecvSoda = 5,
         ecvVin = 8,
         ecvBiere = 12,
@@ -21,7 +19,6 @@ test('calculates total footprint for multiple beverages correctly', () => {
   expect(footprintBoissons(ecvSoda, ecvVin, ecvBiere, ecvLait, ecvLaitSoja, ecvThe, ecvCafe)).toBe(40);
 });
 
-// Test for moyenne function with water's ecv data
 test('calculates average footprint for a total footprint and the quantity of element given', () => {
   const ecvEauEnBouteille = 2,
         ecvEauDuRobinet = 4;
@@ -30,7 +27,6 @@ test('calculates average footprint for a total footprint and the quantity of ele
   expect(moyenne(2+4, 2)).toBe(3);
 })
 
-// Test for moyenne function with drink's ecv data
 test('calculates average footprint in a year for a total footprint and the quantity of element given', () => {
   const ecvSoda = 5,
         ecvVin = 8,
