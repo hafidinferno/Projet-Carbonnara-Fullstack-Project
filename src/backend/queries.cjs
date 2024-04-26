@@ -775,27 +775,27 @@ const getVetements = async (req, res) => {
 
     try {
 
-        const result = await pool.query(`
-      SELECT *
-      FROM habitude
-      join consommation ON habitude.id = consommation.id_habitude
-      WHERE habitude.slug = 'habillement'
+      const result = await pool.query(`
+        SELECT *
+        FROM habitude
+        join consommation ON habitude.id = consommation.id_habitude
+        WHERE habitude.slug = 'habillement'
       `);
 
-        const vetementsData = result.rows.map(row => ({
-            slug: row.slug,
-            ecv: row.ecv
-        }));
+      const vetementsData = result.rows.map(row => ({
+          slug: row.slug,
+          ecv: row.ecv
+      }));
 
-        let sommeEcvvetements = 0;
+      let sommeEcvvetements = 0;
 
-        for (const item of vetementsData) {
-            if (vetements[item.slug]) {
-                sommeEcvvetements += item.ecv * vetements[item.slug];
-                console.log(item.slug, item.ecv * vetements[item.slug]);
-            }
-        }
-        res.status(200).json({"vetements":sommeEcvvetements});
+      for (const item of vetementsData) {
+          if (vetements[item.slug]) {
+              sommeEcvvetements += item.ecv * vetements[item.slug];
+              console.log(item.slug, item.ecv * vetements[item.slug]);
+          }
+      }
+      res.status(200).json({"vetements":sommeEcvvetements});
     } catch (error) {
         console.error('Erreur lors de la récupération des vêtements', error);
         res.status(500).json({ error: error.message });
@@ -891,14 +891,11 @@ const getMobilierEcv = async (req, res) => {
  * @param {*} res
  */
 const getUsageNumeriqueEcv = async (req, res) => {
-  const emailrecu = req.body.emailrecu;
-  const emailenvoye = req.body.emailenvoye;
-  const spamrecu = req.body.spamrecu;
-  const spamenvoye = req.body.spamenvoye;
+  const email = req.body.emailrecu + req.body.emailenvoye;
+  const spam = req.body.spamrecu + req.body.spamenvoye;
   const stockagedonnee = req.body.stockagedonnee;
   const rechercheweb = req.body.rechercheweb;
-  const streamingvideofait = req.body.streamingvideofait;
-  const streamingvideoregarde = req.body.streamingvideoregarde;
+  const streamingvideo = req.body.streamingvideofait + req.body.streamingvideoregarde;
   const visioconference = req.body.visioconference;
   const telechargement = req.body.telechargement;
   // const emailrecu = 14;
@@ -920,16 +917,16 @@ try {
     WHERE habitude.slug = 'usagenumerique'
   `);
 
-  const mobilierData = result.rows.map(data => ({
+  const usageData = result.rows.map(data => ({
     slug: data.slug,
     ecv: data.ecv,
   }));
 
-  const somme = footprint(mobilierData[0].ecv, emailrecu) + footprint(mobilierData[0].ecv, emailenvoye) + footprint(mobilierData[1].ecv, spamrecu) + footprint(mobilierData[1].ecv, spamenvoye) + footprint(mobilierData[2].ecv, stockagedonnee) + footprint(mobilierData[3].ecv, rechercheweb) + footprint(mobilierData[4].ecv, streamingvideofait) + footprint(mobilierData[4].ecv, streamingvideoregarde) + footprint(mobilierData[5].ecv, visioconference) + footprint(mobilierData[6].ecv, telechargement)
+  const somme = footprint(usageData[0].ecv, email) + footprint(usageData[1].ecv, spam) + footprint(usageData[2].ecv, stockagedonnee) + footprint(usageData[3].ecv, rechercheweb) + footprint(usageData[4].ecv, streamingvideo) + footprint(usageData[5].ecv, visioconference) + footprint(usageData[6].ecv, telechargement)
   const resultatAnnee = moyenneAnnee(somme, 52)
-  res.status(200).json({"numeriques": resultatAnnee});
+  res.status(200).json({"usageNumeriques": resultatAnnee});
 } catch(error) {
-  console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
+  console.error('Erreur lors de la récupération de données de thématique "usagenumerique" de la table "consommation":', error);
   res.status(500).json({ error: error.message });
 }
 }
