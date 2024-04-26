@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProgressionBar from "../components/Progression Bar/ProgressionBar";
-import Header from "../components/header/Header";
 import data from "../Controleur/data";
 import CarbonFootprintRepas from "../components/Quiz/CarbonFootprintRepas";
 
@@ -15,8 +14,6 @@ function TestIII() {
 
   return (
     <div className="App">
-      <Header />
-
       <ProgressionBar
         categories={data}
         currentLevel={currentLevel}
