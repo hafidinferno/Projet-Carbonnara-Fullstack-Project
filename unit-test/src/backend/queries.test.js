@@ -4,7 +4,21 @@ const credentials = require('../../../src/bd.cjs');
 const { beforeEach, beforeAll } = require('jest-circus');
 const Pool = require('pg').Pool;
 
-const req = {
+const pool = new Pool(credentials)
+//Connexion à la base de données
+beforeAll(() => {
+  pool.connect(function(err) {
+    if(err) throw err;
+    console.log("Database connected!");
+  });
+})
+
+//ferme la connexion
+afterAll(() => {
+  pool.end();
+});
+
+const reqVetements = {
   body: {
     polo: 1,
     tshirtencoton: 1,
@@ -28,34 +42,20 @@ const req = {
   }
 };
 
-const res = {
+const resVetements = {
   status: (code) => {
-    res.statusCode = code;
-    return res;
+    resVetements.statusCode = code;
+    return resVetements;
   },
   json: (data) => {
-    res.data = data;
+    resVetements.data = data;
   }
 };
 
-const pool = new Pool(credentials)
-
-beforeAll(() => {
-  pool.connect(function(err) {
-    if(err) throw err;
-    console.log("Database connected!");
-  });
-})
-
-//ferme la connexion
-afterEach(() => {
-  pool.end();
-});
-
 test('getVetements should return correct carbon footprint for given clothes', async () => {
   
-  const result = await getVetements(req, res);
+  const result = await getVetements(reqVetements, resVetements);
   
-  expect(res.statusCode).toEqual(200);
-  expect(res.data).toEqual({ vetements: 287.600226919801 });
-  });
+  expect(resVetements.statusCode).toEqual(200);
+  expect(resVetements.data).toEqual({ vetements: 287.600226919801 });
+});
