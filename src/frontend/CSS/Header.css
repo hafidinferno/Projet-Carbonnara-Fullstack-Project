@@ -6,7 +6,6 @@ header {
 }
 
 .App-header {
-    padding: 20px;
     position: relative; 
     display: flex;
     justify-content: flex-start; 
@@ -18,7 +17,7 @@ header h1 {
     font-weight: 400;
     font-style: normal;
 
-    font-size: 4em;
+    font-size: 400%;
 
     margin-left: 100px;
     
@@ -37,7 +36,7 @@ header h1::after {
     content: "";
     position: absolute;
 
-    width: 80%;
+    width: 57%;
     height: 3px;
     border-radius: 2px;
     left: 17%;

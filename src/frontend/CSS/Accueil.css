@@ -12,6 +12,7 @@
   font-weight: 200;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.5);  
 }
+
 .StartTest:hover {
   background-color: #3e8e41;
 }

@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
 
 :root {
-  --bg-color-light: #faebd8;
-  --bg-color: #f0e3ce;
+  --bg-color-light: #f8f0eb;
+  --bg-color: #f4e6d0;
   --bg-color-dark: #e5d5b6;
   
-  --hl-color: #46ce58;
-  --title-color: #145e1e;
+  --hl-color: #90dc7c;
+  --title-color: #2d7813;
 
   --shadow-color: #663314;
 
@@ -39,16 +39,16 @@ body, html {
   height: 100vh;
   width: 100vw;
   margin: 0;
-  padding: 5px;
+  padding: 0;
 
   color: #333;
-  /* text-align: center; */
+  
   font-family: var(--font-family-body);
-  background: var(--bg-color);
+  background: var(--bg-color-light);
 }
 
 section {
-  margin-bottom: 20px;
+  
 }
 
 h1 {
