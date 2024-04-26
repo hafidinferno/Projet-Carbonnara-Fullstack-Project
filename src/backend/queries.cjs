@@ -139,11 +139,11 @@ const getElectromenager = async (req, res) => {
     fourelectrique: req.body.fourelectrique,
     lavevaisselle: req.body.lavevaisselle,
     lavelinge: req.body.lavelinge,
-    refrigirateur: req.body.refrigirateur,
+    refrigirateur: req.body.refrigerateur,
     aspirateur: req.body.aspirateur,
     climatiseur: req.body.climatiseur,
   };
-
+  console.log(appareils);
   try {
     const result = await pool.query(`
       SELECT *
@@ -195,12 +195,12 @@ const getRepas = async (req, res) => {
     // repasavecdupoissongras: 1,
     // repasvegetarien: 1,
     // repasvegetalien: 1
-    repasavecduboeuf: req.body.repasavecduboeuf,
-    repasavecdupoulet: req.body.repasavecdupoulet,
-    repasavecdupoissonblanc: req.body.repasavecdupoissonblanc,
+    repasavecduboeuf: req.body.CarbonQuizElectro.repasavecduboeuf,
+    repasavecdupoulet: req.body.CarbonQuizElectro.repasavecdupoulet,
+    repasavecdupoissonblanc: req.body.CarbonQuizElectro.repasavecdupoissonblanc,
     repasavecdupoissongras: req.body.repasavecdupoissongras,
-    repasvegetarien: req.body.repasvegetarien,
-    repasvegetalien: req.body.repasvegetalien
+    repasvegetarien: req.body.CarbonQuizElectro.repasvegetarien,
+    repasvegetalien: req.body.CarbonQuizElectro.repasvegetalien
   };
 
   try {
@@ -288,7 +288,7 @@ const getTransport = async (req, res) => {
       ter: req.body.ter,
       buselectrique: req.body.buselectrique,
       busgnv: req.body.busgnv,
-      'avion-pny': req.body.avion_pny,
+
     };
 
   try {
@@ -543,7 +543,7 @@ const getFruitsetLegumesEcv = async (req, res) => {
     kaki: req.body.kaki,
     noixdecoco: req.body.noixdecoco,
     pasteque: req.body.pasteque,
-    
+
     // fraise: 1,
     // pomme: 1,
     // orange: 0,
@@ -1088,7 +1088,7 @@ async function tables(thematiques,ii) {
     });
     let numeriques = await Promise.all(NumeriquePromises);
     await insererDonneesTable(numeriques,columnsTables,'consommation');
-    
+
   } catch (error) {
     console.error('Erreur lors de la requête  :', error);
     throw new Error("erreur dans la route  " + error.message);
