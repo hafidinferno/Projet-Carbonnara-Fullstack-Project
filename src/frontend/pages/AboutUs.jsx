@@ -5,7 +5,7 @@ import "../CSS/AboutUs.css";
 
 function AbousUs() {
   return (
-    <div>
+    <div id="about-us">
       <TeamSection />
       <MethodologySection />
     </div>
