@@ -35,6 +35,11 @@
   box-shadow: 0 0 15px -10px var(--shadow-color);
 }
 
+body, html, #content-wrapper, #app
+{
+  z-index: -10;
+}
+
 body, html {
   height: 100vh;
   width: 100vw;
@@ -45,7 +50,7 @@ body, html {
   
   font-family: var(--font-family-body);
   background: var(--bg-color-light);
-  z-index: -10;
+  
 }
 
 #content-wrapper {

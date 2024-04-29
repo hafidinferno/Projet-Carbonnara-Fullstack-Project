@@ -10,10 +10,7 @@
 
 /* Headings style */
 .result-container h2 {
-  color: #2a2a2a;
-  font-size: 24px;
   text-align: center;
-  margin-bottom: 20px;
 }
 
 /* Chart container styles to ensure charts do not stretch too much on larger screens */

@@ -82,6 +82,8 @@ header {
 
     font-family: "Merriweather", serif; 
     cursor: pointer;
+
+    z-index: 5;
 }
 
 .sub-circle:hover {
