@@ -20,7 +20,6 @@ function Header() {
 
   return (
     <header className="App App-header shadowed">
-      <h1>CARBONARA</h1>
       <div className="circle-container">
         <button
           onClick={startTest}
@@ -43,6 +42,7 @@ function Header() {
           Accueil
         </button>
       </div>
+      <h1>CARBONARA</h1>
     </header>
   );
 }
