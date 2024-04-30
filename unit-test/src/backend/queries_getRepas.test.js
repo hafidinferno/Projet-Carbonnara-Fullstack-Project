@@ -20,12 +20,15 @@ afterAll(() => {
 
 const reqRepas = {
   body: {
-    repasavecduboeuf: 1,
-    repasavecdupoulet: 1,
-    repasavecdupoissonblanc: 0,
-    repasavecdupoissongras: 0,
-    repasvegetarien: 1,
-    repasvegetalien: 0,
+    CarbonQuizElectro :{
+      repasavecduboeuf: 1,
+      repasavecdupoulet: 1,
+      repasavecdupoissonblanc: 0,
+      repasavecdupoissongras: 0,
+      repasvegetarien: 1,
+      repasvegetalien: 0,
+
+    }
   }
 }
 
