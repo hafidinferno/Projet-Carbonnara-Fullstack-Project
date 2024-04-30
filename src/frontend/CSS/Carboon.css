@@ -167,14 +167,14 @@ p {
   justify-content: center;
 }
 
-#submit-quiz {
+.big-button {
   background-color: #6dc058;
   padding: 30px;
   border-radius: 60px;
   font-size: 1.5em;
 }
 
-#submit-quiz:hover {
+.big-button:hover {
   background-color: var(--hl-color);
   cursor: pointer;
 }

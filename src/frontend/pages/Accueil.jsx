@@ -13,9 +13,9 @@ function Accueil() {
     <main>
       <section className="info">
         <div className="container-main">
-          <h2>Calculer votre empreinte carbone?</h2>
+          <h2>Calculer votre empreinte carbone</h2>
           <p>Découvrez comment votre mode de vie affecte l'environnement et apprenez comment réduire votre empreinte carbone.</p>
-          <button className="start-test" onClick={startTest}>Commencer le test</button> {/* Add onClick handler */}
+          <button className="start-test big-button" onClick={startTest}>Commencer le test</button> {/* Add onClick handler */}
         </div>
       </section>
     </main>
