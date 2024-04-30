@@ -849,7 +849,7 @@ const getEaux = async (req, res) => {
  */
 const getMobilierEcv = async (req, res) => {
     const canapeconvertible = req.body.canapeconvertible;
-    const chaiseenbois = req.body.chaiseenvois;
+    const chaiseenbois = req.body.chaiseenbois;
     const tableenbois = req.body.tableenbois;
     const canapetextile = req.body.canapetextile;
     const armoire = req.body.armoire;

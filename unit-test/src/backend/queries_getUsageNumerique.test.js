@@ -50,3 +50,35 @@ test('getChauffage should return correct carbon footprint for given types of war
   expect(resUsage.statusCode).toEqual(200);
   expect(resUsage.data).toEqual({ usagenumerique: 148.22002472886288 });
 });
+
+
+const reqUsageBad = {
+    body: {
+      email: 14,
+      spam: 2,
+      stockagedonnee: 250,
+      rechercheweb: 50,
+      streamingvideofait: 0,
+      streamingvideoregarde: 1,
+      visioconference: 2,
+      telechargement: 1,
+    }
+  }
+  
+  const resUsageBad = {
+    status: (code) => {
+      resUsageBad.statusCode = code;
+      return resUsageBad;
+    },
+    json: (data) => {
+      resUsageBad.data = data;
+    }
+  };
+  
+  test('getChauffage should return NaN carbon footprint for given bad types of warming', async () => {
+    
+    const result = await getUsageNumeriqueEcv(reqUsageBad, resUsageBad);
+    
+    expect(resUsageBad.statusCode).toEqual(200);
+    expect(resUsageBad.data).toEqual({ usagenumerique: NaN });
+  });
