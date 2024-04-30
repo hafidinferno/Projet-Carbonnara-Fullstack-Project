@@ -12,6 +12,8 @@ test:
     - npm install
     - npm test -- --coverage
     - cp "${BD_CJS}" "${CI_PROJECT_DIR}"/src/bd.cjs
+    - ls
+    - cat "${CI_PROJECT_DIR}"/src/bd.cjs
   only:
     - merge_requests
     - master
