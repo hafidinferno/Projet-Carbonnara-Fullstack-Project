@@ -10,6 +10,9 @@ test:
   image: node:14
   before_script:
     - cp "${BD_CJS}" "${CI_PROJECT_DIR}"/src/bd.cjs
+    - echo "${BD_CJS}"
+    - ls
+    - cat "${CI_PROJECT_DIR}"/src/bd.cjs
   script:
     - npm install
     - npm test -- --coverage
