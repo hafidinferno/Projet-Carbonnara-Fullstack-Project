@@ -450,7 +450,6 @@ const getBoissonsEcv = async (req, res) => {
     const somme = footprintBoissons(footprint(resultSoda.rows[0].footprint, qtesoda), footprint(resultVin.rows[0].footprint, qtevin), footprint(resultBiere.rows[0].footprint, qtebiere), footprint(resultLait.rows[0].footprint, qtelait), footprint(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprint(resultThe.rows[0].footprint, qtethe), footprint(resultCafe.rows[0].footprint, qtecafe));
     const moyWeek = moyenne(somme, (qtesoda + qtevin + qtebiere + qtelait + qtelaitsoja + qtethe + qtecafe));
     const result = moyenneAnnee(moyWeek, 52);
-    console.log(result);
     await res.status(200).json({ "boissons":  result });
     return;
 
@@ -642,9 +641,7 @@ const getFruitsetLegumesEcv = async (req, res) => {
         size += 1;
       }
     }
-    console.log(somme);
     const moy = moyenne(somme, size);
-    console.log(moy);
     const resultat = moyenneAnnee(moy, 12);
     res.status(200).json({"fruitsetlegumes": resultat});
   } catch(error) {
@@ -836,7 +833,6 @@ const getEaux = async (req, res) => {
         for (const item of eauxData) {
             if (eaux[item.slug]) {
                 sommeEcveaux += item.ecv  * (2.5 * eaux[item.slug]);
-                console.log(item.slug, item.ecv  * (2.5 * eaux[item.slug]));
             }
         }
         res.status(200).json({eaux:sommeEcveaux * 365});

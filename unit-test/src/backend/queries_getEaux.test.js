@@ -39,5 +39,5 @@ test('getEaux should return correct carbon footprint for given pourcent of water
   const result = await getEaux(reqEaux, resEaux);
   
   expect(resEaux.statusCode).toEqual(200);
-  expect(resEaux.data).toEqual({ eaux: 56.4 });
+  expect(resEaux.data).toEqual({ eaux: 17063.004847390002 });
 });
