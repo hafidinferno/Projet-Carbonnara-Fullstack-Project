@@ -8,12 +8,12 @@ stages:
 test:
   stage: test
   image: node:14
+  before_script:
+    - cp "${BD_CJS}" "${CI_PROJECT_DIR}"/src/bd.cjs
   script:
     - npm install
     - npm test -- --coverage
-    - cp "${BD_CJS}" "${CI_PROJECT_DIR}"/src/bd.cjs
-    - ls
-    - cat "${CI_PROJECT_DIR}"/src/bd.cjs
+    
   only:
     - merge_requests
     - master
