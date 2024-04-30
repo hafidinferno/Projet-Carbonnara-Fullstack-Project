@@ -31,6 +31,16 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'zakirahshand';  /* Replace with the font's name */
+  src: url('../fonts/zakirahshand/zakirahshand.ttf') format('truetype');  /* Adjust the path and format */
+}
+
+p {
+  font-family: 'zakirahshand', sans-serif;  /* Apply the font globally or to specific elements */
+}
+
+
 .shadowed {
   box-shadow: 0 0 15px -10px var(--shadow-color);
 }

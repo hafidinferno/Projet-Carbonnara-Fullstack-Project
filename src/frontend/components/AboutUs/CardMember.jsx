@@ -1,14 +1,17 @@
-import React from "react";
-import TeamSection from "./TeamSection";
+import React from 'react';
 
-function CardMember({ name, rolePrincipal, roleSecondaire }) {
+function CardMember({ image, name, rolePrincipal, roleSecondaire }) {
   return (
     <div className="card-member">
-      <div className="member-photo"></div>
-      <div className="member-info">
-        <h3>{name}</h3>
-        <p className="rolePrincipal">{rolePrincipal}</p>
-        <p className="roleSecondaire">{roleSecondaire}</p>
+      {/* Utilisez la balise <img> avec l'attribut src pour afficher votre image */}
+      <img src={image} alt={name} className="member-photo" />
+        <div className="member-info">
+          <div class="roles">
+          <h3>{name}</h3>
+
+          <p className="rolePrincipal">{rolePrincipal}</p>
+          <p className="roleSecondaire">{roleSecondaire}</p>
+        </div>
       </div>
     </div>
   );

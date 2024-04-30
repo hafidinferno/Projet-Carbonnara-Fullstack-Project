@@ -1,10 +1,10 @@
+
 #about-us {
-    width: 60%;
+    width: 90%;
     
     display: flex;
     flex-direction: column;
 
-    
 }
 
 #team{
@@ -15,26 +15,36 @@
 
 .team-container {
     display: grid;
-    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    grid-template: repeat(2, 1fr) / repeat(3, 1fr);
     width: 100%;
     gap: 20px;
+    background-color: #f2f2f2;
+}
+
+@media (max-width: 1400px) {
+    .team-container {
+        grid-template-columns: repeat(2, 1fr);  /* Two columns on tablets */
+    }
+}
+@media (max-width: 760px) {
+    .team-container {
+        grid-template-columns: repeat(1, 1fr);  /* Two columns on tablets */
+    }
 }
 
 
 .card-member {
     background-color: white;
-    
     height: 120px;
-
     display: flex;
-
     align-items: center;
+    padding: 30px;
+
 }
 
 .member-photo {
     background: #f2f2f2;
     border-radius: 50%;
-
     height: 100%;
     aspect-ratio: 1;
 }
@@ -46,6 +56,23 @@
     height: 100%;
 }
 
+
+
+.roles {
+    padding-left: 20px;
+    padding-top: 8px;
+}
+p{
+    padding: 0;
+    margin: 0;
+}
+h3{
+    padding: 0;
+    margin: 0;
+    padding-bottom:15px ;
+}
+
+
 .methodology {
-    
+    padding-bottom: 100px;
 }

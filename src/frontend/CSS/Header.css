@@ -5,24 +5,19 @@ header {
     width: 100vw;
 }
 
-.App-header {
-    position: relative; 
+.div-header {
+    width: 99%;
     display: flex;
-    justify-content: flex-start; 
+    justify-content: space-between;
     align-items: center;
 }
 
-.circle-container
-{
-    position: absolute;
-    left: calc(50vw - 100px);
-    bottom: -75px;
-}
+
 
 .circle {
     position: relative;
     aspect-ratio: 1;
-    width: 200px;
+    width: 120px;
     border-radius: 100%;
 
     display: flex;
@@ -48,21 +43,22 @@ header {
 }
 
 .circle-container:hover #circle1 {
-    transform: translateX(0px) translateY(160px); /* Move top-left */
+    transform: translateX(-130px) translateY(-10px); /* Move top-left */
 }
   
 .circle-container:hover #circle2 {
-    transform: translateX(-113px) translateY(113px); /* Move top-right */
+    transform: translateX(-113px) translateY(108px); /* Move top-right */
 }
   
 .circle-container:hover #circle3 {
-    transform: translateX(113px) translateY(113px); /* Move directly down */
+    transform: translateX(0) translateY(120px); /* Move directly down */
 } 
 
 .sub-circle {
     position: absolute;
-    bottom: calc(50% - 50px); 
-    left: calc(50% - 50px);
+
+    top: calc(15px); 
+    right: calc(1%);
     
     aspect-ratio: 1;
     height: 100px;
@@ -86,4 +82,19 @@ header {
 
 .sub-circle:hover {
     background-color: var(--bg-color-light);
+}
+
+.circle img {
+    position: absolute; /* To enable custom positioning */
+    top: 10%; /* Distance from the top */
+    left: 10%; /* Distance from the left */
+    width: 80%; /* Or another value to ensure it doesn't extend outside the button */
+    height: 80%; /* Or another value to ensure it doesn't extend outside the button */
+    border-radius: 50%; /* Optional: Follows the circle's rounded edges */
+    object-fit: cover; /* Ensures the image scales properly */
+}
+
+.sub-circle img {
+    width: 60px;
+    height: 60px;
 }
