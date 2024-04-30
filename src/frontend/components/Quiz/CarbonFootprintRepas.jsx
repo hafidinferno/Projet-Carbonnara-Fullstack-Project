@@ -4,14 +4,6 @@ import "../../CSS/Carboon.css";
 const CarbonFootprintRepas = () => {
   const localStorageKey = "carbonFootprintQuizAnswers";
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const element = document.querySelector(hash);
-      if (element) element.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
-
   const questions = [
     {
       category: "repas",
@@ -19,7 +11,6 @@ const CarbonFootprintRepas = () => {
         "Combien de repas (déjeuner et dîner) faites-vous avec les aliments suivants par semaine en moyenne ?",
       type: "valueInput",
       foods: [
-        { name: "Bœuf", key: "repasavecduboeuf" },
         { name: "Poulet", key: "repasavecdupoulet" },
         { name: "Poisson blanc", key: "repasavecdupoissonblanc" },
         { name: "Poisson gras", key: "repasavecdupoissongras" },
@@ -83,7 +74,7 @@ const CarbonFootprintRepas = () => {
     <div className="quiz-container">
       <h2>Catégorie 3 : Bilan Carbone de Vos Habitudes Alimentaires</h2>
       {questions.map((question, index) => (
-        <div key={index} className="question-section" id={`question${index}`}>
+        <div key={index} className="question-section">
           <h3>
             {question.category === "repas"
               ? "Sub_catégorie: Repas"

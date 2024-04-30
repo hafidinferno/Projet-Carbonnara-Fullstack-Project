@@ -61,11 +61,7 @@ const CarbonQuizElectro = () => {
     <div className="quiz-container">
       <h2>Catégorie 1: Électroménager et Empreinte Carbone</h2>
       {questions.map((question, questionIndex) => (
-        <div
-          key={questionIndex}
-          className="question-section"
-          id={`question${index}`}
-        >
+        <div key={questionIndex} className="question-section">
           <p>{question.questionText}</p>
           {question.type === "checkbox" && (
             <div className="answers-section">
