@@ -4,6 +4,11 @@ import express from 'express'
 import fs from 'fs'
 import cors from 'cors'
 import { createServer } from 'vite';
+import path from 'path';
+import { fileURLToPath } from 'url'
+    
+const __filenameNew = fileURLToPath(import.meta.url)
+const __dirnameNew = path.dirname(__filenameNew)
 
 const app = express();
 import router from './backend/routers.cjs'
@@ -33,10 +38,23 @@ const vite_server = await createServer({
     appType: 'custom'
 });
 
+
 app.use(vite_server.middlewares);
 
 // App
 app.use(router);
+
+app.use('/images/*', async (req, res) => {
+    console.log("Je te passe l'image frontend" + req.originalUrl);
+    try {
+        res.status(200).sendFile(path.resolve(__dirnameNew, 'frontend' + req.originalUrl));
+        return;
+    } catch(error) {
+        console.error(error);
+        res.status(500).send(error);
+        return;
+    }
+});
 
 app.use('*', async (req, res) => {
     const url = req.originalUrl;
