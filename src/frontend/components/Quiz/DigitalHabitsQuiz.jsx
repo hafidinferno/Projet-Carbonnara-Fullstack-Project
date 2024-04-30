@@ -46,7 +46,7 @@ const DigitalHabitsQuiz = () => {
       }
 
       const adresse = routesApi[currentIndex];
-      const url = `https://localhost:8000/api/ecv/${adresse}`;
+      const url = `https://localhost:3001/api/ecv/${adresse}`;
       const data1 = eval(objet[currentIndex]);
       console.log(objet[currentIndex], routesApi[currentIndex]);
       console.log(data1, "-----------------");

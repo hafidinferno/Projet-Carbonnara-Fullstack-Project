@@ -29,7 +29,8 @@ Puis il faut installer toutes les dépendances nécessaires aux serveurs.
 ```bash
 cd src
 npm install react react-dom react-router-dom vite @vitejs/plugin-react express cors prop-types node-fetch@2 axios pg react-chartjs-2 chartjs-plugin-datalabels
-```
+npm install chartjs-plugin-datalabels
+npm install jspdf html2canvas
 
 ### Configuration
 
