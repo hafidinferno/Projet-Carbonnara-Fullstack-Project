@@ -16,7 +16,6 @@ function Accueil() {
           <h2>Calculer votre empreinte carbone?</h2>
           <p>Découvrez comment votre mode de vie affecte l'environnement et apprenez comment réduire votre empreinte carbone.</p>
           <button className="start-test" onClick={startTest}>Commencer le test</button> {/* Add onClick handler */}
-          <img src="/src/frontend/images/arrow.svg"></img>
         </div>
       </section>
     </main>

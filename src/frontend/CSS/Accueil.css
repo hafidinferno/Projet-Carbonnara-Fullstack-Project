@@ -11,8 +11,8 @@
   padding: 15px;
   padding-bottom: 80px;
   border : 25px solid transparent;
-  display: inline-block;  /* Ensures text and border adjust together */
-  border: 2px solid black;  /* Defines a solid border around the text */
+  display: inline-block;  
+  border: 2px solid black;  
   border-radius: 100px;
   background-color: rgb(255, 255, 255);
 
@@ -21,25 +21,25 @@
 
 .start-test {
   margin-top: 45px ;
-  background-color: #4CAF50;  /* Green background */
-  color: white;  /* Text color */
-  border: none;  /* Removes default border */
-  border-radius: 10px;  /* Rounded corners for a modern look */
-  padding: 12px 24px;  /* Adds internal spacing for comfort */
-  cursor: pointer;  /* Changes cursor to pointer on hover */
-  font-size: 18px;  /* Increases text size for readability */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Soft shadow for depth */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition for hover effects */
+  background-color: #4CAF50;  
+  color: white;  
+  border: none;  
+  border-radius: 10px;  
+  padding: 12px 24px;  
+  cursor: pointer;  
+  font-size: 18px;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;  
 }
 
 .start-test:hover {
-  background-color: #45a049;  /* Darker green on hover */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);  /* Slightly larger shadow */
+  background-color: #45a049;  
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);  
 }
 
 .start-test:active {
-  background-color: #3a923f;  /* Darker shade when clicked */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  /* Adjust shadow for pressed effect */
+  background-color: #3a923f;  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  
 }
 
 

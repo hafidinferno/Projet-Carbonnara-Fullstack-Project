@@ -239,7 +239,9 @@ const DigitalHabitsQuiz = () => {
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit}>Soumettre le Quiz</button>
+      <div id="submit-quiz-wrapper">
+        <button id="submit-quiz" onClick={handleSubmit}>Soumettre le Quiz</button>
+      </div>
     </div>
   );
 };

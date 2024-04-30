@@ -1,47 +1,47 @@
-/* CategoryPanel.css */
+
 
 .category-panel {
-  background-color: #fff; /* White background */
-  border-radius: 4px; /* Rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  background-color: #fff; 
+  border-radius: 4px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   padding: 20px;
-  margin: 20px; /* Spacing around the panel */
+  margin: 20px; 
 }
 
 .category-panel h2 {
-  color: #333; /* Dark text for the category title */
-  margin-bottom: 16px; /* Spacing below the title */
-  font-size: 24px; /* Larger font for the title */
+  color: #333; 
+  margin-bottom: 16px; 
+  font-size: 24px; 
 }
 
 .question {
-  border-bottom: 1px solid #eaeaea; /* Separator between questions */
-  padding-bottom: 10px; /* Spacing below each question */
-  margin-bottom: 10px; /* Spacing after each question */
+  border-bottom: 1px solid #eaeaea; 
+  padding-bottom: 10px; 
+  margin-bottom: 10px; 
 }
 
 .question h3 {
-  color: #333; /* Dark text for the question */
-  font-size: 18px; /* Font size for the question */
-  margin-bottom: 8px; /* Spacing below the question */
+  color: #333; 
+  font-size: 18px; 
+  margin-bottom: 8px; 
 }
 
 .answer {
-  display: block; /* Make answer span the width of the container */
+  display: block; 
   padding: 8px 12px;
-  margin: 4px 0; /* Spacing between answers */
-  background-color: #f7f7f7; /* Light gray background for answers */
-  border-radius: 4px; /* Rounded corners for answers */
-  cursor: pointer; /* Mouse pointer indicates clickable items */
-  transition: background-color 0.3s; /* Smooth background color change on hover */
+  margin: 4px 0; 
+  background-color: #f7f7f7; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
 }
 
 .answer:hover {
-  background-color: #e7e7e7; /* Slightly darker background on hover */
+  background-color: #e7e7e7; 
 }
 
-/* Optional: Add a class to the active answer to highlight it */
+
 .answer.active {
-  background-color: #dedede; /* Active answer background */
-  font-weight: bold; /* Make active answer text bold */
+  background-color: #dedede;
+  font-weight: bold; 
 }

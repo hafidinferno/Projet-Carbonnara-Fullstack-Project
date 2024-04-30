@@ -1,11 +1,11 @@
 :root {
   --progress-bg: #e0e0e0;
-  --segment-hover-bg: #4caf50;
+  --segment-hover-bg: var(--hl-color);
   --segment-active-bg: #ff9800;
-  --text-color: #ffffff;
-  --neutral-bg: #f0f0f0;
+  --text-color: #000;
+  --neutral-bg: var(--bg-color);
   --hover-scale: 1.05;
-  --font-size: 14px; /* Taille de police légèrement augmentée pour une meilleure lisibilité */
+  --font-size: 14px; 
 }
 
 .pb-wrapper {
@@ -21,7 +21,7 @@
 .progress-visual-bar-container {
   display: flex;
   width: 100%;
-  max-width: 960px; /* Limite la largeur maximale pour les grands écrans */
+  max-width: 960px; 
   background-color: var(--progress-bg);
   border-radius: 4px;
   overflow: hidden;
@@ -54,7 +54,7 @@
 .progress-visual-bar-segment:hover {
   background-color: var(--segment-active-bg);
   transform: scale(var(--hover-scale));
-  z-index: 1; /* Assure que le segment survolé s'affiche au-dessus des autres */
+  z-index: 1; 
 }
 
 .progress-visual-bar-segment.active {
@@ -62,96 +62,82 @@
 }
 .questions-container {
   display: flex;
-  flex-direction: row; /* Les boutons s'alignent verticalement */
-  align-items: center; /* Centrer les boutons horizontalement */
-  gap: 10px; /* Espacement entre les boutons */
-  margin: 20px; /* Marge autour du conteneur des boutons */
+  flex-direction: row; 
+  align-items: center; 
+  gap: 10px; 
+  margin: 20px; 
 }
 
 .question-button {
-  background-color: #4caf50; /* Vert similaire aux boutons de navigation */
-  color: white; /* Texte en blanc pour contraster avec le fond vert */
-  border: none; /* Pas de bordure pour garder le style épuré */
-  padding: 10px 15px; /* Padding légèrement différent pour ajustement visuel */
-  border-radius: 5px; /* Bords arrondis pour rester cohérent */
-  font-size: 14px; /* Taille de texte un peu plus petite */
-  cursor: pointer; /* Indiquer que le bouton est cliquable */
-  transition: background-color 0.3s, transform 0.3s; /* Transitions pour l'interaction */
+  background-color: #4caf50; 
+  color: white; 
+  border: none; 
+  padding: 10px 15px; 
+  border-radius: 5px; 
+  font-size: 14px; 
+  cursor: pointer; 
+  transition: background-color 0.3s, transform 0.3s; 
 }
 
 .question-button:hover {
-  background-color: #367b37; /* Vert plus foncé pour le survol */
+  background-color: #367b37; 
   transform: translateY(
     -2px
-  ); /* Effet de soulèvement pour une meilleure sensation tactile */
+  ); 
 }
 
 .question-button:disabled {
-  background-color: #9e9e9e; /* Gris pour les boutons désactivés */
+  background-color: #9e9e9e; 
 }
 
 .navigation-buttons {
   display: flex;
-  justify-content: flex-end; /* Ajustement pour une disposition plus intuitive */
+  justify-content: flex-end; 
   width: 100%;
-  max-width: 960px; /* Alignement avec la largeur de la barre de progression */
+  max-width: 960px; 
   margin-top: 10px;
-  padding-right: 20px; /* Espace à droite pour aligner avec la barre de progression */
+  padding-right: 20px; 
 }
 
 .navigation-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Espacement entre les boutons */
-  margin: 50px; /* Marge autour du conteneur des boutons */
+  gap: 20px; 
+  margin: 50px; 
 }
 
 .navigation-buttons button {
-  background-color: #4caf50; /* Vert de type 'Material Design' */
-  color: white; /* Texte blanc pour une bonne visibilité */
-  border: none; /* Pas de bordure */
-  padding: 10px 20px; /* Padding pour rendre le bouton plus grand */
-  border-radius: 5px; /* Bords arrondis */
-  font-size: 16px; /* Taille de texte appropriée */
-  cursor: pointer; /* Curseur pointeur pour indiquer la clicabilité */
-  transition: background-color 0.3s, transform 0.3s; /* Transition pour l'effet au survol */
+  background-color: #4caf50; 
+  color: white; 
+  border: none; 
+  padding: 10px 20px; 
+  border-radius: 5px; 
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: background-color 0.3s, transform 0.3s; 
 }
 
 .navigation-buttons button:hover {
-  background-color: #367b37; /* Un vert plus foncé au survol */
-  transform: translateY(-2px); /* Petit effet de soulèvement */
+  background-color: #367b37; 
+  transform: translateY(-2px); 
 }
 
 .navigation-buttons button:disabled {
-  background-color: #9e9e9e; /* Gris pour indiquer la désactivation */
-  cursor: default; /* Curseur par défaut pour montrer qu'il n'est pas cliquable */
-  transform: none; /* Pas de transformation au survol */
+  background-color: #9e9e9e; 
+  cursor: default; 
+  transform: none; 
 }
 
-@keyframes loadAnimation {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
 
-/* Assurer que l'animation de chargement s'applique seulement au démarrage */
-.progress-visual-bar-container:not(.loaded) {
-  animation: loadAnimation 2s ease-out forwards;
-}
-
-/* Ajout de médias queries pour une meilleure réactivité */
 @media (max-width: 768px) {
   .navigation-buttons {
-    justify-content: center; /* Centrer les boutons sur les petits écrans */
-    padding-right: 0; /* Supprime l'espacement droit sur les petits écrans */
+    justify-content: center; 
+    padding-right: 0; 
   }
 
   .segment-text {
     font-size: calc(
       var(--font-size) - 2px
-    ); /* Diminue la taille du texte sur les petits écrans pour éviter le surpeuplement */
+    ); 
   }
 }

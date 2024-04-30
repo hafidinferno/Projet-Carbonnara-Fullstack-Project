@@ -1,4 +1,4 @@
-/* General styles for the result page container */
+
 .result-container {
   padding: 20px;
   display: flex;
@@ -8,19 +8,19 @@
   background-color: #f9f9f9;
 }
 
-/* Headings style */
+
 .result-container h2 {
   text-align: center;
 }
 
-/* Chart container styles to ensure charts do not stretch too much on larger screens */
+
 .chart-container {
   width: 100%;
   max-width: 600px;
   margin: 20px 0;
 }
 
-/* Specific styles for labels and legends to ensure they are readable */
+
 .chart-labels {
   font-size: 16px;
   color: #333;
@@ -32,7 +32,7 @@
   margin-top: 10px;
 }
 
-/* Responsive design adjustments */
+
 @media (max-width: 768px) {
   .chart-container {
     width: 90%;
