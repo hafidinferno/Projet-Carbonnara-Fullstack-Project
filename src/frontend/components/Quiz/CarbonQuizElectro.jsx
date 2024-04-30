@@ -3,6 +3,16 @@ import "../../CSS/Carboon.css";
 
 const CarbonQuizElectro = () => {
   const localStorageKey = "CarbonQuizElectro";
+  localStorage.setItem("currentCategoryIndex",0);
+
+
+  useEffect(() => {
+    // Vérifie si la page a déjà été rechargée
+    if (!localStorage.getItem('hasReloaded')) {
+      localStorage.setItem('hasReloaded', 'true'); // Marquer qu'un rechargement a eu lieu
+      window.location.reload(); // Recharger la page
+    }
+  }, []);
 
   useEffect(() => {
     const hash = window.location.hash;
