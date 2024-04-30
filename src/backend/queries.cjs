@@ -4,6 +4,7 @@ const credentials = require('../bd.cjs');
 const fetch = require('node-fetch');
 const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.cjs');
 
+
 /**
  * Connection à la base de données.
  */
@@ -348,6 +349,7 @@ const getChauffage = async (req, res) => {
     poeleagranule: req.body.poeleagranule,
     poeleabois: req.body.poeleabois,
     reseaudechaleur: req.body.reseaudechaleur,
+    surfaceHabitation: req.body.surfaceHabitation,
   };
 
   try {
@@ -364,18 +366,13 @@ const getChauffage = async (req, res) => {
     }));
 
     let sommeEcvChauffage = 0;
-    let isValid = true;
+
     for (const item of chauffageData) {
-      if (typesChauffage.hasOwnProperty(item.slug)) {
-        sommeEcvChauffage += item.ecv * typesChauffage[item.slug];
+
+      if (typesChauffage[item.slug]!==undefined) {
+        sommeEcvChauffage += item.ecv * typesChauffage.surfaceHabitation;
       }
-      else {
-        isValid = false;
-        break;
-      }
-    }
-    if (!isValid) {
-      throw new Error('Un ou plusieurs slugs de chauffage sont invalides.');
+
     }
     res.status(200).json({ chauffage : sommeEcvChauffage});
   } catch (error) {
