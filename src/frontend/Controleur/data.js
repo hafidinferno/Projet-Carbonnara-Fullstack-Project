@@ -20,6 +20,10 @@ const data = [
     levels: ["Question 1"],
   },
   {
+    cat_name: "Chauffage",
+    levels: ["Question 1"],
+  },
+  {
     cat_name: "Electronique et numérique",
     levels: ["Question 1", "Question 2"],
   },

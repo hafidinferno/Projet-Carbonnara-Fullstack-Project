@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../../CSS/Carboon.css";
-
+import { useNavigate } from "react-router-dom";
 const DigitalHabitsQuiz = () => {
+  const navigate = useNavigate();
   const localStorageKey = "digitalHabitsQuizAnswers";
 
   useEffect(() => {
@@ -11,6 +12,77 @@ const DigitalHabitsQuiz = () => {
       if (element) element.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
+  function handleSubmit() {
+    const requete = [
+      "electromenager",
+      "boissons",
+      "eaux",
+      "repas",
+      "fruitsetlegumes",
+      "transport",
+      "numerique",
+      "usagenumerique",
+      "chauffage",
+    ];
+    const objet = [
+      'localStorage.getItem("CarbonQuizElectro")',
+      'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[1])',
+      'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[0])',
+      'JSON.stringify(JSON.parse(localStorage.getItem("carbonFootprintQuizAnswers"))[0])',
+      'localStorage.getItem("fruitsVegetablesConsumptionQuizAnswers")',
+      'localStorage.getItem("dailyTransportQuizAnswers")',
+      'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").electronics)',
+      'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").usageData)',
+      'localStorage.getItem("chauffageQuiz")',
+    ];
+
+    function executeSequentialRequests(routesApi, currentIndex, callback) {
+      if (currentIndex >= routesApi.length) {
+        if (callback) callback();
+        return;
+      }
+
+      const adresse = routesApi[currentIndex];
+      const url = `https://localhost:3001/api/ecv/${adresse}`;
+      const data1 = eval(objet[currentIndex]);
+      console.log(data1, "-----------------");
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: data1,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("La requête a échoué");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Traitez les données renvoyées par le serveur si nécessaire
+          console.log("Réponse pour", adresse, ":", data[adresse]);
+
+          // Enregistrez les réponses dans le localStorage si nécessaire
+          localStorage.setItem(adresse, data[adresse]);
+
+          // Exécute la prochaine requête de manière séquentielle
+          executeSequentialRequests(routesApi, currentIndex + 1, callback);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Vous pouvez gérer les erreurs ici si nécessaire
+        });
+    }
+
+    // Démarrez l'exécution séquentielle des requêtes avec les endpoints
+    executeSequentialRequests(requete, 0, () => {
+      console.log("Toutes les requêtes ont été exécutées avec succès !");
+
+      navigate("/Results"); // Redirige vers la page de résultats
+    });
+  }
 
   const electronics = [
     "smartphone",
@@ -135,7 +207,7 @@ const DigitalHabitsQuiz = () => {
       <h2>Catégorie: Numérique - Habitudes et Consommation</h2>
       <div className="section">
         <h3>Achats appareils électroniques</h3>
-        {electronics.map((item, index) => (
+        {electronics.map((item) => (
           <label key={item} className="checkbox-label" id={`question${index}`}>
             <input
               type="checkbox"
@@ -148,7 +220,7 @@ const DigitalHabitsQuiz = () => {
       </div>
       <div className="section">
         <h3>Usage numérique hebdomadaire</h3>
-        {digitalActivities.map((activity, index) => (
+        {digitalActivities.map((activity) => (
           <div key={activity.key} id={`question${index}`}>
             <label>
               {activity.name}
@@ -167,6 +239,7 @@ const DigitalHabitsQuiz = () => {
           </div>
         ))}
       </div>
+      <button onClick={handleSubmit}>Soumettre le Quiz</button>
     </div>
   );
 };

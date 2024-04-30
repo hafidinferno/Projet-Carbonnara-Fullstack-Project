@@ -12,7 +12,6 @@ const CarbonFootprintRepas = () => {
     }
   }, []);
 
-  // Questions pour le quiz
   const questions = [
     {
       category: "repas",
@@ -20,12 +19,12 @@ const CarbonFootprintRepas = () => {
         "Combien de repas (déjeuner et dîner) faites-vous avec les aliments suivants par semaine en moyenne ?",
       type: "valueInput",
       foods: [
-        { name: "Bœuf", carbonMultiplier: 2.5 },
-        { name: "Poulet", carbonMultiplier: 0.5 },
-        { name: "Poisson blanc", carbonMultiplier: 0.8 },
-        { name: "Poisson gras", carbonMultiplier: 1.2 },
-        { name: "Végétarien", carbonMultiplier: 0.2 },
-        { name: "Végétalien", carbonMultiplier: 0.1 },
+        { name: "Bœuf", key: "repasavecduboeuf" },
+        { name: "Poulet", key: "repasavecdupoulet" },
+        { name: "Poisson blanc", key: "repasavecdupoissonblanc" },
+        { name: "Poisson gras", key: "repasavecdupoissongras" },
+        { name: "Végétarien", key: "repasvegetarien" },
+        { name: "Végétalien", key: "repasvegetalien" },
       ],
     },
     {
@@ -35,37 +34,48 @@ const CarbonFootprintRepas = () => {
       type: "slider",
       min: 0,
       max: 100,
-      defaultValue: 50, // valeur par défaut représentative d'une alimentation équilibrée
+      defaultValue: 50,
     },
   ];
 
-  // Initialiser l'état des réponses avec celles stockées dans localStorage ou un tableau vide
+  // Initialiser l'état des réponses avec celles stockées dans localStorage ou des valeurs par défaut appropriées
   const [selectedAnswers, setSelectedAnswers] = useState(() => {
     const savedAnswers = localStorage.getItem(localStorageKey);
-    return savedAnswers
-      ? JSON.parse(savedAnswers)
-      : Array(questions.length).fill(null);
+    if (savedAnswers) {
+      return JSON.parse(savedAnswers);
+    } else {
+      return questions.map((question) => {
+        if (question.type === "valueInput") {
+          // Créez un objet avec toutes les clés des aliments initialisées à 0
+          const initialFoods = question.foods.reduce((acc, food) => {
+            acc[food.key] = 0;
+            return acc;
+          }, {});
+          return initialFoods;
+        } else {
+          return { value: question.defaultValue };
+        }
+      });
+    }
   });
 
-  // Effet pour sauvegarder les réponses dans le localStorage lorsqu'elles changent
   useEffect(() => {
     localStorage.setItem(localStorageKey, JSON.stringify(selectedAnswers));
   }, [selectedAnswers]);
 
-  // Gestionnaire pour les réponses aux questions
   const handleFoodInput = (questionIndex, foodIndex, value) => {
     const newAnswers = [...selectedAnswers];
-    if (!newAnswers[questionIndex]) {
-      newAnswers[questionIndex] = {};
-    }
-    newAnswers[questionIndex][questions[questionIndex].foods[foodIndex].name] =
-      value;
+    const foodKey = questions[questionIndex].foods[foodIndex].key;
+    const numericValue = value ? parseInt(value, 10) : 0; // Convert input to integer, default to 0 if empty
+
+    newAnswers[questionIndex][foodKey] = numericValue;
+
     setSelectedAnswers(newAnswers);
   };
 
   const handleSliderChange = (questionIndex, value) => {
     const newAnswers = [...selectedAnswers];
-    newAnswers[questionIndex] = { value };
+    newAnswers[questionIndex] = { value: parseInt(value, 10) }; // Ensure value is stored as integer
     setSelectedAnswers(newAnswers);
   };
 
@@ -88,7 +98,7 @@ const CarbonFootprintRepas = () => {
                     {food.name}:
                     <input
                       type="number"
-                      value={selectedAnswers[index]?.[food.name] || ""}
+                      value={selectedAnswers[index][food.key]}
                       onChange={(e) =>
                         handleFoodInput(index, foodIndex, e.target.value)
                       }
@@ -104,14 +114,11 @@ const CarbonFootprintRepas = () => {
                 type="range"
                 min={question.min}
                 max={question.max}
-                value={selectedAnswers[index]?.value || question.defaultValue}
+                value={selectedAnswers[index].value}
                 className="slider"
                 onChange={(e) => handleSliderChange(index, e.target.value)}
               />
-              <div>
-                Valeur: {selectedAnswers[index]?.value || question.defaultValue}
-                %
-              </div>
+              <div>Valeur: {selectedAnswers[index].value}%</div>
             </>
           )}
         </div>

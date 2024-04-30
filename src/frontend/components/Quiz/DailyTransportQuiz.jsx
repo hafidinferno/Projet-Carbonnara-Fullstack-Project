@@ -13,48 +13,52 @@ const DailyTransportQuiz = () => {
   }, []);
 
   const transportOptions = [
-    { name: "TGV", carbonMultiplier: 0.02 },
-    { name: "Train Intercités", carbonMultiplier: 0.03 },
-    { name: "TER", carbonMultiplier: 0.03 },
-    { name: "RER ou Transilien", carbonMultiplier: 0.03 },
-    { name: "Bus (thermique)", carbonMultiplier: 0.08 },
-    { name: "Bus (électrique)", carbonMultiplier: 0.02 },
-    { name: "Tramway", carbonMultiplier: 0.01 },
-    { name: "Métro", carbonMultiplier: 0.02 },
-    { name: "Scooter ou moto légère", carbonMultiplier: 0.2 },
-    { name: "Moto", carbonMultiplier: 0.25 },
-    { name: "Voiture (thermique)", carbonMultiplier: 0.25 },
-    { name: "Voiture (électrique)", carbonMultiplier: 0.05 },
-    { name: "Marche ou vélo (non électrique)", carbonMultiplier: 0 },
-    {
-      name: "Vélo ou trottinette à assistance électrique",
-      carbonMultiplier: 0.01,
-    },
-    { name: "Je ne me déplace pas la plupart des jours", carbonMultiplier: 0 },
+    { name: "TGV", key: "tgv" },
+    { name: "Train Intercités", key: "intercites" },
+    { name: "TER", key: "ter" },
+    { name: "RER", key: "rer" },
+    { name: "Bus (thermique)", key: "busthermique" },
+    { name: "Bus (électrique)", key: "buselectrique" },
+    { name: "Bus (GNV)", key: "busgnv" },
+    { name: "Autocar", key: "autocar" },
+    { name: "Tramway", key: "tramway" },
+    { name: "Métro", key: "metro" },
+    { name: "Scooter ou moto légère", key: "scooter" },
+    { name: "Moto", key: "moto" },
+    { name: "Voiture (thermique)", key: "voiturethermique" },
+    { name: "Voiture (électrique)", key: "voitureelectrique" },
+    { name: "Marche ou vélo (non électrique)", key: "velo" },
+    { name: "Vélo ou trottinette à assistance électrique", key: "veloelectrique" },
+    { name: "Avion court-courrier", key: "avioncourtcourrier" },
+    { name: "Avion moyen-courrier", key: "avionmoyencourrier" },
+    { name: "Avion long-courrier", key: "avionlongcourrier" },
+    { name: "Je ne me déplace pas la plupart des jours", key: "carbonMultiplier" },
   ];
 
-  const [selectedTransportMethods, setSelectedTransportMethods] = useState(
-    () => {
-      const saved = localStorage.getItem(localStorageKey);
-      return saved ? JSON.parse(saved) : [];
-    }
-  );
+  const [selectedTransportMethods, setSelectedTransportMethods] = useState(() => {
+    const saved = localStorage.getItem(localStorageKey);
+    return saved ? JSON.parse(saved) : transportOptions.reduce((acc, option) => {
+      acc[option.key] = 0;
+      return acc;
+    }, {});
+  });
 
   useEffect(() => {
     localStorage.setItem(
-      localStorageKey,
-      JSON.stringify(selectedTransportMethods)
+        localStorageKey,
+        JSON.stringify(selectedTransportMethods)
     );
   }, [selectedTransportMethods]);
 
-  const handleCheckboxChange = (transport) => {
-    const updatedSelections = selectedTransportMethods.includes(transport)
-      ? selectedTransportMethods.filter((selected) => selected !== transport)
-      : [...selectedTransportMethods, transport];
-    setSelectedTransportMethods(updatedSelections);
+  const handleCheckboxChange = (transportKey, isChecked) => {
+    setSelectedTransportMethods(prevState => ({
+      ...prevState,
+      [transportKey]: isChecked ? 1 : 0
+    }));
   };
 
   return (
+<<<<<<< HEAD
     <div className="quiz-container">
       <h2>Catégorie: Transport</h2>
       <p>
@@ -73,8 +77,28 @@ const DailyTransportQuiz = () => {
             {option.name}
           </label>
         ))}
+=======
+      <div className="quiz-container">
+        <h2>Catégorie: Transport</h2>
+        <p>
+          Parmi les options suivantes, quelle méthode de transport utilisez-vous
+          au quotidien ?
+        </p>
+        <div className="answers-section">
+          {transportOptions.map((option, index) => (
+            <label key={index} className="checkbox-label" id={`question${index}`}>
+                <input
+                type="checkbox"
+                id={`transport-${index}`}
+                    checked={selectedTransportMethods[option.key] === 1}
+                    onChange={(e) => handleCheckboxChange(option.key, e.target.checked)}
+                />
+                {option.name}
+              </label>
+          ))}
+        </div>
+>>>>>>> dev
       </div>
-    </div>
   );
 };
 
