@@ -11,6 +11,7 @@ const CarbonFootprintRepas = () => {
         "Combien de repas (déjeuner et dîner) faites-vous avec les aliments suivants par semaine en moyenne ?",
       type: "valueInput",
       foods: [
+        { name: "Repas avec du boeuf", key: "repasavecduboeuf" },
         { name: "Poulet", key: "repasavecdupoulet" },
         { name: "Poisson blanc", key: "repasavecdupoissonblanc" },
         { name: "Poisson gras", key: "repasavecdupoissongras" },

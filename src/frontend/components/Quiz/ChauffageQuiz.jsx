@@ -35,11 +35,15 @@ const ChauffageQuiz = () => {
         } else {
             let initialAnswers = {};
             questions.forEach(question => {
-                if (question.type === "valueInput") {
-                    initialAnswers[question.key] = question.defaultValue;
-                } else if (question.type === "radio") {
+                if (question.type === "radio") {
+                    question.answerOptions.forEach(option => {
+                        const key = Object.keys(option).find(key => key !== 'text');
+                        initialAnswers[key] = 0;
+                    });
                     const firstOptionKey = Object.keys(question.answerOptions[0]).find(key => key !== 'text');
-                    initialAnswers[firstOptionKey] = question.answerOptions[0][firstOptionKey];
+                    initialAnswers[firstOptionKey] = 1;
+                } else if (question.type === "valueInput") {
+                    initialAnswers[question.key] = question.defaultValue;
                 }
             });
             return initialAnswers;
@@ -53,8 +57,11 @@ const ChauffageQuiz = () => {
     const handleAnswerClick = (question, answer) => {
         const answerKey = Object.keys(answer).find(key => key !== 'text');
         setSelectedAnswers(prev => ({
-            ...prev,
-            [answerKey]: answer[answerKey]
+            ...Object.keys(prev).reduce((acc, key) => {
+                acc[key] = 0; // Set all heating types to 0
+                return acc;
+            }, {}),
+            [answerKey]: 1  // Set only the selected type to 1
         }));
     };
 
