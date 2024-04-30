@@ -72,7 +72,7 @@ deploy:
   before_script:
     - apk update && apk add openssh
     - chmod 400 "${CI_GITLAB_KEY}"
-    - echo "module.exports = {'database': 'mif10','user': 'application','password': 'Pxpz&8%S8^pQjAqq','host': '192.168.75.17','port': '5432'}" >"${CI_PROJECT_DIR}"/src/bd.cjs
+    - cp "${BD_CJS}" "${CI_PROJECT_DIR}"/src/bd.cjs
   script:
   # Backend
     - scp -r -o StrictHostKeyChecking=no -i "${CI_GITLAB_KEY}" "${CI_PROJECT_DIR}"/src/backend gitlabci@192.168.75.17:/opt/server/.
