@@ -4,29 +4,38 @@ import "../../CSS/Carboon.css";
 const ChauffageQuiz = () => {
     const localStorageKey = "chauffageQuiz";
 
-    const questions = [
-        {
-            category: "chauffage",
-            questionText: "Quel type de chauffage utilisez-vous ?",
-            type: "radio",
-            answerOptions: [
-                { text: "Gaz", chauffagegaz: 1 },
-                { text: "Fioul", chauffagefioul: 1 },
-                { text: "Électrique", chauffageelectrique: 1 },
-                { text: "Pompe à chaleur", pompeachaleur: 1 },
-                { text: "Poêle à granulés", poeleagranule: 1 },
-                { text: "Poêle à bois", poeleabois: 1 },
-                { text: "Réseau de chaleur", reseaudechaleur: 1 },
-            ],
-        },
-        {
-            category: "surface",
-            questionText: "Quelle est la surface de votre habitation en mètres carrés ?",
-            type: "valueInput",
-            key: "surfaceHabitation",
-            defaultValue: 0,
-        }
-    ];
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  const questions = [
+    {
+      category: "chauffage",
+      questionText: "Quel type de chauffage utilisez-vous ?",
+      type: "radio",
+      answerOptions: [
+        { text: "Gaz", chauffagegaz: 1 },
+        { text: "Fioul", chauffagefioul: 1 },
+        { text: "Électrique", chauffageelectrique: 1 },
+        { text: "Pompe à chaleur", pompeachaleur: 1 },
+        { text: "Poêle à granulés", poeleagranule: 1 },
+        { text: "Poêle à bois", poeleabois: 1 },
+        { text: "Réseau de chaleur", reseaudechaleur: 1 },
+      ],
+    },
+    {
+      category: "surface",
+      questionText:
+        "Quelle est la surface de votre habitation en mètres carrés ?",
+      type: "valueInput",
+      key: "surfaceHabitation",
+      defaultValue: 0,
+    },
+  ];
 
     const [selectedAnswers, setSelectedAnswers] = useState(() => {
         const savedAnswers = localStorage.getItem(localStorageKey);
@@ -35,11 +44,15 @@ const ChauffageQuiz = () => {
         } else {
             let initialAnswers = {};
             questions.forEach(question => {
-                if (question.type === "valueInput") {
-                    initialAnswers[question.key] = question.defaultValue;
-                } else if (question.type === "radio") {
+                if (question.type === "radio") {
+                    question.answerOptions.forEach(option => {
+                        const key = Object.keys(option).find(key => key !== 'text');
+                        initialAnswers[key] = 0;
+                    });
                     const firstOptionKey = Object.keys(question.answerOptions[0]).find(key => key !== 'text');
-                    initialAnswers[firstOptionKey] = question.answerOptions[0][firstOptionKey];
+                    initialAnswers[firstOptionKey] = 1;
+                } else if (question.type === "valueInput") {
+                    initialAnswers[question.key] = question.defaultValue;
                 }
             });
             return initialAnswers;
@@ -53,8 +66,11 @@ const ChauffageQuiz = () => {
     const handleAnswerClick = (question, answer) => {
         const answerKey = Object.keys(answer).find(key => key !== 'text');
         setSelectedAnswers(prev => ({
-            ...prev,
-            [answerKey]: answer[answerKey]
+            ...Object.keys(prev).reduce((acc, key) => {
+                acc[key] = 0; // Set all heating types to 0
+                return acc;
+            }, {}),
+            [answerKey]: 1  // Set only the selected type to 1
         }));
     };
 
@@ -70,7 +86,7 @@ const ChauffageQuiz = () => {
         <div className="quiz-container">
             <h2>Quiz sur le Chauffage</h2>
             {questions.map((question, index) => (
-                <div key={index} className="question-section">
+                <div key={index} className="question-section" id={`question${index}`}>
                     <h3>{question.category === "chauffage" ? "Type de chauffage" : "Surface de l'habitation"}</h3>
                     <p>{question.questionText}</p>
                     {question.type === "radio" && (

@@ -13,9 +13,13 @@ import Test8 from "./pages/Test8";
 import Test6 from "./pages/Test6";
 import Test7 from "./pages/Test7";
 
+import Header from "./components/header/Header"
+
 function App() {
   return (
     <BrowserRouter>
+        <Header />
+        <div id="content-wrapper">
       <Routes>
         <Route path="/" element={<Accueil />} />
         <Route path="/Test1" element={<TestI />} />
@@ -31,6 +35,7 @@ function App() {
         <Route path="/Hello" element={<HelloPage />} />
         <Route path="/Results" element={<ResultPage />} />
       </Routes>
+        </div>
     </BrowserRouter>
   );
 }

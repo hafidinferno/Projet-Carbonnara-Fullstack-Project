@@ -5,10 +5,29 @@ const DigitalHabitsQuiz = () => {
   const navigate = useNavigate();
   const localStorageKey = "digitalHabitsQuizAnswers";
 
-  function handleSubmit() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
-    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique','chauffage','mobilier'];
-    const objet = ['localStorage.getItem("CarbonQuizElectro")',
+  function handleSubmit() {
+    const requete = [
+      "electromenager",
+      "boissons",
+      "eaux",
+      "repas",
+      "fruitsetlegumes",
+      "transport",
+      "numerique",
+      "usagenumerique",
+      "chauffage",
+      "mobilier",
+    ];
+    const objet = [
+      'localStorage.getItem("CarbonQuizElectro")',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[1])',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[0])',
       'JSON.stringify(JSON.parse(localStorage.getItem("carbonFootprintQuizAnswers"))[0])',
@@ -22,7 +41,6 @@ const DigitalHabitsQuiz = () => {
 
     function executeSequentialRequests(routesApi, currentIndex, callback) {
       if (currentIndex >= routesApi.length) {
-
         if (callback) callback();
         return;
       }
@@ -30,41 +48,37 @@ const DigitalHabitsQuiz = () => {
       const adresse = routesApi[currentIndex];
       const url = `https://localhost:3001/api/ecv/${adresse}`;
       const data1 = eval(objet[currentIndex]);
-      console.log(objet[currentIndex],routesApi[currentIndex])
-      console.log(data1,"-----------------");
+      console.log(objet[currentIndex], routesApi[currentIndex]);
+      console.log(data1, "-----------------");
 
       fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: data1 ,
+        body: data1,
       })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('La requête a échoué');
-            }
-            return response.json();
-          })
-          .then(data => {
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("La requête a échoué");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Réponse pour", adresse, ":", data[adresse]);
 
-            console.log('Réponse pour', adresse, ':', data[adresse]);
+          localStorage.setItem(adresse, data[adresse]);
 
-
-            localStorage.setItem(adresse, data[adresse]);
-
-            // Exécute la prochaine requête de manière séquentielle
-            executeSequentialRequests(routesApi, currentIndex + 1, callback);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-
-          });
+          // Exécute la prochaine requête de manière séquentielle
+          executeSequentialRequests(routesApi, currentIndex + 1, callback);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
 
-
     executeSequentialRequests(requete, 0, () => {
-      console.log('Toutes les requêtes ont été exécutées avec succès !');
+      console.log("Toutes les requêtes ont été exécutées avec succès !");
 
       navigate("/Results"); // Redirige vers la page de résultats
     });
@@ -169,8 +183,8 @@ const DigitalHabitsQuiz = () => {
 
   useEffect(() => {
     localStorage.setItem(
-        localStorageKey,
-        JSON.stringify({ electronics: selectedElectronics, usageData })
+      localStorageKey,
+      JSON.stringify({ electronics: selectedElectronics, usageData })
     );
   }, [selectedElectronics, usageData]);
 
@@ -189,44 +203,44 @@ const DigitalHabitsQuiz = () => {
   };
 
   return (
-      <div className="quiz-container">
-        <h2>Catégorie: Numérique - Habitudes et Consommation</h2>
-        <div className="section">
-          <h3>Achats appareils électroniques</h3>
-          {electronics.map((item) => (
-              <label key={item} className="checkbox-label">
-                <input
-                    type="checkbox"
-                    checked={selectedElectronics[item] === 1}
-                    onChange={() => handleElectronicsChange(item)}
-                />
-                {item}
-              </label>
-          ))}
-        </div>
-        <div className="section">
-          <h3>Usage numérique hebdomadaire</h3>
-          {digitalActivities.map((activity) => (
-              <div key={activity.key}>
-                <label>
-                  {activity.name}
-                  <input
-                      type="number"
-                      value={usageData[activity.key]}
-                      onChange={(e) =>
-                          handleUsageChange(
-                              activity.key,
-                              parseInt(e.target.value, 10) || 0
-                          )
-                      }
-                      min="0"
-                  />
-                </label>
-              </div>
-          ))}
-        </div>
-        <button onClick={handleSubmit}>Soumettre le Quiz</button>
+    <div className="quiz-container">
+      <h2>Catégorie: Numérique - Habitudes et Consommation</h2>
+      <div className="section">
+        <h3>Achats appareils électroniques</h3>
+        {electronics.map((item, index) => (
+          <label key={item} className="checkbox-label" id={`question${index}`}>
+            <input
+              type="checkbox"
+              checked={selectedElectronics[item] === 1}
+              onChange={() => handleElectronicsChange(item)}
+            />
+            {item}
+          </label>
+        ))}
       </div>
+      <div className="section">
+        <h3>Usage numérique hebdomadaire</h3>
+        {digitalActivities.map((activity, index) => (
+          <div key={activity.key} id={`question${index}`}>
+            <label>
+              {activity.name}
+              <input
+                type="number"
+                value={usageData[activity.key]}
+                onChange={(e) =>
+                  handleUsageChange(
+                    activity.key,
+                    parseInt(e.target.value, 10) || 0
+                  )
+                }
+                min="0"
+              />
+            </label>
+          </div>
+        ))}
+      </div>
+      <button onClick={handleSubmit}>Soumettre le Quiz</button>
+    </div>
   );
 };
 

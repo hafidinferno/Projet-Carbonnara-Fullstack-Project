@@ -6,26 +6,24 @@ import data from "../Controleur/data";
 import MeubleQuiz from "../components/Quiz/MeubleQuiz.jsx";
 
 function Test6() {
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const levelFromUrl = parseInt(searchParams.get("level"), 10);
-    const [currentLevel, setCurrentLevel] = useState(
-        isNaN(levelFromUrl) ? 0 : levelFromUrl
-    );
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const levelFromUrl = parseInt(searchParams.get("level"), 10);
+  const [currentLevel, setCurrentLevel] = useState(
+    isNaN(levelFromUrl) ? 0 : levelFromUrl
+  );
 
-    return (
-        <div className="App">
-            <Header />
+  return (
+    <div className="App">
+      <ProgressionBar
+        categories={data}
+        currentLevel={currentLevel}
+        setCurrentLevel={setCurrentLevel}
+      />
 
-            <ProgressionBar
-                categories={data}
-                currentLevel={currentLevel}
-                setCurrentLevel={setCurrentLevel}
-            />
-
-            <MeubleQuiz />
-        </div>
-    );
+      <MeubleQuiz />
+    </div>
+  );
 }
 
 export default Test6;

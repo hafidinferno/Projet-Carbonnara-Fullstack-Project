@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Doughnut, Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -13,6 +13,8 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import "../CSS/ResultPage.css";
 import chauffageQuiz from "../components/Quiz/ChauffageQuiz.jsx";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 ChartJS.register(
     ArcElement,
@@ -26,6 +28,17 @@ ChartJS.register(
 );
 
 const ResultPage = () => {
+    const chartRef = useRef(null);
+
+    const downloadPDF = async () => {
+        const input = chartRef.current;
+        const canvas = await html2canvas(input);
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'JPEG', 15, 15, 180, 180);
+        pdf.save("download.pdf");
+    };
+
     const categories = ['electromenager', 'boissons', 'eaux', 'repas', 'fruitsetlegumes', 'transport', 'numerique', 'usagenumerique','chauffage','mobilier'];
 
     const carbonData = categories.map(category => parseFloat(localStorage.getItem(category) || 0));
@@ -94,21 +107,22 @@ const ResultPage = () => {
 
     return (
         <div className="result-container">
-            <h2>Répartition de l'Empreinte Carbone</h2>
-            <div className="chart-container">
-                <Doughnut
-                    data={pieData}
-                    options={options}
-                />
-            </div>
-            <div className="chart-container">
-                <Bar
-                    data={barData}
-                    options={barOptions}
-                />
-            </div>
+          <h2>Répartition de l'Empreinte Carbone</h2>
+          <div className="chart-container" ref={chartRef}>
+            <Doughnut
+              data={pieData}
+              options={options}
+            />
+            <Bar
+              data={barData}
+              options={barOptions}
+            />
+          </div>
+          <div>
+            <button onClick={downloadPDF}>Télécharger en PDF</button>
+          </div>
         </div>
-    );
+      );
 };
 
 export default ResultPage;

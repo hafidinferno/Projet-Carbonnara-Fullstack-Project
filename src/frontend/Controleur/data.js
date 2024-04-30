@@ -21,7 +21,7 @@ const data = [
   },
   {
     cat_name: "Chauffage",
-    levels: ["Question 1"],
+    levels: ["Question 1", "Question 2"],
   },
   {
     cat_name: "Meuble",

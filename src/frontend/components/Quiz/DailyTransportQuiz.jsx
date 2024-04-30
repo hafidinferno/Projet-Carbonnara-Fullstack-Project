@@ -4,6 +4,14 @@ import "../../CSS/Carboon.css";
 const DailyTransportQuiz = () => {
   const localStorageKey = "dailyTransportQuizAnswers";
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   const transportOptions = [
     { name: "TGV", key: "tgv" },
     { name: "Train Intercités", key: "intercites" },
@@ -58,9 +66,10 @@ const DailyTransportQuiz = () => {
         </p>
         <div className="answers-section">
           {transportOptions.map((option, index) => (
-              <label key={index} className="checkbox-label">
+            <label key={index} className="checkbox-label" id={`question${index}`}>
                 <input
-                    type="checkbox"
+                type="checkbox"
+                id={`transport-${index}`}
                     checked={selectedTransportMethods[option.key] === 1}
                     onChange={(e) => handleCheckboxChange(option.key, e.target.checked)}
                 />

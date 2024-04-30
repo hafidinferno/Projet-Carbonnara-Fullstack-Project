@@ -4,6 +4,15 @@ import "../../CSS/Carboon.css";
 const CarbonFootprintBoisson = () => {
   const localStorageKey = "CarbonFootprintBoisson";
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  // Questions pour le quiz
   const questions = [
     {
       category: "eau",
@@ -69,7 +78,7 @@ const CarbonFootprintBoisson = () => {
       <div className="quiz-container">
         <h2>Catégorie 2: Les boissons et Empreinte Carbone</h2>
         {questions.map((question, index) => (
-            <div key={index} className="question-section">
+            <div key={index} className="question-section" id={`question${index}`}>
               <h3>{question.category === "eau" ? "Sub_catégorie: Eau" : "Sub_catégorie: Boissons"}</h3>
               <p>{question.questionText}</p>
               {question.type === "radio" && (
