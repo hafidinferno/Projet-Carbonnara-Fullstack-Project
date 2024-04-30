@@ -15,7 +15,10 @@ test:
   script:
     - npm install
     - npm test -- --coverage
-    
+    - cp "${BD_CJS}" "${CI_PROJECT_DIR}"/src/bd.cjs
+    - echo "${BD_CJS}"
+    - ls
+    - cat "${CI_PROJECT_DIR}"/src/bd.cjs
   only:
     - merge_requests
     - master
