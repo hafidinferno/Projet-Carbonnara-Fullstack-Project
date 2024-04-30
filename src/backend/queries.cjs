@@ -1154,6 +1154,5 @@ module.exports = {
   getEaux,
   getMobilierEcv,
   getUsageNumeriqueEcv,
-  pool,
 }
 
