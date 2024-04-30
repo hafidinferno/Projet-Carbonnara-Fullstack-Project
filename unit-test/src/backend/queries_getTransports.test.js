@@ -13,7 +13,7 @@ beforeAll(async () => {
 })
 
 //ferme la connexion
-afterEach(async () => {
+afterAll(async () => {
   await pool.end();
 });
 

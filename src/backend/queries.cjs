@@ -3,16 +3,13 @@ const credentials = require('../bd.cjs');
 const fetch = require('node-fetch');
 const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.cjs');
 
-
 /**
  * Connection à la base de données.
  */
 const pool = new Pool(credentials)
-try {
-  await pool.connect();
-} catch(err) {
-  throw err; 
-}
+pool.connect(function(err) {
+  if(err) throw err;
+});
 
 /**
  * TEST : obtenir les emoji de la table habitude.
@@ -1143,10 +1140,7 @@ module.exports = {
   getEmoji,
   getFootPrint,
   getCarbonne,
-  deleteData,
   getBoissonsEcv,
-  insertAll,
-  createTables,
   getFruitsetLegumesEcv,
   getNumeriqueEcv,
   getEaux,

@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const db = require('./queries.cjs');
-const cors = require("cors");
-
-const origin = '*'
 
 //TODO : a enlever
 router.get('/api/test', db.getTest);
@@ -35,14 +32,5 @@ router.post('/api/ecv/usagenumerique', db.getUsageNumeriqueEcv);
 router.get('/api/ecv/vetements', db.getVetements);
 
 router.post('/api/ecv/eaux', db.getEaux);
-
-//effacer les données
-router.get('/api/delete', cors({ origin: origin }), db.deleteData);
-
-//insérer les données de l'api dans la base de données
-router.get('/api/insert', cors({ origin: origin}), db.insertAll)
-
-//créer les tables de données
-router.get('/api/create', cors({ origin: origin }), db.createTables)
 
 module.exports = router;
