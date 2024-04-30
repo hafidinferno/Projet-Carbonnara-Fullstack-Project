@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../../CSS/Carboon.css";
 
 const CarbonFootprintQuiz3 = () => {
-  const navigate = useNavigate();
+
   const localStorageKey = "carbonFootprintQuiz3Answers";
 
   // Questions pour la catégorie Alimentation
@@ -40,16 +40,7 @@ const CarbonFootprintQuiz3 = () => {
     localStorage.setItem(localStorageKey, JSON.stringify(selectedAnswers));
   }, [selectedAnswers]);
 
-  // Fonction pour calculer et sauvegarder les résultats
-  const calculateAndSaveResults = () => {
-    const results = questions.map((question, index) => {
-      // Exemple simplifié de calcul du score
-      return { score: selectedAnswers[index]?.value || 0 };
-    });
 
-    localStorage.setItem("quizResults", JSON.stringify(results));
-    navigate("/Results"); // Redirige vers la page de résultats
-  };
 
   const handleAnswerClick = (questionIndex, answer) => {
     const newAnswers = [...selectedAnswers];
