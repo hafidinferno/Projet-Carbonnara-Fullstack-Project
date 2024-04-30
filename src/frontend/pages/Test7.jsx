@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ProgressionBar from "../components/Progression Bar/ProgressionBar";
 import Header from "../components/header/Header";
 import data from "../Controleur/data";
-import ChauffageQuiz from "../components/Quiz/ChauffageQuiz.jsx";
+import MeubleQuiz from "../components/Quiz/MeubleQuiz.jsx";
 
 function Test6() {
     const location = useLocation();
@@ -23,7 +23,7 @@ function Test6() {
                 setCurrentLevel={setCurrentLevel}
             />
 
-            <ChauffageQuiz />
+            <MeubleQuiz />
         </div>
     );
 }

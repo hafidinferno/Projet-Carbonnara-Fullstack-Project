@@ -8,6 +8,10 @@ stages:
 test:
   stage: test
   image: node:14
+  before_script:
+    - cp "${BD_CJS}" src/bd.cjs
+    
+
   script:
     - npm install
     - npm test -- --coverage

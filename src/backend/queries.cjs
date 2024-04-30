@@ -1,17 +1,34 @@
 const Pool = require('pg').Pool;
-const cors = require("cors");
 const credentials = require('../bd.cjs');
 const fetch = require('node-fetch');
 const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.cjs');
 
+let pool = new Pool(credentials);
+
 /**
- * Connection à la base de données.
+ * Connexion à la base de données.
+ * @returns True
  */
-const pool = new Pool(credentials)
-pool.connect(function(err) {
-  if(err) throw err;
-  console.log("Database connected!");
-});
+const connectDB = async () => {
+  const client = await pool.connect();
+  client.release();
+  console.log("Database connected")
+
+  return true;
+}
+
+/**
+ * Déconnexion de la base de données
+ * @returns False
+ */
+const disconnectDB = async () => {
+  const client = await pool.end();
+  console.log("Database disconnected")
+
+  return false;
+}
+
+connectDB();
 
 /**
  * TEST : obtenir les emoji de la table habitude.
@@ -139,7 +156,7 @@ const getElectromenager = async (req, res) => {
     fourelectrique: req.body.fourelectrique,
     lavevaisselle: req.body.lavevaisselle,
     lavelinge: req.body.lavelinge,
-    refrigirateur: req.body.refrigirateur,
+    refrigirateur: req.body.refrigerateur,
     aspirateur: req.body.aspirateur,
     climatiseur: req.body.climatiseur,
   };
@@ -288,7 +305,7 @@ const getTransport = async (req, res) => {
       ter: req.body.ter,
       buselectrique: req.body.buselectrique,
       busgnv: req.body.busgnv,
-      'avion-pny': req.body.avion_pny,
+
     };
 
   try {
@@ -318,6 +335,7 @@ const getTransport = async (req, res) => {
     if (!isValid) {
       throw new Error('Un ou plusieurs slugs de transport sont invalides.');
     }
+
     res.status(200).json({ transport : (sommeEcvTransport/transportData.length)*52});
   } catch (error) {
     console.error('Erreur lors de la récupération de transport', error);
@@ -347,6 +365,7 @@ const getChauffage = async (req, res) => {
     poeleagranule: req.body.poeleagranule,
     poeleabois: req.body.poeleabois,
     reseaudechaleur: req.body.reseaudechaleur,
+    surfaceHabitation: req.body.surfaceHabitation,
   };
 
   try {
@@ -363,18 +382,13 @@ const getChauffage = async (req, res) => {
     }));
 
     let sommeEcvChauffage = 0;
-    let isValid = true;
+
     for (const item of chauffageData) {
-      if (typesChauffage.hasOwnProperty(item.slug)) {
-        sommeEcvChauffage += item.ecv * typesChauffage[item.slug];
+
+      if (typesChauffage[item.slug]!==undefined) {
+        sommeEcvChauffage += item.ecv * typesChauffage.surfaceHabitation;
       }
-      else {
-        isValid = false;
-        break;
-      }
-    }
-    if (!isValid) {
-      throw new Error('Un ou plusieurs slugs de chauffage sont invalides.');
+
     }
     res.status(200).json({ chauffage : sommeEcvChauffage});
   } catch (error) {
@@ -450,7 +464,6 @@ const getBoissonsEcv = async (req, res) => {
     const somme = footprintBoissons(footprint(resultSoda.rows[0].footprint, qtesoda), footprint(resultVin.rows[0].footprint, qtevin), footprint(resultBiere.rows[0].footprint, qtebiere), footprint(resultLait.rows[0].footprint, qtelait), footprint(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprint(resultThe.rows[0].footprint, qtethe), footprint(resultCafe.rows[0].footprint, qtecafe));
     const moyWeek = moyenne(somme, (qtesoda + qtevin + qtebiere + qtelait + qtelaitsoja + qtethe + qtecafe));
     const result = moyenneAnnee(moyWeek, 52);
-    console.log(result);
     await res.status(200).json({ "boissons":  result });
     return;
 
@@ -467,6 +480,7 @@ const getBoissonsEcv = async (req, res) => {
  * @param {*} res
  */
 const getFruitsetLegumesEcv = async (req, res) => {
+
   const fruitsLegumes = {
     fraise: req.body.fraise,
     pomme: req.body.pomme,
@@ -543,7 +557,6 @@ const getFruitsetLegumesEcv = async (req, res) => {
     kaki: req.body.kaki,
     noixdecoco: req.body.noixdecoco,
     pasteque: req.body.pasteque,
-    
     // fraise: 1,
     // pomme: 1,
     // orange: 0,
@@ -642,11 +655,9 @@ const getFruitsetLegumesEcv = async (req, res) => {
         size += 1;
       }
     }
-    console.log(somme);
     const moy = moyenne(somme, size);
-    console.log(moy);
     const resultat = moyenneAnnee(moy, 12);
-    res.status(200).json({"fruits et legumes": resultat});
+    res.status(200).json({"fruitsetlegumes": resultat});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "fruits et légumes" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -661,22 +672,22 @@ const getFruitsetLegumesEcv = async (req, res) => {
 const getNumeriqueEcv = async (req, res) => {
   const numeriques = {
     smartphone: req.body.smartphone,
-    tablette: req.body.tablette,
-    liseuse: req.body.liseuse,
-    montreconnectee: req.body.montreconnectee,
-    appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
-    ordinateurfixe: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
+    tabletteclassique: req.body.tablette,
+    //liseuse: req.body.liseuse,
+    //montreconnectee: req.body.montreconnectee,
+    //appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
+    ordinateurfixeparticulier: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
     ordinateurportable: req.body.ordinateurprotable,
-    consoledesalon: req.body.consoledesalon,
-    consoleportable: req.body.consoleportable,
+    //consoledesalon: req.body.consoledesalon,
+    //consoleportable: req.body.consoleportable,
     ecran: req.body.ecran215pouce + req.body.ecran24pouce, //moy des 2 ecrans das la BD
-    chainehifi: req.body.chainehifi,
+    //chainehifi: req.body.chainehifi,
     enceintebluetooth: req.body.enceintebluetooth,
-    barredeson: req.body.barredeson,
+    //barredeson: req.body.barredeson,
     television: req.body.television,
-    homecinema: req.body.homecinema,
-    modemfibre: req.body.modemfibre,
-    imprimente: req.body.imprimente,
+    //homecinema: req.body.homecinema,
+    box: req.body.modemfibre,
+    //imprimente: req.body.imprimente,
     // smartphone: 1,
     // tablette: 1, //moy des 3 tablettes dans la BD
     // liseuse: 0,
@@ -712,13 +723,15 @@ const getNumeriqueEcv = async (req, res) => {
     var somme = 0;
     var size = 0;
     for(const num of numeriqueData) {
+
       if(numeriques[num.slug]) {
         somme += num.ecv;
         size += 1;
       }
     }
+
     const resultat = moyenne(somme, size);
-    res.status(200).json({"numeriques": resultat});
+    res.status(200).json({"numerique": resultat});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "numérique" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -775,27 +788,26 @@ const getVetements = async (req, res) => {
 
     try {
 
-        const result = await pool.query(`
-      SELECT *
-      FROM habitude
-      join consommation ON habitude.id = consommation.id_habitude
-      WHERE habitude.slug = 'habillement'
+      const result = await pool.query(`
+        SELECT *
+        FROM habitude
+        join consommation ON habitude.id = consommation.id_habitude
+        WHERE habitude.slug = 'habillement'
       `);
 
-        const vetementsData = result.rows.map(row => ({
-            slug: row.slug,
-            ecv: row.ecv
-        }));
+      const vetementsData = result.rows.map(row => ({
+          slug: row.slug,
+          ecv: row.ecv
+      }));
 
-        let sommeEcvvetements = 0;
+      let sommeEcvvetements = 0;
 
-        for (const item of vetementsData) {
-            if (vetements[item.slug]) {
-                sommeEcvvetements += item.ecv * vetements[item.slug];
-                console.log(item.slug, item.ecv * vetements[item.slug]);
-            }
-        }
-        res.status(200).json({"vetements":sommeEcvvetements});
+      for (const item of vetementsData) {
+          if (vetements[item.slug]) {
+              sommeEcvvetements += item.ecv * vetements[item.slug];
+          }
+      }
+      res.status(200).json({"vetements":sommeEcvvetements});
     } catch (error) {
         console.error('Erreur lors de la récupération des vêtements', error);
         res.status(500).json({ error: error.message });
@@ -835,7 +847,6 @@ const getEaux = async (req, res) => {
         for (const item of eauxData) {
             if (eaux[item.slug]) {
                 sommeEcveaux += item.ecv  * (2.5 * eaux[item.slug]);
-                console.log(item.slug, item.ecv  * (2.5 * eaux[item.slug]));
             }
         }
         res.status(200).json({eaux:sommeEcveaux * 365});
@@ -852,7 +863,7 @@ const getEaux = async (req, res) => {
  */
 const getMobilierEcv = async (req, res) => {
     const canapeconvertible = req.body.canapeconvertible;
-    const chaiseenbois = req.body.chaiseenvois;
+    const chaiseenbois = req.body.chaiseenbois;
     const tableenbois = req.body.tableenbois;
     const canapetextile = req.body.canapetextile;
     const armoire = req.body.armoire;
@@ -877,8 +888,9 @@ const getMobilierEcv = async (req, res) => {
       ecv: data.ecv,
     }));
 
+    console.log(req.body)
     const somme = footprint(mobilierData[0].ecv, canapeconvertible) + footprint(mobilierData[1].ecv, chaiseenbois) + footprint(mobilierData[2].ecv, tableenbois) + footprint(mobilierData[3].ecv, canapetextile) + footprint(mobilierData[4].ecv, armoire) + footprint(mobilierData[5].ecv, lit)
-    res.status(200).json({"numeriques": somme});
+    res.status(200).json({mobilier: somme});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -891,14 +903,11 @@ const getMobilierEcv = async (req, res) => {
  * @param {*} res
  */
 const getUsageNumeriqueEcv = async (req, res) => {
-  const emailrecu = req.body.emailrecu;
-  const emailenvoye = req.body.emailenvoye;
-  const spamrecu = req.body.spamrecu;
-  const spamenvoye = req.body.spamenvoye;
+  const email = req.body.emailrecu + req.body.emailenvoye;
+  const spam = req.body.spamrecu + req.body.spamenvoye;
   const stockagedonnee = req.body.stockagedonnee;
   const rechercheweb = req.body.rechercheweb;
-  const streamingvideofait = req.body.streamingvideofait;
-  const streamingvideoregarde = req.body.streamingvideoregarde;
+  const streamingvideo = req.body.streamingvideofait + req.body.streamingvideoregarde;
   const visioconference = req.body.visioconference;
   const telechargement = req.body.telechargement;
   // const emailrecu = 14;
@@ -920,16 +929,16 @@ try {
     WHERE habitude.slug = 'usagenumerique'
   `);
 
-  const mobilierData = result.rows.map(data => ({
+  const usageData = result.rows.map(data => ({
     slug: data.slug,
     ecv: data.ecv,
   }));
 
-  const somme = footprint(mobilierData[0].ecv, emailrecu) + footprint(mobilierData[0].ecv, emailenvoye) + footprint(mobilierData[1].ecv, spamrecu) + footprint(mobilierData[1].ecv, spamenvoye) + footprint(mobilierData[2].ecv, stockagedonnee) + footprint(mobilierData[3].ecv, rechercheweb) + footprint(mobilierData[4].ecv, streamingvideofait) + footprint(mobilierData[4].ecv, streamingvideoregarde) + footprint(mobilierData[5].ecv, visioconference) + footprint(mobilierData[6].ecv, telechargement)
+  const somme = footprint(usageData[0].ecv, email) + footprint(usageData[1].ecv, spam) + footprint(usageData[2].ecv, stockagedonnee) + footprint(usageData[3].ecv, rechercheweb) + footprint(usageData[4].ecv, streamingvideo) + footprint(usageData[5].ecv, visioconference) + footprint(usageData[6].ecv, telechargement)
   const resultatAnnee = moyenneAnnee(somme, 52)
-  res.status(200).json({"numeriques": resultatAnnee});
+  res.status(200).json({"usagenumerique": resultatAnnee});
 } catch(error) {
-  console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
+  console.error('Erreur lors de la récupération de données de thématique "usagenumerique" de la table "consommation":', error);
   res.status(500).json({ error: error.message });
 }
 }
@@ -1091,7 +1100,7 @@ async function tables(thematiques,ii) {
     });
     let numeriques = await Promise.all(NumeriquePromises);
     await insererDonneesTable(numeriques,columnsTables,'consommation');
-    
+
   } catch (error) {
     console.error('Erreur lors de la requête  :', error);
     throw new Error("erreur dans la route  " + error.message);
@@ -1151,14 +1160,13 @@ module.exports = {
   getEmoji,
   getFootPrint,
   getCarbonne,
-  deleteData,
   getBoissonsEcv,
-  insertAll,
-  createTables,
   getFruitsetLegumesEcv,
   getNumeriqueEcv,
   getEaux,
   getMobilierEcv,
   getUsageNumeriqueEcv,
+  connectDB,
+  disconnectDB,
 }
 
