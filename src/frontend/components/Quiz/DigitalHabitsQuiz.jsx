@@ -6,20 +6,9 @@ const DigitalHabitsQuiz = () => {
   const localStorageKey = "digitalHabitsQuizAnswers";
 
   function handleSubmit() {
-    const requete = [
-      "electromenager",
-      "boissons",
-      "eaux",
-      "repas",
-      "fruitsetlegumes",
-      "transport",
-      "numerique",
-      "usagenumerique",
-      "chauffage",
-      "mobilier",
-    ];
-    const objet = [
-      'localStorage.getItem("CarbonQuizElectro")',
+
+    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique','chauffage','mobilier'];
+    const objet = ['localStorage.getItem("CarbonQuizElectro")',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[1])',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[0])',
       'JSON.stringify(JSON.parse(localStorage.getItem("carbonFootprintQuizAnswers"))[0])',
@@ -27,11 +16,13 @@ const DigitalHabitsQuiz = () => {
       'localStorage.getItem("dailyTransportQuizAnswers")',
       'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").electronics)',
       'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").usageData)',
+      'localStorage.getItem("chauffageQuiz")',
       'localStorage.getItem("carbonFootprintMeuble")',
     ];
 
     function executeSequentialRequests(routesApi, currentIndex, callback) {
       if (currentIndex >= routesApi.length) {
+
         if (callback) callback();
         return;
       }
@@ -39,32 +30,36 @@ const DigitalHabitsQuiz = () => {
       const adresse = routesApi[currentIndex];
       const url = `https://localhost:3001/api/ecv/${adresse}`;
       const data1 = eval(objet[currentIndex]);
-      console.log(data1, "-----------------");
+      console.log(objet[currentIndex],routesApi[currentIndex])
+      console.log(data1,"-----------------");
 
       fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: data1,
+        body: data1 ,
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("La requête a échoué");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Réponse pour", adresse, ":", data[adresse]);
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('La requête a échoué');
+            }
+            return response.json();
+          })
+          .then(data => {
 
-          localStorage.setItem(adresse, data[adresse]);
+            console.log('Réponse pour', adresse, ':', data[adresse]);
 
-          // Exécute la prochaine requête de manière séquentielle
-          executeSequentialRequests(routesApi, currentIndex + 1, callback);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+
+            localStorage.setItem(adresse, data[adresse]);
+
+            // Exécute la prochaine requête de manière séquentielle
+            executeSequentialRequests(routesApi, currentIndex + 1, callback);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+
+          });
     }
 
     executeSequentialRequests(requete, 0, () => {
@@ -173,8 +168,8 @@ const DigitalHabitsQuiz = () => {
 
   useEffect(() => {
     localStorage.setItem(
-      localStorageKey,
-      JSON.stringify({ electronics: selectedElectronics, usageData })
+        localStorageKey,
+        JSON.stringify({ electronics: selectedElectronics, usageData })
     );
   }, [selectedElectronics, usageData]);
 

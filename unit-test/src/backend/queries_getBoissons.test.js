@@ -4,15 +4,13 @@ const credentials = require('../../../src/bd.cjs');
 const { beforeEach, beforeAll, afterEach } = require('jest-circus');
 const Pool = require('pg').Pool;
 
-const pool = new Pool(credentials)
+let pool = new Pool(credentials)
 /**
  * Connexion à la base de données
  */
-beforeAll(async () => {
-  pool.connect(function(err) {
-    if(err) throw err;
-  });
-})
+beforeEach(async () => {
+  await pool.connect();
+});
 
 //ferme la connexion
 afterEach(async () => {
@@ -42,13 +40,8 @@ const resBoissons = {
 };
 
 test('getBoissonsEcv should return correct carbon footprint for given types of drinks', async () => {
-  
   const result = await getBoissonsEcv(reqBoissons, resBoissons);
   
   expect(resBoissons.statusCode).toEqual(200);
   expect(resBoissons.data).toEqual({ boissons: 28.001518822538188 });
 });
-
-test('fermer la BD', async () => {
-  await pool.end();
-})

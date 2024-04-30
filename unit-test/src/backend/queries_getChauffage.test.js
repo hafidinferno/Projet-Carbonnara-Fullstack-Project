@@ -7,13 +7,11 @@ const Pool = require('pg').Pool;
 const pool = new Pool(credentials)
 //Connexion à la base de données
 beforeAll(async () => {
-  pool.connect(function(err) {
-    if(err) throw err;
-  });
+  await pool.connect();
 })
 
 //ferme la connexion
-afterEach(async () => {
+afterAll(async () => {
   await pool.end();
 });
 
