@@ -59,7 +59,7 @@ const CarbonFootprintQuiz = () => {
     <div className="quiz-container">
       <h2>Catégorie 1: Transport et Empreinte Carbone</h2>
       {questions.map((question, index) => (
-        <div key={index} className="question-section">
+        <div key={index} className="question-section" id={`question${index}`}>
           <p>{question.questionText}</p>
           {question.type === "multipleChoice" && (
             <div className="answers-section">

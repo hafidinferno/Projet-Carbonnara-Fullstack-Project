@@ -4,6 +4,14 @@ import "../../CSS/Carboon.css";
 const CarbonQuizElectro = () => {
   const localStorageKey = "CarbonQuizElectro";
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   // Questions pour le quiz
   const questions = [
     {
@@ -64,7 +72,7 @@ const CarbonQuizElectro = () => {
     <div className="quiz-container">
       <h2>Catégorie 1: Électroménager et Empreinte Carbone</h2>
       {questions.map((question, index) => (
-        <div key={index} className="question-section">
+        <div key={index} className="question-section" id={`question${index}`}>
           <p>{question.questionText}</p>
           {question.type === "checkbox" && (
             <div className="answers-section">

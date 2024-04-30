@@ -4,6 +4,14 @@ import "../../CSS/Carboon.css";
 const CarbonFootprintBoisson = () => {
   const localStorageKey = "CarbonFootprintBoisson";
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   // Questions pour le quiz
   const questions = [
     {
@@ -55,12 +63,24 @@ const CarbonFootprintBoisson = () => {
     },
   ];
 
-  // Initialiser l'état des réponses avec celles stockées dans localStorage ou un tableau vide
+  // Initialiser l'état des réponses avec celles stockées dans localStorage ou une structure adaptée
   const [selectedAnswers, setSelectedAnswers] = useState(() => {
     const savedAnswers = localStorage.getItem(localStorageKey);
-    return savedAnswers
-      ? JSON.parse(savedAnswers)
-      : Array(questions.length).fill(null);
+    if (savedAnswers) {
+      return JSON.parse(savedAnswers);
+    } else {
+      return questions.map((question) => {
+        if (question.type === "valueInput") {
+          // Initialiser chaque boisson à 0 pour les questions de type valueInput
+          const beveragesInitial = {};
+          question.beverages.forEach((beverage) => {
+            beveragesInitial[beverage.name] = 0;
+          });
+          return beveragesInitial;
+        }
+        return 0; // Pour les autres types de questions
+      });
+    }
   });
 
   // Effet pour sauvegarder les réponses dans le localStorage lorsqu'elles changent
@@ -90,7 +110,7 @@ const CarbonFootprintBoisson = () => {
     <div className="quiz-container">
       <h2>Catégorie 2: Les boissons et Empreinte Carbone</h2>
       {questions.map((question, index) => (
-        <div key={index} className="question-section">
+        <div key={index} className="question-section" id={`question${index}`}>
           <h3>
             {question.category === "eau"
               ? "Sub_catégorie: Eau"

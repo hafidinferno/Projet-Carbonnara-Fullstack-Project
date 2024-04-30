@@ -4,56 +4,110 @@ import "../../CSS/Carboon.css";
 const DigitalHabitsQuiz = () => {
   const localStorageKey = "digitalHabitsQuizAnswers";
 
-  // List of electronic devices
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   const electronics = [
-    "Smartphones",
-    "Tablettes",
-    "Liseuses",
-    "Montres connectées",
-    "Appareil photo",
-    "Ordinateurs fixes sans écran",
-    "Ordinateurs portables",
-    "Consoles de salon",
-    "Consoles portables",
-    "Écrans",
-    "Chaînes hi-fi",
-    "Enceintes bluetooth",
-    "Barres de son",
-    "Télévisions",
-    "Home cinéma",
-    "Modems",
-    "Imprimantes",
+    "smartphone",
+    "tablette",
+    "liseuse",
+    "montreconnectee",
+    "appareilphotoreflex",
+    "appareilphotocompact",
+    "ordinateurfixebureautique",
+    "ordinateurfixeperformant",
+    "ordinateurportable",
+    "consoledesalon",
+    "consoleportable",
+    "ecran215pouce",
+    "ecran24pouce",
+    "chainehifi",
+    "enceintebluetooth",
+    "barredeson",
+    "television",
+    "homecinema",
+    "modemfibre",
+    "imprimante",
   ];
 
-  // Digital activities details
   const digitalActivities = [
-    { name: "Emails envoyés", defaultValue: 0 },
-    { name: "Emails reçus", defaultValue: 0 },
-    { name: "Spams reçus", defaultValue: 0 },
-    { name: "Spams envoyés", defaultValue: 0 },
-    { name: "Stockage de données utilisé (Go)", defaultValue: 0 },
-    { name: "Recherches web effectuées", defaultValue: 0 },
-    { name: "Streaming vidéo regardé (heures)", defaultValue: 0 },
-    { name: "Streaming vidéo fait (heures)", defaultValue: 0 },
-    { name: "Visioconférence assistée (heures)", defaultValue: 0 },
-    { name: "Téléchargement effectué (Go)", defaultValue: 0 },
+    { key: "emailenvoye", name: "Emails envoyés", defaultValue: 0 },
+    { key: "emailrecu", name: "Emails reçus", defaultValue: 0 },
+    { key: "spamrecu", name: "Spams reçus", defaultValue: 0 },
+    { key: "spamenvoye", name: "Spams envoyés", defaultValue: 0 },
+    {
+      key: "stockagedonnee",
+      name: "Stockage de données utilisé (Go)",
+      defaultValue: 0,
+    },
+    {
+      key: "rechercheweb",
+      name: "Recherches web effectuées",
+      defaultValue: 0,
+    },
+    {
+      key: "streamingvideofait",
+      name: "Streaming vidéo regardé (heures)",
+      defaultValue: 0,
+    },
+    {
+      key: "streamingvideoregarde",
+      name: "Streaming vidéo fait (heures)",
+      defaultValue: 0,
+    },
+    {
+      key: "visioconference",
+      name: "Visioconférence assistée (heures)",
+      defaultValue: 0,
+    },
+    {
+      key: "telechargement",
+      name: "Téléchargement effectué (Go)",
+      defaultValue: 0,
+    },
   ];
 
   const [selectedElectronics, setSelectedElectronics] = useState(() => {
-    const saved = JSON.parse(localStorage.getItem(localStorageKey));
-    return saved?.electronics || [];
+    const saved = localStorage.getItem(localStorageKey);
+    try {
+      const parsed = JSON.parse(saved);
+      return parsed ? parsed.electronics : defaultElectronicsState();
+    } catch (e) {
+      console.error("Error parsing electronics from localStorage:", e);
+      return defaultElectronicsState();
+    }
   });
 
   const [usageData, setUsageData] = useState(() => {
-    const saved = JSON.parse(localStorage.getItem(localStorageKey));
-    return (
-      saved?.usageData ||
-      digitalActivities.reduce((acc, activity) => {
-        acc[activity.name] = activity.defaultValue;
-        return acc;
-      }, {})
-    );
+    const saved = localStorage.getItem(localStorageKey);
+    try {
+      const parsed = JSON.parse(saved);
+      return parsed ? parsed.usageData : defaultUsageState();
+    } catch (e) {
+      console.error("Error parsing usage data from localStorage:", e);
+      return defaultUsageState();
+    }
   });
+
+  // Helper functions to set default states
+  function defaultElectronicsState() {
+    return electronics.reduce((acc, device) => {
+      acc[device] = 0;
+      return acc;
+    }, {});
+  }
+
+  function defaultUsageState() {
+    return digitalActivities.reduce((acc, activity) => {
+      acc[activity.key] = activity.defaultValue;
+      return acc;
+    }, {});
+  }
 
   useEffect(() => {
     localStorage.setItem(
@@ -62,17 +116,17 @@ const DigitalHabitsQuiz = () => {
     );
   }, [selectedElectronics, usageData]);
 
-  const handleElectronicsChange = (item) => {
-    const updatedElectronics = selectedElectronics.includes(item)
-      ? selectedElectronics.filter((e) => e !== item)
-      : [...selectedElectronics, item];
-    setSelectedElectronics(updatedElectronics);
+  const handleElectronicsChange = (device) => {
+    setSelectedElectronics((prevState) => ({
+      ...prevState,
+      [device]: prevState[device] === 0 ? 1 : 0,
+    }));
   };
 
-  const handleUsageChange = (name, value) => {
+  const handleUsageChange = (key, value) => {
     setUsageData((prev) => ({
       ...prev,
-      [name]: value,
+      [key]: value,
     }));
   };
 
@@ -82,10 +136,10 @@ const DigitalHabitsQuiz = () => {
       <div className="section">
         <h3>Achats appareils électroniques</h3>
         {electronics.map((item, index) => (
-          <label key={index} className="checkbox-label">
+          <label key={item} className="checkbox-label" id={`question${index}`}>
             <input
               type="checkbox"
-              checked={selectedElectronics.includes(item)}
+              checked={selectedElectronics[item] === 1}
               onChange={() => handleElectronicsChange(item)}
             />
             {item}
@@ -95,14 +149,17 @@ const DigitalHabitsQuiz = () => {
       <div className="section">
         <h3>Usage numérique hebdomadaire</h3>
         {digitalActivities.map((activity, index) => (
-          <div key={index}>
+          <div key={activity.key} id={`question${index}`}>
             <label>
               {activity.name}
               <input
                 type="number"
-                value={usageData[activity.name]}
+                value={usageData[activity.key]}
                 onChange={(e) =>
-                  handleUsageChange(activity.name, parseInt(e.target.value))
+                  handleUsageChange(
+                    activity.key,
+                    parseInt(e.target.value, 10) || 0
+                  )
                 }
                 min="0"
               />

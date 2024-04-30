@@ -1,70 +1,171 @@
 .quiz-container {
-  max-width: 600px;
-  width: 90%;
-  margin: 40% auto; /* Vous pouvez ajuster cette valeur pour déplacer le conteneur vers le haut */
+  width: 80%;
+  margin: 40px auto; /* Moves the container down */
   padding: 40px;
   background-color: var(--bg-color);
   border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
-  position: relative; /* Ajoutez cette ligne pour un positionnement relatif */
-  top: -500px; /* Ajustez cette valeur pour déplacer le conteneur vers le haut */
+  position: relative; /* Adds relative positioning */
 }
 
-/* Section de chaque question */
-.question-section {
-  margin-bottom: 30px; /* Espacement accru pour une meilleure séparation */
+h2 {
+  text-align: center;
+  margin-bottom: 10px; /* Reduces space below the heading */
 }
 
-/* Conteneur des réponses */
+p {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 5px; /* Reduces space above the paragraph */
+}
+
+/* Answers container */
 .answers-section {
   display: grid;
-  grid-gap: 15px; /* Utilisation de grid pour un alignement plus flexible */
+  padding: 15px;
+  grid-gap: 15px; /* Adds more flexibility */
+
+  grid-template-columns: repeat(
+    3,
+    minmax(100px, 1fr)
+  ); /* Responsive grid layout */
+  margin-top: 10px; /* Adds space between the paragraph and the grid */
 }
 
-/* Styles des boutons de réponse */
-.answer-button {
-  padding: 15px 20px; /* Augmentation du padding pour de plus grands boutons */
-  background-color: #007bff; /* Couleur primaire */
-  color: white;
-  font-weight: bold; /* Texte en gras pour une meilleure visibilité */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase; /* Texte en majuscules pour une apparence plus définie */
-  letter-spacing: 0.5px; /* Espacement des lettres pour une meilleure lisibilité */
+.answers-section-radio {
+  display: grid;
+  padding: 15px;
+  grid-gap: 15px; /* Adds more flexibility */
+
+  grid-template-columns: repeat(
+    2,
+    minmax(100px, 1fr)
+  ); /* Responsive grid layout */
+  margin-top: 10px; /* Adds space between the paragraph and the grid */
 }
 
-.answer-button.selected {
-  background-color: #28a745; /* Vert vif pour les réponses sélectionnées */
+/* Answers container for digital activities */
+.answers-section-input {
+  display: grid;
+  padding: 15px;
+  grid-gap: 15px; /* Adds more flexibility */
+
+  grid-template-columns: repeat(2, minmax(100px, 1fr)); /* Two-column layout */
+  margin-top: 10px; /* Adds space between sections */
 }
 
-.answer-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05); /* Légère augmentation de la taille au survol */
+.wrapper-colonne {
+  display: flex; /* Aligns elements in each question row */
+  justify-content: space-between; /* Adds space between label and input */
+  align-items: center; /* Centers content vertically */
+  margin-left: 15px; /* Adds space between rows */
 }
 
-/* Ajout d'un effet visuel pour les boutons non sélectionnés au survol des autres */
-.answer-button:not(.selected):hover {
-  opacity: 0.7;
+.answers-section input[type="checkbox"] {
+  position: relative; /* Adds relative positioning for custom styles */
+  appearance: none; /* Hides the default browser checkbox */
+  width: 20px;
+  height: 20px; /* Defines a fixed size for consistency */
+  border: 2px solid #007bff; /* Sets a primary border color */
+  border-radius: 3px; /* Adds a rounded corner effect */
+  background-color: white; /* Sets background color */
+  cursor: pointer; /* Changes cursor to pointer on hover */
 }
 
-/* Responsive Design */
+.answers-section-radio input[type="checkbox"] {
+  position: relative; /* Adds relative positioning for custom styles */
+  appearance: none; /* Hides the default browser checkbox */
+  width: 20px;
+  height: 20px; /* Defines a fixed size for consistency */
+  border: 2px solid #007bff; /* Sets a primary border color */
+  border-radius: 3px; /* Adds a rounded corner effect */
+  background-color: white; /* Sets background color */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.answers-section input[type="checkbox"]:checked {
+  border-color: black; /* Matches the border color */
+}
+
+.answers-section input[type="checkbox"]::after {
+  content: "\2714"; /* Unicode for a checkmark */
+  color: black;
+  font-size: 20px; /* Adjusted size to fit well within the checkbox */
+  position: absolute; /* Positions the checkmark inside the box */
+  top: 50%; /* Positions the checkmark halfway down */
+  left: 50%; /* Centered position */
+  transform: translate(-50%, -50%); /* Offsets by half its size for centering */
+  display: none; /* Initially hidden */
+}
+
+.answers-section-radio input[type="checkbox"]::after {
+  content: "\2714"; /* Unicode for a checkmark */
+  color: black;
+  font-size: 20px; /* Adjusted size to fit well within the checkbox */
+  position: absolute; /* Positions the checkmark inside the box */
+  top: 50%; /* Positions the checkmark halfway down */
+  left: 50%; /* Centered position */
+  transform: translate(-50%, -50%); /* Offsets by half its size for centering */
+  display: none; /* Initially hidden */
+}
+
+.answers-section input[type="checkbox"]:checked::after {
+  display: block; /* Shows the checkmark when checked */
+}
+.answers-section-radio input[type="checkbox"]:checked::after {
+  display: block; /* Shows the checkmark when checked */
+}
+
+.answers-section input[type="checkbox"]:hover {
+  border-color: #0056b3; /* Changes the border color on hover */
+}
+
+.answers-section label {
+  display: flex; /* Aligns checkbox and text */
+  align-items: center; /* Centers content vertically */
+  gap: 10px; /* Adds spacing between checkbox and text */
+}
+
+.answers-section-radio label {
+  display: flex; /* Aligns checkbox and text */
+  align-items: center; /* Centers content vertically */
+  gap: 10px; /* Adds spacing between checkbox and text */
+}
+
+.answers-section label:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+  border-radius: 5px; /* Rounds corners for hover background */
+  padding: 3px;
+}
+
+.answers-section-radio label:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+  border-radius: 5px; /* Rounds corners for hover background */
+  padding: 3px;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .quiz-container {
     margin: 20px auto;
     padding: 20px;
   }
-
   .answers-section {
     grid-template-columns: repeat(
-      auto-fit,
-      minmax(100px, 1fr)
-    ); /* Colonnes responsives pour les boutons */
+      2,
+      1fr
+    ); /* Reduced columns on small screens */
   }
+}
 
-  .answer-button {
-    padding: 12px 15px;
-  }
+.answers-section-barre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+  margin: 0 auto; /* Centers the entire div within its parent */
+  padding: 15px;
+  max-width: 100%; /* Defines a maximum width for the div */
 }
