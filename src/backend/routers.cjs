@@ -29,7 +29,7 @@ router.post('/api/ecv/mobilier', db.getMobilierEcv);
 
 router.post('/api/ecv/usagenumerique', db.getUsageNumeriqueEcv);
 
-router.get('/api/ecv/vetements', db.getVetements);
+router.post('/api/ecv/vetements', db.getVetements);
 
 router.post('/api/ecv/eaux', db.getEaux);
 
