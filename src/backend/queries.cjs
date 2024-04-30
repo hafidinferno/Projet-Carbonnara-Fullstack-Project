@@ -794,7 +794,6 @@ const getVetements = async (req, res) => {
       for (const item of vetementsData) {
           if (vetements[item.slug]) {
               sommeEcvvetements += item.ecv * vetements[item.slug];
-              console.log(item.slug, item.ecv * vetements[item.slug]);
           }
       }
       res.status(200).json({"vetements":sommeEcvvetements});
@@ -880,7 +879,7 @@ const getMobilierEcv = async (req, res) => {
     }));
 
     const somme = footprint(mobilierData[0].ecv, canapeconvertible) + footprint(mobilierData[1].ecv, chaiseenbois) + footprint(mobilierData[2].ecv, tableenbois) + footprint(mobilierData[3].ecv, canapetextile) + footprint(mobilierData[4].ecv, armoire) + footprint(mobilierData[5].ecv, lit)
-    res.status(200).json({"numeriques": somme});
+    res.status(200).json({mobilier: somme});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
     res.status(500).json({ error: error.message });

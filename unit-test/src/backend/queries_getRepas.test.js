@@ -9,14 +9,12 @@ const pool = new Pool(credentials)
 beforeAll(() => {
   pool.connect(function(err) {
     if(err) throw err;
-    console.log("Database connected!");
   });
 })
 
 //ferme la connexion
 afterEach(() => {
   pool.end();
-  console.log("Database deconnected!");
 });
 
 const reqRepas = {
