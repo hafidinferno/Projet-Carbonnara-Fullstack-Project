@@ -8,10 +8,11 @@ const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul
  * Connection à la base de données.
  */
 const pool = new Pool(credentials)
-pool.connect(function(err) {
-  if(err) throw err;
-  console.log("Database connected!");
-});
+try {
+  await pool.connect();
+} catch(err) {
+  throw err; 
+}
 
 /**
  * TEST : obtenir les emoji de la table habitude.
