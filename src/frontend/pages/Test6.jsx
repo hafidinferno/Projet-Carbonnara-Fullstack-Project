@@ -1,33 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import ProgressionBar from "../components/Progression Bar/ProgressionBar";
-import data from "../Controleur/data";
-import DigitalHabitsQuiz from "../components/Quiz/DigitalHabitsQuiz";
-
-function Test6() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const levelFromUrl = parseInt(searchParams.get("level"), 10);
-  const [currentLevel, setCurrentLevel] = useState(
-    isNaN(levelFromUrl) ? 0 : levelFromUrl
-  );
-
-  return (
-    <div className="App">
-      <ProgressionBar
-        categories={data}
-        currentLevel={currentLevel}
-        setCurrentLevel={setCurrentLevel}
-      />
-
-      <DigitalHabitsQuiz />
-    </div>
-  );
-}
-
-export default Test6;
-=======
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProgressionBar from "../components/Progression Bar/ProgressionBar";
@@ -59,4 +29,3 @@ function Test6() {
 }
 
 export default Test6;
->>>>>>> dev

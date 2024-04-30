@@ -75,59 +75,6 @@ function ProgressionBar({ level, setCurrentLevel }) {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="pb-wrapper">
-      <div className="progress-visual-bar-container">
-        {data.map((category, index) => (
-          <div
-            key={index}
-            className={`progress-visual-bar-segment ${
-              index <= selectedCategoryIndex ? "active" : ""
-            }`}
-            style={{ width: calculateSegmentWidth(index) }}
-            onMouseEnter={() => handleMouseEnter(index)}
-          >
-            <div className="segment-text">{category.cat_name}</div>
-          </div>
-        ))}
-      </div>
-      {selectedCategoryIndex !== null && (
-        <div className="questions-container">
-          {data[selectedCategoryIndex].levels.map((_, index) => (
-            <button
-              key={index}
-              className="question-button"
-              onClick={() => navigateToLevel(selectedCategoryIndex, index)}
-            >
-              Question {index + 1}
-            </button>
-          ))}
-        </div>
-      )}
-      {
-        <div className="navigation-buttons">
-          <button
-            onClick={() =>
-              navigateToCategory(Math.max(currentCategoryIndex - 1, 0))
-            }
-            disabled={currentCategoryIndex === 0}
-          >
-            Précédent
-          </button>
-          <button
-            onClick={() =>
-              navigateToCategory(
-                Math.min(currentCategoryIndex + 1, totalCategories - 1)
-              )
-            }
-            disabled={currentCategoryIndex >= totalCategories - 1}
-          >
-            Suivant
-          </button>
-        </div>
-      }
-    </div>
-=======
       <div className="pb-wrapper">
         <div className="progress-visual-bar-container">
           {data.map((category, index) => (
@@ -181,7 +128,6 @@ function ProgressionBar({ level, setCurrentLevel }) {
             </>
         )}
       </div>
->>>>>>> dev
   );
 }
 

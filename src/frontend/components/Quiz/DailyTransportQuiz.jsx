@@ -58,26 +58,6 @@ const DailyTransportQuiz = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="quiz-container">
-      <h2>Catégorie: Transport</h2>
-      <p>
-        Parmi les options suivantes, quelle méthode de transport utilisez-vous
-        au quotidien ?
-      </p>
-      <div className="answers-section">
-        {transportOptions.map((option, index) => (
-          <label key={index} className="checkbox-label" id={`question${index}`}>
-            <input
-              type="checkbox"
-              id={`transport-${index}`}
-              checked={selectedTransportMethods.includes(option.name)}
-              onChange={() => handleCheckboxChange(option.name)}
-            />
-            {option.name}
-          </label>
-        ))}
-=======
       <div className="quiz-container">
         <h2>Catégorie: Transport</h2>
         <p>
@@ -97,7 +77,6 @@ const DailyTransportQuiz = () => {
               </label>
           ))}
         </div>
->>>>>>> dev
       </div>
   );
 };
