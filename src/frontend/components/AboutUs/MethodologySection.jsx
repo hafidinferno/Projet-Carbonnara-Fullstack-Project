@@ -3,7 +3,7 @@ import React from 'react';
 function MethodologySection() {
     return (
         <section class="methodology">
-            <h2>NOTRE MÉTHODOLOGIE</h2>
+            <h2>Notre Méthodologie</h2>
             <p>
                 Notre méthodologie repose sur une approche précise et rigoureuse pour calculer l'empreinte carbone. 
                 En premier lieu, nous collectons des données pertinentes directement auprès des utilisateurs à travers une interface conviviale. 

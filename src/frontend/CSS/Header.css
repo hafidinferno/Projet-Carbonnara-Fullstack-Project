@@ -1,23 +1,39 @@
 header {
-    background-color: var(--bg-color);
-    
-    height: 150px;
+    height: 90px;
     width: 100vw;
 }
 
-.div-header {
-    width: 99%;
+header h1 {
+    padding: 0;
+    margin: 0;
+}
+
+#div-header {
+    /* position: absolute;
+    z-index: -9; */
+
+    height: 90px;
+    width: 100vw;
+
+    background-color: var(--bg-color);
     display: flex;
-    justify-content: space-between;
+    justify-content: center; 
     align-items: center;
 }
 
-
+.circle-container
+{
+    position: absolute;
+    min-width: fit-content;
+    min-height: fit-content;
+    top: 15px;
+    left: 50px;
+}
 
 .circle {
-    position: relative;
+    position: absolute;
     aspect-ratio: 1;
-    width: 120px;
+    width: 150px;
     border-radius: 100%;
 
     display: flex;
@@ -37,35 +53,16 @@ header {
     border: none;
 }
 
-.circle:hover 
-{
-    background-color: var(--bg-color-light);
-}
-
-.circle-container:hover #circle1 {
-    transform: translateX(-130px) translateY(-10px); /* Move top-left */
-}
-  
-.circle-container:hover #circle2 {
-    transform: translateX(-113px) translateY(108px); /* Move top-right */
-}
-  
-.circle-container:hover #circle3 {
-    transform: translateX(0) translateY(120px); /* Move directly down */
-} 
-
 .sub-circle {
     position: absolute;
-
-    top: calc(15px); 
-    right: calc(1%);
+    bottom: -125px;
+    left: 25px;
     
     aspect-ratio: 1;
     height: 100px;
-    border-radius: 50%;
     border: none;
 
-    background-color: var(--bg-color);
+    background-color:  #e1f3dc;
 
     display: flex;
     justify-content: center;
@@ -78,23 +75,50 @@ header {
 
     font-family: "Merriweather", serif; 
     cursor: pointer;
-}
 
-.sub-circle:hover {
-    background-color: var(--bg-color-light);
+    z-index: 5;
 }
 
 .circle img {
-    position: absolute; /* To enable custom positioning */
-    top: 10%; /* Distance from the top */
-    left: 10%; /* Distance from the left */
-    width: 80%; /* Or another value to ensure it doesn't extend outside the button */
-    height: 80%; /* Or another value to ensure it doesn't extend outside the button */
-    border-radius: 50%; /* Optional: Follows the circle's rounded edges */
-    object-fit: cover; /* Ensures the image scales properly */
+    width: 50%;
+    aspect-ratio: 1;
+}
+.sub-circle img {
+    width: 40%;
+    aspect-ratio: 1;
 }
 
-.sub-circle img {
-    width: 60px;
-    height: 60px;
+.circle:hover 
+{
+    background-color: #efefd3;
 }
+
+#circle1 {
+    border-radius: 5px 50% 50% 50%;
+}
+.circle-container:hover #circle1 {
+    transform: translateX(88.75px) translateY(88.75px);
+}
+
+#circle2 {
+    border-radius: 50% 5px 50% 50%;
+    transform: rotate(-45deg);
+}
+#circle2 .sub-circle-content {
+    transform: rotate(45deg);
+}
+.circle-container:hover #circle2 {
+    transform: translateX(0px) translateY(125px) rotate(-45deg); 
+
+}
+  
+#circle3 {
+    border-radius: 50% 50% 50% 5px;
+    transform: rotate(45deg);
+}
+#circle3 .sub-circle-content {
+    transform: rotate(-45deg);
+}
+.circle-container:hover #circle3 {
+    transform: translateX(125px) translateY(0px) rotate(45deg);
+} 

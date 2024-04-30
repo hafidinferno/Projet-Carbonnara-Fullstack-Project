@@ -10,14 +10,14 @@ import noahImage from '../../images/AboutUs/BERTHOLON_Noah.png';
 function TeamSection() {
     return (
         <section id="team">
-            <h2>L'ÉQUIPE</h2>
+            <h2>L'équipe</h2>
             <div className="team-container">
-                <CardMember image={youssefImage} name="BOUAMAMA YOUSSEF" rolePrincipal="Backend" roleSecondaire="Base de données" />
-                <CardMember image={hayetImage} name="Hayet DANOUN" rolePrincipal="Frond" roleSecondaire="UI/UX - Test" />
-                <CardMember image={oliviaImage} name="Olivia CHEN" rolePrincipal="Backend" roleSecondaire="Base de données" />
-                <CardMember image={hafidImage} name="Hafid OUCOUC" rolePrincipal="Frond" roleSecondaire="UI/UX - Test" />
-                <CardMember image={julesImage} name="Jules BONHOTAL" rolePrincipal="UI/UX" roleSecondaire="Test" />
-                <CardMember image={noahImage} name="Noah BERTHOLON" rolePrincipal="VM - intégration" roleSecondaire="UI/UX" />
+                <CardMember image={youssefImage} name="BERTHOLON Noah" rolePrincipal="VM & Intégration" roleSecondaire="UI/UX" />
+                <CardMember image={hayetImage} name="BONHOTAL Jules" rolePrincipal="UI/UX" roleSecondaire="Tests" />
+                <CardMember image={oliviaImage} name="BOUAMAMA Youssef" rolePrincipal="Backend" roleSecondaire="Base de données" />
+                <CardMember image={hafidImage} name="CHEN Olivia" rolePrincipal="Backend" roleSecondaire="Base de données" />
+                <CardMember image={julesImage} name="DANOUN Hayet" rolePrincipal="Front" roleSecondaire="UI/UX - Test" />
+                <CardMember image={noahImage} name="OUCOUC Hafid" rolePrincipal="Front" roleSecondaire="UI/UX - Test" />
             </div>
         </section>
 
