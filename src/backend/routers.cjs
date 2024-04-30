@@ -22,7 +22,7 @@ router.post('/api/ecv/repas', db.getRepas);
 
 router.post('/api/ecv/transport', db.getTransport);
 
-router.get('/api/ecv/chauffage', db.getChauffage);
+router.post('/api/ecv/chauffage', db.getChauffage);
 
 router.post('/api/ecv/fruitsetlegumes', db.getFruitsetLegumesEcv);
 

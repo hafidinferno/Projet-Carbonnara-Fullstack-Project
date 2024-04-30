@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import "../CSS/ResultPage.css";
+import chauffageQuiz from "../components/Quiz/ChauffageQuiz.jsx";
 
 ChartJS.register(
     ArcElement,
@@ -25,7 +26,7 @@ ChartJS.register(
 );
 
 const ResultPage = () => {
-    const categories = ['electromenager', 'boissons', 'eaux', 'repas', 'fruitsetlegumes', 'transport', 'numerique', 'usagenumerique'];
+    const categories = ['electromenager', 'boissons', 'eaux', 'repas', 'fruitsetlegumes', 'transport', 'numerique', 'usagenumerique','chauffage'];
 
     const carbonData = categories.map(category => parseFloat(localStorage.getItem(category) || 0));
 
@@ -34,7 +35,7 @@ const ResultPage = () => {
         datasets: [{
             label: 'Répartition Carbone par Catégorie',
             data: carbonData,
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FFA07A', '#20B2AA', '#778899', '#6495ED', '#FFD700'],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FFA07A', '#20B2AA', '#778899', '#6495ED', '#FFD700',"#FFA07A"],
             hoverOffset: 4,
         }],
     };

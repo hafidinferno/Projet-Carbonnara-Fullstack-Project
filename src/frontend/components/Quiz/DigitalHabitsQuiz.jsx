@@ -7,7 +7,7 @@ const DigitalHabitsQuiz = () => {
 
   function handleSubmit() {
 
-    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique'];
+    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique','chauffage'];
     const objet = ['localStorage.getItem("CarbonQuizElectro")',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[1])',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[0])',
@@ -15,7 +15,8 @@ const DigitalHabitsQuiz = () => {
       'localStorage.getItem("fruitsVegetablesConsumptionQuizAnswers")',
       'localStorage.getItem("dailyTransportQuizAnswers")',
       'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").electronics)',
-      'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").usageData)'];
+      'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").usageData)',
+      'localStorage.getItem("chauffageQuiz")'];
 
     function executeSequentialRequests(routesApi, currentIndex, callback) {
       if (currentIndex >= routesApi.length) {

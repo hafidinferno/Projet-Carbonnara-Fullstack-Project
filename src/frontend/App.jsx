@@ -9,6 +9,7 @@ import TestIII from "./pages/Test3";
 import ResultPage from "./pages/ResultPage";
 import TestV from "./pages/Test4";
 import Test5 from "./pages/Test5";
+import Test7 from "./pages/Test7";
 import Test6 from "./pages/Test6";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/Test4" element={<TestV />} />
         <Route path="/Test5" element={<Test5 />} />
         <Route path="/Test6" element={<Test6 />} />
+        <Route path="/Test7" element={<Test7 />} />
         <Route path="/Accueil" element={<Accueil />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Hello" element={<HelloPage />} />
