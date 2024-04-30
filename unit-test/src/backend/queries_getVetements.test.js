@@ -6,15 +6,15 @@ const Pool = require('pg').Pool;
 
 const pool = new Pool(credentials)
 //Connexion à la base de données
-beforeAll(() => {
+beforeAll(async () => {
   pool.connect(function(err) {
     if(err) throw err;
   });
 })
 
 //ferme la connexion
-afterAll(() => {
-  pool.end();
+afterAll(async () => {
+  await pool.end();
 });
 
 const reqVetements = {

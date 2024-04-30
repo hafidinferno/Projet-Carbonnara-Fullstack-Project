@@ -6,15 +6,15 @@ const Pool = require('pg').Pool;
 
 const pool = new Pool(credentials)
 //Connexion à la base de données
-beforeAll(() => {
+beforeAll(async () => {
   pool.connect(function(err) {
     if(err) throw err;
   });
 })
 
 //ferme la connexion
-afterEach(() => {
-  pool.end();
+afterEach(async () => {
+  await pool.end();
 });
 
 const reqChauffage = {
@@ -26,6 +26,7 @@ const reqChauffage = {
     poeleagranule: 1,
     poeleabois: 0,
     reseaudechaleur: 0,
+    surfaceHabitation: 15,
   }
 }
 
@@ -44,5 +45,5 @@ test('getChauffage should return correct carbon footprint for given types of war
   const result = await getChauffage(reqChauffage, resChauffage);
   
   expect(resChauffage.statusCode).toEqual(200);
-  expect(resChauffage.data).toEqual({ chauffage: 74.66 });
+  expect(resChauffage.data).toEqual({ chauffage: 2182.2000000000003 });
 });
