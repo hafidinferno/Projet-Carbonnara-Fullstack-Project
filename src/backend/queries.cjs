@@ -3,13 +3,32 @@ const credentials = require('../bd.cjs');
 const fetch = require('node-fetch');
 const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.cjs');
 
+let pool = new Pool(credentials);
+
 /**
- * Connection à la base de données.
+ * Connexion à la base de données.
+ * @returns True
  */
-const pool = new Pool(credentials)
-pool.connect(function(err) {
-  if(err) throw err;
-});
+const connectDB = async () => {
+  const client = await pool.connect();
+  client.release();
+  console.log("Database connected")
+
+  return true;
+}
+
+/**
+ * Déconnexion de la base de données
+ * @returns False
+ */
+const disconnectDB = async () => {
+  const client = await pool.end();
+  console.log("Database disconnected")
+
+  return false;
+}
+
+connectDB();
 
 /**
  * TEST : obtenir les emoji de la table habitude.
@@ -1149,5 +1168,7 @@ module.exports = {
   getEaux,
   getMobilierEcv,
   getUsageNumeriqueEcv,
+  connectDB,
+  disconnectDB,
 }
 
