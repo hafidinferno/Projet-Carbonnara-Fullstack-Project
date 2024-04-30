@@ -1,7 +1,7 @@
 const { default: expect } = require('expect');
 const {getElectromenager} = require('../../../src/backend/queries.cjs');
 const credentials = require('../../../src/bd.cjs');
-const { beforeEach, beforeAll } = require('jest-circus');
+const { beforeEach, beforeAll, afterEach } = require('jest-circus');
 const Pool = require('pg').Pool;
 
 const pool = new Pool(credentials)
@@ -9,12 +9,11 @@ const pool = new Pool(credentials)
 beforeAll(() => {
   pool.connect(function(err) {
     if(err) throw err;
-    console.log("Database connected!");
   });
 })
 
 //ferme la connexion
-afterAll(() => {
+afterEach(() => {
   pool.end();
 });
 
@@ -27,7 +26,7 @@ const reqElectromenagers = {
     fourelectrique: 1,
     lavevaisselle: 0,
     lavelinge: 1,
-    refrigirateur: 1,
+    refrigerateur: 1,
     aspirateur: 1,
     climatiseur: 0,
   }

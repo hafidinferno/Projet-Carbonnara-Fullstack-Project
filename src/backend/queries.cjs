@@ -1,5 +1,4 @@
 const Pool = require('pg').Pool;
-const cors = require("cors");
 const credentials = require('../bd.cjs');
 const fetch = require('node-fetch');
 const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.cjs');
@@ -448,7 +447,6 @@ const getBoissonsEcv = async (req, res) => {
     const somme = footprintBoissons(footprint(resultSoda.rows[0].footprint, qtesoda), footprint(resultVin.rows[0].footprint, qtevin), footprint(resultBiere.rows[0].footprint, qtebiere), footprint(resultLait.rows[0].footprint, qtelait), footprint(resultLaitsoja.rows[0].footprint, qtelaitsoja), footprint(resultThe.rows[0].footprint, qtethe), footprint(resultCafe.rows[0].footprint, qtecafe));
     const moyWeek = moyenne(somme, (qtesoda + qtevin + qtebiere + qtelait + qtelaitsoja + qtethe + qtecafe));
     const result = moyenneAnnee(moyWeek, 52);
-    console.log(result);
     await res.status(200).json({ "boissons":  result });
     return;
 
@@ -640,9 +638,7 @@ const getFruitsetLegumesEcv = async (req, res) => {
         size += 1;
       }
     }
-    console.log(somme);
     const moy = moyenne(somme, size);
-    console.log(moy);
     const resultat = moyenneAnnee(moy, 12);
     res.status(200).json({"fruitsetlegumes": resultat});
   } catch(error) {
@@ -792,7 +788,6 @@ const getVetements = async (req, res) => {
       for (const item of vetementsData) {
           if (vetements[item.slug]) {
               sommeEcvvetements += item.ecv * vetements[item.slug];
-              console.log(item.slug, item.ecv * vetements[item.slug]);
           }
       }
       res.status(200).json({"vetements":sommeEcvvetements});
@@ -835,7 +830,6 @@ const getEaux = async (req, res) => {
         for (const item of eauxData) {
             if (eaux[item.slug]) {
                 sommeEcveaux += item.ecv  * (2.5 * eaux[item.slug]);
-                console.log(item.slug, item.ecv  * (2.5 * eaux[item.slug]));
             }
         }
         res.status(200).json({eaux:sommeEcveaux * 365});
@@ -852,7 +846,7 @@ const getEaux = async (req, res) => {
  */
 const getMobilierEcv = async (req, res) => {
     const canapeconvertible = req.body.canapeconvertible;
-    const chaiseenbois = req.body.chaiseenvois;
+    const chaiseenbois = req.body.chaiseenbois;
     const tableenbois = req.body.tableenbois;
     const canapetextile = req.body.canapetextile;
     const armoire = req.body.armoire;
@@ -878,7 +872,7 @@ const getMobilierEcv = async (req, res) => {
     }));
 
     const somme = footprint(mobilierData[0].ecv, canapeconvertible) + footprint(mobilierData[1].ecv, chaiseenbois) + footprint(mobilierData[2].ecv, tableenbois) + footprint(mobilierData[3].ecv, canapetextile) + footprint(mobilierData[4].ecv, armoire) + footprint(mobilierData[5].ecv, lit)
-    res.status(200).json({"numeriques": somme});
+    res.status(200).json({mobilier: somme});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "mobilier" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -1157,6 +1151,5 @@ module.exports = {
   getEaux,
   getMobilierEcv,
   getUsageNumeriqueEcv,
-  pool,
 }
 

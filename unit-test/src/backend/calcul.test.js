@@ -30,6 +30,17 @@ test('calculates average footprint for a total footprint and the quantity of ele
   expect(moyenne(2+4, 2)).toBe(3);
 })
 
+// Test for moyenneAnnee function with average and number of weeks
+test('calculates average footprint in a year for a weekly average and the number of weeks', () => {
+  const average = 10; // Weekly average
+  const weeks = 52;   // Number of weeks in a year
+  
+  // Expected total average for a year: 10 * 52 = 520
+  expect(moyenneAnnee(average, weeks)).toBe(520);
+});
+
+
+
 // Test for moyenne function with drink's ecv data
 test('calculates average footprint in a year for a total footprint and the quantity of element given', () => {
   const ecvSoda = 5,
