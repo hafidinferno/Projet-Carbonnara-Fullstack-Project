@@ -27,3 +27,5 @@ package-lock.json
 
 bd.cjs
 config.cjs
+
+dist
