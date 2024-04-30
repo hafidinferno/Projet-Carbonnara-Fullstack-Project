@@ -4,29 +4,38 @@ import "../../CSS/Carboon.css";
 const ChauffageQuiz = () => {
     const localStorageKey = "chauffageQuiz";
 
-    const questions = [
-        {
-            category: "chauffage",
-            questionText: "Quel type de chauffage utilisez-vous ?",
-            type: "radio",
-            answerOptions: [
-                { text: "Gaz", chauffagegaz: 1 },
-                { text: "Fioul", chauffagefioul: 1 },
-                { text: "Électrique", chauffageelectrique: 1 },
-                { text: "Pompe à chaleur", pompeachaleur: 1 },
-                { text: "Poêle à granulés", poeleagranule: 1 },
-                { text: "Poêle à bois", poeleabois: 1 },
-                { text: "Réseau de chaleur", reseaudechaleur: 1 },
-            ],
-        },
-        {
-            category: "surface",
-            questionText: "Quelle est la surface de votre habitation en mètres carrés ?",
-            type: "valueInput",
-            key: "surfaceHabitation",
-            defaultValue: 0,
-        }
-    ];
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  const questions = [
+    {
+      category: "chauffage",
+      questionText: "Quel type de chauffage utilisez-vous ?",
+      type: "radio",
+      answerOptions: [
+        { text: "Gaz", chauffagegaz: 1 },
+        { text: "Fioul", chauffagefioul: 1 },
+        { text: "Électrique", chauffageelectrique: 1 },
+        { text: "Pompe à chaleur", pompeachaleur: 1 },
+        { text: "Poêle à granulés", poeleagranule: 1 },
+        { text: "Poêle à bois", poeleabois: 1 },
+        { text: "Réseau de chaleur", reseaudechaleur: 1 },
+      ],
+    },
+    {
+      category: "surface",
+      questionText:
+        "Quelle est la surface de votre habitation en mètres carrés ?",
+      type: "valueInput",
+      key: "surfaceHabitation",
+      defaultValue: 0,
+    },
+  ];
 
     const [selectedAnswers, setSelectedAnswers] = useState(() => {
         const savedAnswers = localStorage.getItem(localStorageKey);
@@ -77,7 +86,7 @@ const ChauffageQuiz = () => {
         <div className="quiz-container">
             <h2>Quiz sur le Chauffage</h2>
             {questions.map((question, index) => (
-                <div key={index} className="question-section">
+                <div key={index} className="question-section" id={`question${index}`}>
                     <h3>{question.category === "chauffage" ? "Type de chauffage" : "Surface de l'habitation"}</h3>
                     <p>{question.questionText}</p>
                     {question.type === "radio" && (

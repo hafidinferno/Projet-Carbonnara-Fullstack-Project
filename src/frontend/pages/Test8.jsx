@@ -15,8 +15,6 @@ function Test8() {
 
   return (
     <div className="App">
-      <Header />
-
       <ProgressionBar
         categories={data}
         currentLevel={currentLevel}

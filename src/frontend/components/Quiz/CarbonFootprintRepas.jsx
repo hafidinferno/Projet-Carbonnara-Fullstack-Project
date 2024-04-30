@@ -4,6 +4,14 @@ import "../../CSS/Carboon.css";
 const CarbonFootprintRepas = () => {
   const localStorageKey = "carbonFootprintQuizAnswers";
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   const questions = [
     {
       category: "repas",
@@ -75,7 +83,7 @@ const CarbonFootprintRepas = () => {
     <div className="quiz-container">
       <h2>Catégorie 3 : Bilan Carbone de Vos Habitudes Alimentaires</h2>
       {questions.map((question, index) => (
-        <div key={index} className="question-section">
+        <div key={index} className="question-section" id={`question${index}`}>
           <h3>
             {question.category === "repas"
               ? "Sub_catégorie: Repas"
@@ -109,6 +117,7 @@ const CarbonFootprintRepas = () => {
                 value={selectedAnswers[index].value}
                 className="slider"
                 onChange={(e) => handleSliderChange(index, e.target.value)}
+                id={`question${index}`}
               />
               <div>Valeur: {selectedAnswers[index].value}%</div>
             </>
