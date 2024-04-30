@@ -375,7 +375,7 @@ const getChauffage = async (req, res) => {
       join consommation ON habitude.id = consommation.id_habitude
       WHERE habitude.slug = 'chauffage'
       `);
-  
+
     const chauffageData = result.rows.map(row => ({
       slug: row.slug,
       ecv: row.ecv
@@ -888,6 +888,7 @@ const getMobilierEcv = async (req, res) => {
       ecv: data.ecv,
     }));
 
+    console.log(req.body)
     const somme = footprint(mobilierData[0].ecv, canapeconvertible) + footprint(mobilierData[1].ecv, chaiseenbois) + footprint(mobilierData[2].ecv, tableenbois) + footprint(mobilierData[3].ecv, canapetextile) + footprint(mobilierData[4].ecv, armoire) + footprint(mobilierData[5].ecv, lit)
     res.status(200).json({mobilier: somme});
   } catch(error) {
