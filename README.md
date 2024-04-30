@@ -28,9 +28,10 @@ Puis il faut installer toutes les dépendances nécessaires aux serveurs.
 
 ```bash
 cd src
-npm install react react-dom react-router-dom vite @vitejs/plugin-react express cors prop-types node-fetch@2 axios pg react-chartjs-2 chartjs-plugin-datalabels
+npm install react react-dom react-router-dom vite @vitejs/plugin-react express cors prop-types node-fetch@2 axios pg react-chartjs-2 chartjs-plugin-datalabels jspdf html2canvas
 npm install chartjs-plugin-datalabels
 npm install jspdf html2canvas
+```
 
 ### Configuration
 
@@ -47,8 +48,6 @@ Dans le fichier `package.json` créé dans `src` il faut ajouter les lignes suiv
   }
 ```
 
-Pour le développement, seul la ligne `"dev"` est vraiment intéressante. Le reste sert à build le serveur pour le déployer sur la VM.
-
 Il faudra également créer dans `src` les deux fichiers de configuration d'environnement suivant:
 
 ```js
@@ -57,7 +56,7 @@ module.exports = {
     "database": "mif10",
     "user": "utilisateur-db",
     "password": "mot de passe de votre utilisateur",
-    //"host": "ip (localhost ou adresse VM)", si pas de user
+    "host": "ip (localhost ou adresse VM)",
     "port": "port de la machine (5432 à priori)"
 }
 ```
@@ -74,12 +73,12 @@ module.exports = {
 
 ### Exécution
 
-Pour lancer le client frontend :
+Pour lancer uniquement le client frontend :
 ```bash
 npm run dev
 ```
 
-Pour lancer le serveur backend :
+Pour lancer le serveur complet :
 ```bash
 node server-dev.js
 ```
@@ -87,3 +86,10 @@ ou
 ```bash
 npm run serve
 ```
+
+# Notes diverses
+La VM a pour IP : [`192.168.75.17`](https://192.168.75.17)<br>
+Une version de l'application tourne dessus.
+
+Pour une raison inconnue le serveur de production ne fonctionne pas.
+C'est sûrement une erreur simple, mais par manque de temps nous nous sommes concentré sur le reste.
