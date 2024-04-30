@@ -143,7 +143,7 @@ const getElectromenager = async (req, res) => {
     aspirateur: req.body.aspirateur,
     climatiseur: req.body.climatiseur,
   };
-  console.log(appareils);
+
   try {
     const result = await pool.query(`
       SELECT *
@@ -195,12 +195,12 @@ const getRepas = async (req, res) => {
     // repasavecdupoissongras: 1,
     // repasvegetarien: 1,
     // repasvegetalien: 1
-    repasavecduboeuf: req.body.CarbonQuizElectro.repasavecduboeuf,
-    repasavecdupoulet: req.body.CarbonQuizElectro.repasavecdupoulet,
-    repasavecdupoissonblanc: req.body.CarbonQuizElectro.repasavecdupoissonblanc,
+    repasavecduboeuf: req.body.repasavecduboeuf,
+    repasavecdupoulet: req.body.repasavecdupoulet,
+    repasavecdupoissonblanc: req.body.repasavecdupoissonblanc,
     repasavecdupoissongras: req.body.repasavecdupoissongras,
-    repasvegetarien: req.body.CarbonQuizElectro.repasvegetarien,
-    repasvegetalien: req.body.CarbonQuizElectro.repasvegetalien
+    repasvegetarien: req.body.repasvegetarien,
+    repasvegetalien: req.body.repasvegetalien
   };
 
   try {
@@ -318,6 +318,7 @@ const getTransport = async (req, res) => {
     if (!isValid) {
       throw new Error('Un ou plusieurs slugs de transport sont invalides.');
     }
+
     res.status(200).json({ transport : (sommeEcvTransport/transportData.length)*52});
   } catch (error) {
     console.error('Erreur lors de la récupération de transport', error);
@@ -467,6 +468,7 @@ const getBoissonsEcv = async (req, res) => {
  * @param {*} res
  */
 const getFruitsetLegumesEcv = async (req, res) => {
+
   const fruitsLegumes = {
     fraise: req.body.fraise,
     pomme: req.body.pomme,
@@ -543,7 +545,6 @@ const getFruitsetLegumesEcv = async (req, res) => {
     kaki: req.body.kaki,
     noixdecoco: req.body.noixdecoco,
     pasteque: req.body.pasteque,
-
     // fraise: 1,
     // pomme: 1,
     // orange: 0,
@@ -646,7 +647,7 @@ const getFruitsetLegumesEcv = async (req, res) => {
     const moy = moyenne(somme, size);
     console.log(moy);
     const resultat = moyenneAnnee(moy, 12);
-    res.status(200).json({"fruits et legumes": resultat});
+    res.status(200).json({"fruitsetlegumes": resultat});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "fruits et légumes" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -661,22 +662,22 @@ const getFruitsetLegumesEcv = async (req, res) => {
 const getNumeriqueEcv = async (req, res) => {
   const numeriques = {
     smartphone: req.body.smartphone,
-    tablette: req.body.tablette,
-    liseuse: req.body.liseuse,
-    montreconnectee: req.body.montreconnectee,
-    appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
-    ordinateurfixe: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
+    tabletteclassique: req.body.tablette,
+    //liseuse: req.body.liseuse,
+    //montreconnectee: req.body.montreconnectee,
+    //appareilphoto: req.body.appareilphotoreflex + req.body.appareilphotocompact, //moy des 2 appareils photo dans la BD
+    ordinateurfixeparticulier: req.body.ordinateurfixebureautique + req.body.ordinateurfixeperformant, //moy des 2 tours dans la BD
     ordinateurportable: req.body.ordinateurprotable,
-    consoledesalon: req.body.consoledesalon,
-    consoleportable: req.body.consoleportable,
+    //consoledesalon: req.body.consoledesalon,
+    //consoleportable: req.body.consoleportable,
     ecran: req.body.ecran215pouce + req.body.ecran24pouce, //moy des 2 ecrans das la BD
-    chainehifi: req.body.chainehifi,
+    //chainehifi: req.body.chainehifi,
     enceintebluetooth: req.body.enceintebluetooth,
-    barredeson: req.body.barredeson,
+    //barredeson: req.body.barredeson,
     television: req.body.television,
-    homecinema: req.body.homecinema,
-    modemfibre: req.body.modemfibre,
-    imprimente: req.body.imprimente,
+    //homecinema: req.body.homecinema,
+    box: req.body.modemfibre,
+    //imprimente: req.body.imprimente,
     // smartphone: 1,
     // tablette: 1, //moy des 3 tablettes dans la BD
     // liseuse: 0,
@@ -712,13 +713,15 @@ const getNumeriqueEcv = async (req, res) => {
     var somme = 0;
     var size = 0;
     for(const num of numeriqueData) {
+
       if(numeriques[num.slug]) {
         somme += num.ecv;
         size += 1;
       }
     }
+
     const resultat = moyenne(somme, size);
-    res.status(200).json({"numeriques": resultat});
+    res.status(200).json({"numerique": resultat});
   } catch(error) {
     console.error('Erreur lors de la récupération de données de thématique "numérique" de la table "consommation":', error);
     res.status(500).json({ error: error.message });
@@ -924,7 +927,7 @@ try {
 
   const somme = footprint(usageData[0].ecv, email) + footprint(usageData[1].ecv, spam) + footprint(usageData[2].ecv, stockagedonnee) + footprint(usageData[3].ecv, rechercheweb) + footprint(usageData[4].ecv, streamingvideo) + footprint(usageData[5].ecv, visioconference) + footprint(usageData[6].ecv, telechargement)
   const resultatAnnee = moyenneAnnee(somme, 52)
-  res.status(200).json({"usageNumeriques": resultatAnnee});
+  res.status(200).json({"usagenumerique": resultatAnnee});
 } catch(error) {
   console.error('Erreur lors de la récupération de données de thématique "usagenumerique" de la table "consommation":', error);
   res.status(500).json({ error: error.message });
