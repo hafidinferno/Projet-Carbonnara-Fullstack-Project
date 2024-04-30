@@ -26,7 +26,7 @@ ChartJS.register(
 );
 
 const ResultPage = () => {
-    const categories = ['electromenager', 'boissons', 'eaux', 'repas', 'fruitsetlegumes', 'transport', 'numerique', 'usagenumerique','chauffage'];
+    const categories = ['electromenager', 'boissons', 'eaux', 'repas', 'fruitsetlegumes', 'transport', 'numerique', 'usagenumerique','chauffage','mobilier'];
 
     const carbonData = categories.map(category => parseFloat(localStorage.getItem(category) || 0));
 
@@ -35,7 +35,7 @@ const ResultPage = () => {
         datasets: [{
             label: 'Répartition Carbone par Catégorie',
             data: carbonData,
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FFA07A', '#20B2AA', '#778899', '#6495ED', '#FFD700',"#FFA07A"],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#26130b', '#20B2AA', '#778899', '#6495ED', '#FFD700',"#FFA07A","#FFA01A"],
             hoverOffset: 4,
         }],
     };
@@ -45,7 +45,7 @@ const ResultPage = () => {
         datasets: [{
             label: 'Empreinte Carbone par Catégorie (kg CO2)',
             data: carbonData,
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FFA07A', '#20B2AA', '#778899', '#6495ED', '#FFD700'],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#72412e', '#20B2AA', '#778899', '#6495ED', '#FFD700',"#FFA07A","#FFA01A"],
         }],
     };
 

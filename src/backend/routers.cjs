@@ -25,7 +25,7 @@ router.post('/api/ecv/fruitsetlegumes', db.getFruitsetLegumesEcv);
 
 router.post('/api/ecv/numerique', db.getNumeriqueEcv);
 
-router.get('/api/ecv/mobilier', db.getMobilierEcv);
+router.post('/api/ecv/mobilier', db.getMobilierEcv);
 
 router.post('/api/ecv/usagenumerique', db.getUsageNumeriqueEcv);
 

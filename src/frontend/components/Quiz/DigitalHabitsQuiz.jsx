@@ -7,7 +7,7 @@ const DigitalHabitsQuiz = () => {
 
   function handleSubmit() {
 
-    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique','chauffage'];
+    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique','chauffage','mobilier'];
     const objet = ['localStorage.getItem("CarbonQuizElectro")',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[1])',
       'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[0])',
@@ -16,7 +16,9 @@ const DigitalHabitsQuiz = () => {
       'localStorage.getItem("dailyTransportQuizAnswers")',
       'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").electronics)',
       'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").usageData)',
-      'localStorage.getItem("chauffageQuiz")'];
+      'localStorage.getItem("chauffageQuiz")',
+      'localStorage.getItem("carbonFootprintMeuble")',
+    ];
 
     function executeSequentialRequests(routesApi, currentIndex, callback) {
       if (currentIndex >= routesApi.length) {
@@ -28,6 +30,7 @@ const DigitalHabitsQuiz = () => {
       const adresse = routesApi[currentIndex];
       const url = `https://localhost:3001/api/ecv/${adresse}`;
       const data1 = eval(objet[currentIndex]);
+      console.log(objet[currentIndex],routesApi[currentIndex])
       console.log(data1,"-----------------");
 
       fetch(url, {
@@ -44,10 +47,10 @@ const DigitalHabitsQuiz = () => {
             return response.json();
           })
           .then(data => {
-            // Traitez les données renvoyées par le serveur si nécessaire
+
             console.log('Réponse pour', adresse, ':', data[adresse]);
 
-            // Enregistrez les réponses dans le localStorage si nécessaire
+
             localStorage.setItem(adresse, data[adresse]);
 
             // Exécute la prochaine requête de manière séquentielle
@@ -55,11 +58,11 @@ const DigitalHabitsQuiz = () => {
           })
           .catch(error => {
             console.error('Error:', error);
-            // Vous pouvez gérer les erreurs ici si nécessaire
+
           });
     }
 
-    // Démarrez l'exécution séquentielle des requêtes avec les endpoints
+
     executeSequentialRequests(requete, 0, () => {
       console.log('Toutes les requêtes ont été exécutées avec succès !');
 
