@@ -41,10 +41,9 @@ function ProgressionBar({ level, setCurrentLevel }) {
     setCurrentLevel(level);
     localStorage.setItem("currentLevel", level.toString());
     localStorage.setItem("currentCategoryIndex", catIndex.toString());
-    navigate(`/Test${catIndex + 1}?level=${level}`);
+    navigate(`/Test${catIndex + 1}?level=${level}#question${levelIndex}`);
   };
 
-  // Calcule la largeur de chaque segment en fonction de la progression de l'utilisateur
   const calculateSegmentWidth = (catIndex) => {
     const totalLevelsBeforeCategory = data
         .slice(0, catIndex)
@@ -63,8 +62,8 @@ function ProgressionBar({ level, setCurrentLevel }) {
         .slice(0, catIdx)
         .reduce((acc, cur) => acc + cur.levels.length, 0);
     setCurrentLevel(level);
-    localStorage.setItem("currentCategoryIndex", catIdx.toString()); // Sauvegarder l'index de la catégorie actuelle
-    navigate(`/Test${catIdx + 1}?level=${level}`);
+    localStorage.setItem("currentCategoryIndex", catIdx.toString());
+    navigate(`/Test${catIdx + 1}`);
   };
 
   const handleMouseEnter = (index) => {
@@ -75,14 +74,60 @@ function ProgressionBar({ level, setCurrentLevel }) {
     setSelectedCategoryIndex(index);
   };
 
-  const handleMouseLeave = () => {
-    const timeout = setTimeout(() => {
-      setSelectedCategoryIndex(null);
-    }, 1000); // 500ms delay before hiding questions
-    setHoverTimeout(timeout);
-  };
-
   return (
+<<<<<<< HEAD
+    <div className="pb-wrapper">
+      <div className="progress-visual-bar-container">
+        {data.map((category, index) => (
+          <div
+            key={index}
+            className={`progress-visual-bar-segment ${
+              index <= selectedCategoryIndex ? "active" : ""
+            }`}
+            style={{ width: calculateSegmentWidth(index) }}
+            onMouseEnter={() => handleMouseEnter(index)}
+          >
+            <div className="segment-text">{category.cat_name}</div>
+          </div>
+        ))}
+      </div>
+      {selectedCategoryIndex !== null && (
+        <div className="questions-container">
+          {data[selectedCategoryIndex].levels.map((_, index) => (
+            <button
+              key={index}
+              className="question-button"
+              onClick={() => navigateToLevel(selectedCategoryIndex, index)}
+            >
+              Question {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
+      {
+        <div className="navigation-buttons">
+          <button
+            onClick={() =>
+              navigateToCategory(Math.max(currentCategoryIndex - 1, 0))
+            }
+            disabled={currentCategoryIndex === 0}
+          >
+            Précédent
+          </button>
+          <button
+            onClick={() =>
+              navigateToCategory(
+                Math.min(currentCategoryIndex + 1, totalCategories - 1)
+              )
+            }
+            disabled={currentCategoryIndex >= totalCategories - 1}
+          >
+            Suivant
+          </button>
+        </div>
+      }
+    </div>
+=======
       <div className="pb-wrapper">
         <div className="progress-visual-bar-container">
           {data.map((category, index) => (
@@ -136,6 +181,7 @@ function ProgressionBar({ level, setCurrentLevel }) {
             </>
         )}
       </div>
+>>>>>>> dev
   );
 }
 

@@ -1,18 +1,25 @@
 import React from "react";
-import Header from "../components/header/Header";
-
-
+import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
+import "../CSS/Accueil.css";
 
 function Accueil() {
+  const navigate = useNavigate(); // Instantiate the navigate function
+
+  function startTest() {
+    navigate("/Test1"); // Navigate to the Test1 page
+  }
+
   return (
-    <><Header />
-      <div>
-        <img src="/src/images/Accueil/calculerBilanCarbone.png" />
-        <button className="StartTest" >
-          Commencer le test
-        </button>
-      </div>
-    </>
+    <main>
+      <section className="info">
+        <div className="container-main">
+          <h2>Calculer votre empreinte carbone?</h2>
+          <p>Découvrez comment votre mode de vie affecte l'environnement et apprenez comment réduire votre empreinte carbone.</p>
+          <button className="start-test" onClick={startTest}>Commencer le test</button> {/* Add onClick handler */}
+          <img src="/src/frontend/images/arrow.svg"></img>
+        </div>
+      </section>
+    </main>
   );
 }
 

@@ -1,13 +1,11 @@
 import React from "react";
-import Header from "../components/header/Header";
 import TeamSection from "../components/AboutUs/TeamSection";
 import MethodologySection from "../components/AboutUs/MethodologySection";
 import "../CSS/AboutUs.css";
 
 function AbousUs() {
   return (
-    <div>
-      <Header />
+    <div id="about-us">
       <TeamSection />
       <MethodologySection />
     </div>

@@ -4,6 +4,14 @@ import "../../CSS/Carboon.css";
 const FruitsVegetablesConsumptionQuiz = () => {
   const localStorageKey = "fruitsVegetablesConsumptionQuizAnswers";
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   const fruitsAndVegetables = [
     "fraise",
     "pomme",
@@ -85,8 +93,8 @@ const FruitsVegetablesConsumptionQuiz = () => {
   const [selectedItems, setSelectedItems] = useState(() => {
     const saved = localStorage.getItem(localStorageKey);
     return saved
-        ? JSON.parse(saved)
-        : fruitsAndVegetables.reduce((acc, fruit) => {
+      ? JSON.parse(saved)
+      : fruitsAndVegetables.reduce((acc, fruit) => {
           acc[fruit] = 0;
           return acc;
         }, {});
@@ -104,25 +112,25 @@ const FruitsVegetablesConsumptionQuiz = () => {
   };
 
   return (
-      <div className="quiz-container">
-        <h2>Catégorie: Fruits et Légumes</h2>
-        <p>
-          Parmi les fruits et légumes suivants, lesquels consommez-vous
-          fréquemment (au moins une fois par mois)?
-        </p>
-        <div className="answers-section">
-          {fruitsAndVegetables.map((item, index) => (
-              <label key={index} className="checkbox-label">
-                <input
-                    type="checkbox"
-                    checked={selectedItems[item] === 1}
-                    onChange={() => handleCheckboxChange(item)}
-                />
-                {item}
-              </label>
-          ))}
-        </div>
+    <div className="quiz-container">
+      <h2>Catégorie: Fruits et Légumes</h2>
+      <p>
+        Parmi les fruits et légumes suivants, lesquels consommez-vous
+        fréquemment (au moins une fois par mois)?
+      </p>
+      <div className="answers-section">
+        {fruitsAndVegetables.map((item, index) => (
+          <label key={index} className="checkbox-label" id={`question${index}`}>
+            <input
+              type="checkbox"
+              checked={selectedItems[item] === 1}
+              onChange={() => handleCheckboxChange(item)}
+            />
+            {item}
+          </label>
+        ))}
       </div>
+    </div>
   );
 };
 

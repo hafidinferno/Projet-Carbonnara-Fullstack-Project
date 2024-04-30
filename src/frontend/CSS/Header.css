@@ -1,62 +1,39 @@
 header {
-    background-color: var(--bg-color);
-    
-    height: 150px;
+    height: 90px;
     width: 100vw;
 }
 
-.App-header {
-    padding: 20px;
-    position: relative; 
-    display: flex;
-    justify-content: flex-start; 
-    align-items: center;
-}
-
 header h1 {
-    font-family: "Julius Sans One", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-
-    font-size: 4em;
-
-    margin-left: 100px;
-    
-    color: var(--title-color);
-
-    position: relative;
+    padding: 0;
+    margin: 0;
 }
 
-header h1::first-letter {
-    color: var(--hl-color);
-    font-size: 130%;
-    vertical-align: sub;
-}
+#div-header {
+    /* position: absolute;
+    z-index: -9; */
 
-header h1::after {
-    content: "";
-    position: absolute;
+    height: 90px;
+    width: 100vw;
 
-    width: 80%;
-    height: 3px;
-    border-radius: 2px;
-    left: 17%;
-    bottom: 20px;
-
-    background-color: var(--hl-color);
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center; 
+    align-items: center;
 }
 
 .circle-container
 {
     position: absolute;
-    left: calc(50vw - 100px);
-    bottom: -75px;
+    min-width: fit-content;
+    min-height: fit-content;
+    top: 15px;
+    left: 50px;
 }
 
 .circle {
-    position: relative;
+    position: absolute;
     aspect-ratio: 1;
-    width: 200px;
+    width: 150px;
     border-radius: 100%;
 
     display: flex;
@@ -76,34 +53,16 @@ header h1::after {
     border: none;
 }
 
-.circle:hover 
-{
-    background-color: var(--bg-color-light);
-}
-
-.circle-container:hover #circle1 {
-    transform: translateX(0px) translateY(160px); /* Move top-left */
-}
-  
-.circle-container:hover #circle2 {
-    transform: translateX(-113px) translateY(113px); /* Move top-right */
-}
-  
-.circle-container:hover #circle3 {
-    transform: translateX(113px) translateY(113px); /* Move directly down */
-} 
-
 .sub-circle {
     position: absolute;
-    bottom: calc(50% - 50px); 
-    left: calc(50% - 50px);
+    bottom: -125px;
+    left: 25px;
     
     aspect-ratio: 1;
     height: 100px;
-    border-radius: 50%;
     border: none;
 
-    background-color: var(--bg-color);
+    background-color:  #e1f3dc;
 
     display: flex;
     justify-content: center;
@@ -116,8 +75,50 @@ header h1::after {
 
     font-family: "Merriweather", serif; 
     cursor: pointer;
+
+    z-index: 5;
 }
 
-.sub-circle:hover {
-    background-color: var(--bg-color-light);
+.circle img {
+    width: 50%;
+    aspect-ratio: 1;
 }
+.sub-circle img {
+    width: 40%;
+    aspect-ratio: 1;
+}
+
+.circle:hover 
+{
+    background-color: #efefd3;
+}
+
+#circle1 {
+    border-radius: 5px 50% 50% 50%;
+}
+.circle-container:hover #circle1 {
+    transform: translateX(88.75px) translateY(88.75px);
+}
+
+#circle2 {
+    border-radius: 50% 5px 50% 50%;
+    transform: rotate(-45deg);
+}
+#circle2 .sub-circle-content {
+    transform: rotate(45deg);
+}
+.circle-container:hover #circle2 {
+    transform: translateX(0px) translateY(125px) rotate(-45deg); 
+
+}
+  
+#circle3 {
+    border-radius: 50% 50% 50% 5px;
+    transform: rotate(45deg);
+}
+#circle3 .sub-circle-content {
+    transform: rotate(-45deg);
+}
+.circle-container:hover #circle3 {
+    transform: translateX(125px) translateY(0px) rotate(45deg);
+} 

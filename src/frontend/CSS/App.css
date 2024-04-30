@@ -1,14 +1,15 @@
 /* Style global par defaut */
 /* se met automatiquement dans toutes les pages */
 @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  --bg-color-light: #faebd8;
-  --bg-color: #f0e3ce;
+  --bg-color-light: #f8f0eb;
+  --bg-color: #f4e6d0;
   --bg-color-dark: #e5d5b6;
   
-  --hl-color: #46ce58;
-  --title-color: #145e1e;
+  --hl-color: #90dc7c;
+  --title-color: #2d7813;
 
   --shadow-color: #663314;
 
@@ -16,6 +17,8 @@
   --line-height-body : 1.6;
 
   box-sizing: border-box;
+
+  text-align: justify;
 }
 
 @font-face {
@@ -31,35 +34,128 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'zakirahshand';  /* Replace with the font's name */
+  src: url('../fonts/zakirahshand/zakirahshand.ttf') format('truetype');  /* Adjust the path and format */
+}
+
+p {
+  font-family: 'Montserrat', sans-serif;  /* Apply the font globally or to specific elements */
+  font-size: 1.1em;
+  line-height: 1.5em;
+}
+
+
 .shadowed {
   box-shadow: 0 0 15px -10px var(--shadow-color);
 }
 
+body, html, #content-wrapper, #app
+{
+  z-index: -10;
+}
+
 body, html {
+  position: absolute;
+  z-index: -10;
   height: 100vh;
   width: 100vw;
   margin: 0;
-  padding: 5px;
+  padding: 0;
 
   color: #333;
-  /* text-align: center; */
-  font-family: var(--font-family-body);
-  background: var(--bg-color);
+  
+  font-family: "Montserrat";
+  background: var(--bg-color-light);
+  
 }
 
-section {
-  margin-bottom: 20px;
+#content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  width: 100%;
 }
 
 h1 {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 
+  width: fit-content;
+
+  font-size: 3em;
+  
+  color: var(--title-color);
+
+  position: relative;
+}
+
+h1::first-letter {
+  color: var(--hl-color);
+  font-size: 130%;
+  vertical-align: sub;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+
+  width: calc(100% - 125px);
+  height: 3px;
+  border-radius: 2px;
+  left: 75px;
+  bottom: 15px;
+
+  background-color: var(--hl-color);
+  z-index: 1;
 }
 
 h2 {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 
+  width: fit-content;
+
+  font-size: 3em;
+  
+  color: var(--title-color);
+
+  position: relative;
+}
+
+h2::first-letter {
+  color: var(--hl-color);
+  font-size: 130%;
+  vertical-align: sub;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+
+  width: calc(100% - 125px);
+  height: 3px;
+  border-radius: 2px;
+  left: 75px;
+  bottom: 15px;
+
+  background-color: var(--hl-color);
+  z-index: -1;
 }
 
 h3 {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 
+  width: fit-content;
+
+  font-size: 1.5em;
+  
+  color: var(--title-color);
+
+  position: relative;
 }
-
