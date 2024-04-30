@@ -5,86 +5,91 @@ const FruitsVegetablesConsumptionQuiz = () => {
   const localStorageKey = "fruitsVegetablesConsumptionQuizAnswers";
 
   const fruitsAndVegetables = [
-    "Fraise",
-    "Pomme",
-    "Orange",
-    "Citron",
-    "Ail",
-    "Artichaut",
-    "Asperge",
-    "Betterave",
-    "Blette",
-    "Carotte",
-    "Céleri",
-    "Champignon (morille crue)",
-    "Chou",
-    "Chou de Bruxelles",
-    "Chou-fleur",
-    "Concombre",
-    "Courge",
-    "Courgette",
-    "Cresson",
-    "Échalote",
-    "Endive",
-    "Épinard",
-    "Mangue",
-    "Fenouil",
-    "Haricot vert",
-    "Laitue",
-    "Mâche",
-    "Navet",
-    "Maïs",
-    "Oignon",
-    "Panais",
-    "Petit pois",
-    "Poireau",
-    "Poivron",
-    "Potiron",
-    "Radis",
-    "Salsifis",
-    "Topinambour",
-    "Cassis",
-    "Châtaigne",
-    "Clémentine",
-    "Pamplemousse",
-    "Coing",
-    "Figue",
-    "Groseille",
-    "Kiwi",
-    "Mandarine",
-    "Melon",
-    "Mûre",
-    "Nectarine",
-    "Myrtille",
-    "Noisette",
-    "Noix",
-    "Prune",
-    "Reine Claude",
-    "Rhubarbe",
-    "Pêche",
-    "Cerise",
-    "Abricot",
-    "Framboise",
-    "Poire",
-    "Raisin",
-    "Aubergine",
-    "Brocoli",
-    "Tomate",
-    "Ananas",
-    "Banane",
-    "Avocat",
-    "Carambole",
-    "Datte",
-    "Fruit de la passion",
-    "Grenade",
-    "Kaki",
-    "Noix de coco",
-    "Pastèque",
+    "fraise",
+    "pomme",
+    "orange",
+    "citron",
+    "ail",
+    "artichaut",
+    "asperge",
+    "betterave",
+    "blette",
+    "carotte",
+    "celeri",
+    "champignonmorille",
+    "chou",
+    "choudebruxelles",
+    "choufleur",
+    "concombre",
+    "courge",
+    "courgette",
+    "cresson",
+    "echalote",
+    "endive",
+    "epinard",
+    "mangue",
+    "fenouil",
+    "haricotvert",
+    "laitue",
+    "mache",
+    "navet",
+    "mais",
+    "oignon",
+    "panais",
+    "petitpois",
+    "poireau",
+    "poivron",
+    "potiron",
+    "radis",
+    "salsifis",
+    "topinambour",
+    "cassis",
+    "chataigne",
+    "clementine",
+    "pamplemousse",
+    "coing",
+    "figue",
+    "groseille",
+    "kiwi",
+    "mandarine",
+    "melon",
+    "mure",
+    "nectarine",
+    "myrtille",
+    "noisette",
+    "noix",
+    "prune",
+    "reineclaude",
+    "rhubarbe",
+    "peche",
+    "cerise",
+    "abricot",
+    "framboise",
+    "poire",
+    "raisin",
+    "aubergine",
+    "brocoli",
+    "tomate",
+    "ananas",
+    "banane",
+    "avocat",
+    "carambole",
+    "datte",
+    "fruitdelapassion",
+    "grenade",
+    "kaki",
+    "noixdecoco",
+    "pasteque",
   ];
 
   const [selectedItems, setSelectedItems] = useState(() => {
     const saved = localStorage.getItem(localStorageKey);
-    return saved ? JSON.parse(saved) : [];
+    return saved
+        ? JSON.parse(saved)
+        : fruitsAndVegetables.reduce((acc, fruit) => {
+          acc[fruit] = 0;
+          return acc;
+        }, {});
   });
 
   useEffect(() => {
@@ -92,32 +97,32 @@ const FruitsVegetablesConsumptionQuiz = () => {
   }, [selectedItems]);
 
   const handleCheckboxChange = (item) => {
-    const updatedSelections = selectedItems.includes(item)
-      ? selectedItems.filter((selected) => selected !== item)
-      : [...selectedItems, item];
-    setSelectedItems(updatedSelections);
+    setSelectedItems((prevState) => ({
+      ...prevState,
+      [item]: prevState[item] === 0 ? 1 : 0, // Bascule la valeur entre 0 et 1
+    }));
   };
 
   return (
-    <div className="quiz-container">
-      <h2>Catégorie: Fruits et Légumes</h2>
-      <p>
-        Parmi les fruits et légumes suivants, lesquels consommez-vous
-        fréquemment (au moins une fois par mois)?
-      </p>
-      <div className="answers-section">
-        {fruitsAndVegetables.map((item, index) => (
-          <label key={index} className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={selectedItems.includes(item)}
-              onChange={() => handleCheckboxChange(item)}
-            />
-            {item}
-          </label>
-        ))}
+      <div className="quiz-container">
+        <h2>Catégorie: Fruits et Légumes</h2>
+        <p>
+          Parmi les fruits et légumes suivants, lesquels consommez-vous
+          fréquemment (au moins une fois par mois)?
+        </p>
+        <div className="answers-section">
+          {fruitsAndVegetables.map((item, index) => (
+              <label key={index} className="checkbox-label">
+                <input
+                    type="checkbox"
+                    checked={selectedItems[item] === 1}
+                    onChange={() => handleCheckboxChange(item)}
+                />
+                {item}
+              </label>
+          ))}
+        </div>
       </div>
-    </div>
   );
 };
 
