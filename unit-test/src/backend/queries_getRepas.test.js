@@ -1,7 +1,7 @@
 const { default: expect } = require('expect');
 const {getRepas} = require('../../../src/backend/queries.cjs');
 const credentials = require('../../../src/bd.cjs');
-const { beforeEach, beforeAll } = require('jest-circus');
+const { beforeEach, beforeAll, afterEach } = require('jest-circus');
 const Pool = require('pg').Pool;
 
 const pool = new Pool(credentials)
@@ -14,21 +14,19 @@ beforeAll(() => {
 })
 
 //ferme la connexion
-afterAll(() => {
+afterEach(() => {
   pool.end();
+  console.log("Database deconnected!");
 });
 
 const reqRepas = {
   body: {
-    CarbonQuizElectro :{
       repasavecduboeuf: 1,
       repasavecdupoulet: 1,
       repasavecdupoissonblanc: 0,
       repasavecdupoissongras: 0,
       repasvegetarien: 1,
       repasvegetalien: 0,
-
-    }
   }
 }
 

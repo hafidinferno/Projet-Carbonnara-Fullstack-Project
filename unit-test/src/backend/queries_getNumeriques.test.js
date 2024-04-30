@@ -1,5 +1,5 @@
 const { default: expect } = require('expect');
-const {getChauffage} = require('../../../src/backend/queries.cjs');
+const {getNumeriqueEcv} = require('../../../src/backend/queries.cjs');
 const credentials = require('../../../src/bd.cjs');
 const { beforeEach, beforeAll, afterEach } = require('jest-circus');
 const Pool = require('pg').Pool;
@@ -19,32 +19,33 @@ afterEach(() => {
   console.log("Database deconnected!");
 });
 
-const reqChauffage = {
+const reqNumeriques = {
   body: {
-    chauffagegaz: 0,
-    chauffagefioul: 1,
-    chauffageelectrique: 1,
-    pompeachaleur: 0,
-    poeleagranule: 1,
-    poeleabois: 0,
-    reseaudechaleur: 0,
+    smartphone: 1,
+    tabletteclassique: 0,
+    ordinateurfixeparticulier: 1,
+    ordinateurportable: 1,
+    ecran: 0,
+    enceintebluetooth: 1,
+    television: 0,
+    box: 0,
   }
 }
 
-const resChauffage = {
+const resNumeriques = {
   status: (code) => {
-    resChauffage.statusCode = code;
-    return resChauffage;
+    resNumeriques.statusCode = code;
+    return resNumeriques;
   },
   json: (data) => {
-    resChauffage.data = data;
+    resNumeriques.data = data;
   }
 };
 
 test('getChauffage should return correct carbon footprint for given types of warming', async () => {
   
-  const result = await getChauffage(reqChauffage, resChauffage);
+  const result = await getNumeriqueEcv(reqNumeriques, resNumeriques);
   
-  expect(resChauffage.statusCode).toEqual(200);
-  expect(resChauffage.data).toEqual({ chauffage: 74.66 });
+  expect(resNumeriques.statusCode).toEqual(200);
+  expect(resNumeriques.data).toEqual({ numerique: 56.4 });
 });
