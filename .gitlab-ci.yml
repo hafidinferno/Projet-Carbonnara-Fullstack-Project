@@ -9,17 +9,8 @@ test:
   stage: test
   image: node:14
   before_script:
-    - cd "${CI_PROJECT_DIR}"
-    - mv src tmp
-    - npx create-react-app src
-    - rm -rf src/public src/src src/README.md
-    - mv tmp/* tmp/.gitignore src
-    - rmdir tmp
     - cp "${BD_CJS}" src/bd.cjs
-    - cd src
-    - npm install react react-dom react-router-dom vite @vitejs/plugin-react express cors prop-types node-fetch@2 axios pg react-chartjs-2
-    - chmod 400 "${ADD_TYPE_MODULE}"
-    - ./"${ADD_TYPE_MODULE}"
+    
 
   script:
     - npm install
