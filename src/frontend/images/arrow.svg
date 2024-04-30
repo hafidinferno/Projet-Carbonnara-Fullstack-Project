@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="61.54607mm"
+   height="27.002567mm"
+   viewBox="0 0 61.54607 27.002567"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="ArrowWideRounded"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="2"
+       markerHeight="3.3333333"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid"
+       markerUnits="strokeWidth">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:round"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         id="path3" />
+    </marker>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-41.300725,-100.14304)">
+    <path
+       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:0.265;stroke-dasharray:5.3, 2.65;stroke-dashoffset:16.2445;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 41.678066,100.16745 c 0,0 -4.149309,19.88811 21.714623,25.91745 23.089845,5.38265 38.876181,-14.00943 38.876181,-14.00943"
+       id="path2" />
+  </g>
+</svg>
