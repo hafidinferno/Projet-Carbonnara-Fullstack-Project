@@ -1,5 +1,4 @@
 const Pool = require('pg').Pool;
-const cors = require("cors");
 const credentials = require('../bd.cjs');
 const fetch = require('node-fetch');
 const { footprint, footprintBoissons, moyenne, moyenneAnnee} = require('./calcul.cjs');
