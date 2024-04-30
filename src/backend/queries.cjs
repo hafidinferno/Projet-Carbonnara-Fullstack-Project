@@ -356,7 +356,7 @@ const getChauffage = async (req, res) => {
       join consommation ON habitude.id = consommation.id_habitude
       WHERE habitude.slug = 'chauffage'
       `);
-
+  
     const chauffageData = result.rows.map(row => ({
       slug: row.slug,
       ecv: row.ecv
