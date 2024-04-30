@@ -1,31 +1,40 @@
 import React, { useState, useEffect } from "react";
 import "../../CSS/Carboon.css";
-
+import { useNavigate } from "react-router-dom";
 const DigitalHabitsQuiz = () => {
+  const navigate = useNavigate();
   const localStorageKey = "digitalHabitsQuizAnswers";
 
   function handleSubmit() {
 
-    const req = ['electromenager'];
+    const requete = ['electromenager','boissons','eaux','repas','fruitsetlegumes','transport','numerique','usagenumerique'];
+    const objet = ['localStorage.getItem("CarbonQuizElectro")',
+      'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[1])',
+      'JSON.stringify(JSON.parse(localStorage.getItem("CarbonFootprintBoisson"))[0])',
+      'JSON.stringify(JSON.parse(localStorage.getItem("carbonFootprintQuizAnswers"))[0])',
+      'localStorage.getItem("fruitsVegetablesConsumptionQuizAnswers")',
+      'localStorage.getItem("dailyTransportQuizAnswers")',
+      'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").electronics)',
+      'JSON.stringify(JSON.parse(localStorage.getItem("digitalHabitsQuizAnswers") || "{}").usageData)'];
 
-    function executeSequentialRequests(endpoints, currentIndex, callback) {
-      if (currentIndex >= endpoints.length) {
+    function executeSequentialRequests(routesApi, currentIndex, callback) {
+      if (currentIndex >= routesApi.length) {
 
         if (callback) callback();
         return;
       }
 
-      const endpoint = endpoints[currentIndex];
-      const url = `https://localhost:3001/api/ecv/${endpoint}`;
-      const data = localStorage.getItem("CarbonQuizElectro");
-      console.log(data);
+      const adresse = routesApi[currentIndex];
+      const url = `https://localhost:3001/api/ecv/${adresse}`;
+      const data1 = eval(objet[currentIndex]);
+      console.log(data1,"-----------------");
 
       fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: data ,
+        body: data1 ,
       })
           .then(response => {
             if (!response.ok) {
@@ -35,13 +44,13 @@ const DigitalHabitsQuiz = () => {
           })
           .then(data => {
             // Traitez les données renvoyées par le serveur si nécessaire
-            console.log('Réponse pour', endpoint, ':', data.endpoint);
+            console.log('Réponse pour', adresse, ':', data[adresse]);
 
             // Enregistrez les réponses dans le localStorage si nécessaire
-            localStorage.setItem(data, JSON.stringify(data.endpoint));
+            localStorage.setItem(adresse, data[adresse]);
 
             // Exécute la prochaine requête de manière séquentielle
-            executeSequentialRequests(endpoints, currentIndex + 1, callback);
+            executeSequentialRequests(routesApi, currentIndex + 1, callback);
           })
           .catch(error => {
             console.error('Error:', error);
@@ -50,8 +59,10 @@ const DigitalHabitsQuiz = () => {
     }
 
     // Démarrez l'exécution séquentielle des requêtes avec les endpoints
-    executeSequentialRequests(req, 0, () => {
+    executeSequentialRequests(requete, 0, () => {
       console.log('Toutes les requêtes ont été exécutées avec succès !');
+
+      navigate("/Results"); // Redirige vers la page de résultats
     });
   }
 

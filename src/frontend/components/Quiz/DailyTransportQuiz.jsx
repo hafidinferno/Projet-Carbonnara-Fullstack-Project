@@ -12,6 +12,7 @@ const DailyTransportQuiz = () => {
     { name: "Bus (thermique)", key: "busthermique" },
     { name: "Bus (électrique)", key: "buselectrique" },
     { name: "Bus (GNV)", key: "busgnv" },
+    { name: "Autocar", key: "autocar" },
     { name: "Tramway", key: "tramway" },
     { name: "Métro", key: "metro" },
     { name: "Scooter ou moto légère", key: "scooter" },

@@ -7,7 +7,12 @@ function footprintBoissons(ecvSoda, ecvVin, ecvBiere, ecvLait, ecvLaitSoja, ecvT
 }
 
 function moyenne(resultSomme, qte) {
-    return resultSomme / qte;
+    if (!isNaN(resultSomme / qte))
+    {
+
+        return resultSomme / qte;
+    }
+    return 0;
 }
 
 function moyenneAnnee(result, n) {
@@ -20,4 +25,3 @@ module.exports = {
     moyenne,
     moyenneAnnee,
   }
-  
